@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BEYOND Holdings Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --sf-blue: #DAA520;
+  --sf-dark: #8B6914;
+  --sf-navy: #6B5210;
+  --sf-light: #f3f3f3;
+  --sf-white: #ffffff;
+  --sf-border: #e5e5e5;
+  --sf-green: #2e844a;
+  --sf-red: #ea001e;
+  --sf-orange: #fe9339;
+  --sf-text: #181818;
+  --sf-muted: #706e6b;
+  --sf-card-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  --sf-radius: 8px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Salesforce Sans', 'SF Pro Display', -apple-system, 'Segoe UI', 'Meiryo', sans-serif; background: var(--sf-light); color: var(--sf-text); font-size: 11px; }
+
+.navbar { background: var(--sf-navy); height: 36px; display: flex; align-items: center; padding: 0 24px; gap: 24px; position: sticky; top: 0; z-index: 100; }
+.navbar .logo { color: #fff; font-size: 13px; font-weight: 700; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+.navbar .nav-tabs { display: flex; gap: 4px; height: 100%; overflow-x: auto; }
+.navbar .nav-tab { color: rgba(255,255,255,0.7); padding: 0 10px; height: 100%; display: flex; align-items: center; font-size: 11px; font-weight: 500; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.15s; white-space: nowrap; }
+.navbar .nav-tab:hover { color: #fff; background: rgba(255,255,255,0.08); }
+.navbar .nav-tab.active { color: #fff; border-bottom-color: var(--sf-blue); }
+.navbar .nav-right { margin-left: auto; color: rgba(255,255,255,0.6); font-size: 12px; white-space: nowrap; }
+
+.page-header { background: var(--sf-white); border-bottom: 1px solid var(--sf-border); padding: 10px 16px; }
+.page-header h2 { font-size: 14px; font-weight: 700; color: var(--sf-dark); }
+.page-header .subtitle { font-size: 12px; color: var(--sf-muted); margin-top: 2px; }
+
+.content { padding: 10px 16px; }
+.section { display: none; }
+.section.active { display: block; }
+
+.kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-bottom: 10px; }
+.kpi-card { background: var(--sf-white); border: 1px solid var(--sf-border); border-radius: var(--sf-radius); padding: 10px 14px; box-shadow: var(--sf-card-shadow); position: relative; overflow: hidden; }
+.kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--sf-blue); }
+.kpi-card.green::before { background: var(--sf-green); }
+.kpi-card.orange::before { background: var(--sf-orange); }
+.kpi-card.red::before { background: var(--sf-red); }
+.kpi-card .kpi-label { font-size: 10px; font-weight: 600; color: var(--sf-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+.kpi-card .kpi-value { font-size: 18px; font-weight: 700; color: var(--sf-dark); }
+.kpi-card .kpi-sub { font-size: 10px; color: var(--sf-muted); margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+.kpi-card .kpi-sub .up { color: var(--sf-green); font-weight: 600; }
+.kpi-card .kpi-sub .down { color: var(--sf-red); font-weight: 600; }
+
+.progress-wrap { margin-top: 10px; }
+.progress-bar { height: 8px; background: #e0e5ee; border-radius: 4px; overflow: hidden; }
+.progress-bar .fill { height: 100%; border-radius: 4px; transition: width 1s ease; }
+.progress-bar .fill.blue { background: var(--sf-blue); }
+.progress-bar .fill.green { background: var(--sf-green); }
+.progress-bar .fill.orange { background: var(--sf-orange); }
+.progress-bar .fill.red { background: var(--sf-red); }
+.progress-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--sf-muted); margin-top: 4px; }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.card { background: var(--sf-white); border: 1px solid var(--sf-border); border-radius: var(--sf-radius); box-shadow: var(--sf-card-shadow); }
+.card.full { grid-column: 1 / -1; }
+.card-header { padding: 8px 12px; border-bottom: 1px solid var(--sf-border); display: flex; align-items: center; justify-content: space-between; }
+.card-header h3 { font-size: 15px; font-weight: 700; color: var(--sf-dark); border-bottom: 2px solid #DAA520; padding-bottom: 2px; }
+.card-header .badge { font-size: 11px; background: #fdf5e0; color: var(--sf-blue); padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+.card-body { padding: 10px; }
+
+table { width: 100%; border-collapse: collapse; }
+th { font-size: 10px; font-weight: 600; color: var(--sf-muted); text-transform: uppercase; letter-spacing: 0.3px; padding: 5px 8px; text-align: left; border-bottom: 1px solid var(--sf-border); background: #fafaf9; }
+td { padding: 8px 12px; border-bottom: 1px solid #f0f0f0; font-size: 11px; }
+tr:hover td { background: #f3f3f3; }
+.text-right { text-align: right; }
+.text-green { color: var(--sf-green); font-weight: 600; }
+.text-red { color: var(--sf-red); font-weight: 600; }
+
+.mini-bar { display: inline-block; width: 60px; height: 6px; background: #e0e5ee; border-radius: 3px; vertical-align: middle; margin-left: 6px; }
+.mini-bar .mini-fill { height: 100%; border-radius: 3px; }
+
+.legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 12px; font-size: 12px; flex: 1; }
+.legend-item { display: flex; align-items: center; gap: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+.gauge-wrap { position: relative; text-align: center; padding-bottom: 10px; }
+.gauge-wrap canvas { max-height: 130px; margin-bottom: 30px; }
+.gauge-center { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); text-align: center; }
+.gauge-center .gauge-val { font-size: 20px; font-weight: 700; color: var(--sf-dark); }
+.gauge-center .gauge-pct { font-size: 11px; color: var(--sf-muted); }
+.gauge-footer { text-align: center; font-size: 10px; color: var(--sf-muted); margin-top: 2px; }
+
+@media (max-width: 1000px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+@media print {
+  .navbar { position: relative; }
+  .section { display: block !important; page-break-before: always; }
+  .section:first-child { page-break-before: avoid; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen" style="display:flex; justify-content:center; align-items:center; height:100vh; background:linear-gradient(135deg, #6B5210 0%, #DAA520 50%, #8B6914 100%);">
+  <div style="background:#fff; border-radius:12px; padding:40px 36px; box-shadow:0 8px 32px rgba(0,0,0,0.2); width:360px; text-align:center;">
+    <div style="margin-bottom:24px;">
+      <div style="font-size:28px; font-weight:800; color:#6B5210; letter-spacing:1px;">BEYOND</div>
+      <div style="font-size:14px; font-weight:600; color:#8B6914; margin-top:2px;">HOLDINGS</div>
+      <div style="font-size:12px; color:#706e6b; margin-top:8px;">Executive Dashboard Login</div>
+    </div>
+    <div style="margin-bottom:16px; text-align:left;">
+      <label style="font-size:11px; font-weight:600; color:#706e6b; text-transform:uppercase; letter-spacing:0.5px;">User ID</label>
+      <input id="login-id" type="text" placeholder="IDを入力" autocomplete="off" style="width:100%; padding:10px 12px; border:1px solid #e5e5e5; border-radius:6px; font-size:14px; margin-top:4px; outline:none; transition:border 0.2s;" onfocus="this.style.borderColor='#DAA520'" onblur="this.style.borderColor='#e5e5e5'">
+    </div>
+    <div style="margin-bottom:24px; text-align:left;">
+      <label style="font-size:11px; font-weight:600; color:#706e6b; text-transform:uppercase; letter-spacing:0.5px;">Password</label>
+      <input id="login-pw" type="password" placeholder="パスワードを入力" autocomplete="off" style="width:100%; padding:10px 12px; border:1px solid #e5e5e5; border-radius:6px; font-size:14px; margin-top:4px; outline:none; transition:border 0.2s;" onfocus="this.style.borderColor='#DAA520'" onblur="this.style.borderColor='#e5e5e5'" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button onclick="doLogin()" style="width:100%; padding:12px; background:#DAA520; color:#fff; border:none; border-radius:6px; font-size:14px; font-weight:700; cursor:pointer; transition:background 0.2s; letter-spacing:0.5px;" onmouseover="this.style.background='#8B6914'" onmouseout="this.style.background='#DAA520'">ログイン</button>
+    <div id="login-error" style="color:#ea001e; font-size:12px; margin-top:12px; display:none;">IDまたはパスワードが違います</div>
+  </div>
+</div>
+<script>
+// CREDENTIALS_PLACEHOLDER
+const DASHBOARD_ID = 'beyond';
+const DASHBOARD_PW = 'BYD-Board!2025#exec';
+// END_CREDENTIALS_PLACEHOLDER
+function doLogin() {
+  const id = document.getElementById('login-id').value;
+  const pw = document.getElementById('login-pw').value;
+  if (id === DASHBOARD_ID && pw === DASHBOARD_PW) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('dashboard-main').style.display = 'block';
+    sessionStorage.setItem('beyond-auth', '1');
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+  }
+}
+if (sessionStorage.getItem('beyond-auth') === '1') {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('dashboard-main').style.display = 'block';
+  });
+}
+</script>
+
+<!-- DASHBOARD MAIN -->
+<div id="dashboard-main" style="display:none;">
+
+<div class="navbar">
+  <div class="logo">BEYOND HOLDINGS</div>
+  <div class="nav-tabs" id="nav-tabs"></div>
+  <div class="nav-right" id="nav-fiscal-year"></div>
+</div>
+
+<!-- Overview Section (static shell, content filled by JS) -->
+<div id="overview" class="section active">
+  <div class="page-header"><h2>Performance Overview</h2><div class="subtitle" id="overview-subtitle"></div></div>
+  <div class="content">
+    <div class="kpi-row" id="kpi-overview"></div>
+    <div class="grid-2">
+      <div class="card"><div class="card-header"><h3>子会社別 売上高</h3></div><div class="card-body" style="height:280px"><canvas id="chart-ov-revenue-rank"></canvas></div></div>
+      <div class="card"><div class="card-header"><h3>子会社別 営業利益</h3></div><div class="card-body" style="height:280px"><canvas id="chart-ov-op-rank"></canvas></div></div>
+    </div>
+    <div class="grid-2">
+      <div class="card full"><div class="card-header"><h3>月次売上推移（子会社別）</h3></div><div class="card-body" style="height:300px"><canvas id="chart-ov-monthly-revenue"></canvas></div></div>
+    </div>
+    <div class="grid-2">
+      <div class="card full"><div class="card-header"><h3>月次営業利益推移</h3></div><div class="card-body" style="height:260px"><canvas id="chart-ov-monthly-op"></canvas></div></div>
+    </div>
+    <div class="grid-3">
+      <div class="card"><div class="card-header"><h3>売上構成比</h3></div><div class="card-body" style="height:220px;display:flex;align-items:center;gap:8px"><div style="flex:0 0 160px;max-height:180px"><canvas id="chart-ov-revenue-pie"></canvas></div><div id="legend-ov-revenue" class="legend-grid"></div></div></div>
+      <div class="card"><div class="card-header"><h3>営業利益率 比較</h3></div><div class="card-body" style="height:220px"><canvas id="chart-ov-margin-bar"></canvas></div></div>
+      <div class="card"><div class="card-header"><h3>総資産 / 純資産</h3></div><div class="card-body" style="height:220px"><canvas id="chart-ov-bs-bar"></canvas></div></div>
+    </div>
+    <div class="card" style="margin-bottom:16px"><div class="card-header"><h3>Subsidiary Scorecard</h3><div class="badge" id="ov-company-count"></div></div><div class="card-body"><table id="table-scorecard"><thead><tr><th>子会社</th><th class="text-right">売上高</th><th class="text-right">売上原価</th><th class="text-right">売上総利益</th><th class="text-right">粗利率</th><th class="text-right">販管費</th><th class="text-right">営業利益</th><th class="text-right">営業利益率</th></tr></thead><tbody></tbody></table></div></div>
+  </div>
+</div>
+
+<!-- Dynamic subsidiary sections are generated by JS -->
+<div id="subsidiary-sections"></div>
+
+</div>
+
+// DASHBOARD_DATA_PLACEHOLDER
+// END_DASHBOARD_DATA_PLACEHOLDER
+
+<script>
+const COLORS = ['#0176d3','#1b96ff','#3ba755','#fe9339','#9050e9','#04a9c9','#e8006f','#444','#c0392b','#16a085','#7f8c8d','#e67e22'];
+
+function fmt(n) { return isNaN(n) ? '0' : Math.round(n).toLocaleString('ja-JP'); }
+function fmtM(n) { return (n / 10000).toFixed(0) + '万'; }
+function fmtOku(n) {
+  if (Math.abs(n) >= 100000000) return (n / 100000000).toFixed(2) + '億';
+  return (n / 10000).toFixed(0) + '万';
+}
+function monthLabel(m) { return m.replace('/', '年') + '月'; }
+function progressColor(pct) { return pct >= 100 ? 'green' : pct >= 80 ? 'blue' : pct >= 50 ? 'orange' : 'red'; }
+function pct(a, b) { return b !== 0 ? (a / b * 100).toFixed(1) : '0.0'; }
+
+function showTab(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (el) el.classList.add('active');
+}
+
+function sumField(arr, field) { return arr.reduce((s, r) => s + (r[field] || 0), 0); }
+
+function drawGauge(canvasId, centerId, footerId, value, target, unit) {
+  const pctVal = target > 0 ? Math.min(value / target * 100, 150) : 0;
+  const displayPct = target > 0 ? (value / target * 100).toFixed(1) : '0.0';
+  new Chart(document.getElementById(canvasId), {
+    type: 'doughnut',
+    data: { datasets: [{ data: [30, 20, 20, 30, 50], backgroundColor: ['#c23934','#e87040','#fe9339','#f2cf5b','#2e844a'], borderWidth: 0 }] },
+    options: { circumference: 180, rotation: -90, cutout: '75%', responsive: true, plugins: { legend: { display: false }, tooltip: { enabled: false } } },
+    plugins: [{
+      id: 'gaugeNeedle',
+      afterDraw(chart) {
+        const { ctx, chartArea } = chart;
+        const cx = (chartArea.left + chartArea.right) / 2;
+        const cy = chartArea.bottom - 25;
+        const r = (chartArea.right - chartArea.left) / 2 * 0.35;
+        const angle = Math.PI + (Math.PI * Math.min(pctVal, 150) / 150);
+        ctx.save(); ctx.translate(cx, cy); ctx.rotate(angle);
+        ctx.beginPath(); ctx.moveTo(0, -5); ctx.lineTo(r, 0); ctx.lineTo(0, 5); ctx.fillStyle = '#333'; ctx.fill();
+        ctx.beginPath(); ctx.arc(0, 0, 7, 0, Math.PI * 2); ctx.fillStyle = '#333'; ctx.fill();
+        ctx.restore();
+      }
+    }]
+  });
+  const centerEl = document.getElementById(centerId);
+  const footerEl = document.getElementById(footerId);
+  if (centerEl) centerEl.innerHTML = '<div class="gauge-val">' + (unit === '%' ? displayPct + '%' : fmtOku(value)) + '</div><div class="gauge-pct">(' + displayPct + '%)</div>';
+  if (footerEl) footerEl.innerHTML = '<span style="color:var(--sf-muted)">予算: </span><span style="font-weight:700;color:var(--sf-dark)">' + (unit === '%' ? target + '%' : fmtOku(target)) + '</span><span style="color:var(--sf-muted)"> / 残: </span><span style="font-weight:600;color:' + (value >= target ? 'var(--sf-green)' : 'var(--sf-red)') + '">' + (unit === '%' ? (parseFloat(displayPct) - 100).toFixed(1) + '%' : (value >= target ? '+' : '') + fmtOku(value - target)) + '</span>';
+}
+
+function buildAll(data) {
+  const companies = data.companies;
+  document.getElementById('nav-fiscal-year').textContent = data.fiscalYearLabel || 'FY' + data.fiscalYear;
+  document.getElementById('overview-subtitle').textContent = data.fiscalYearLabel + ' グループ全体サマリー';
+
+  // Build nav tabs
+  const tabsEl = document.getElementById('nav-tabs');
+  tabsEl.innerHTML = '<div class="nav-tab active" onclick="showTab(\'overview\',this)">Overview</div>';
+  companies.forEach(co => {
+    tabsEl.innerHTML += '<div class="nav-tab" onclick="showTab(\'co-' + co.id + '\',this)">' + co.displayName + '</div>';
+  });
+
+  buildOverview(data);
+  companies.forEach(co => buildSubsidiary(co));
+}
+
+function buildOverview(data) {
+  const companies = data.companies;
+  const totals = companies.map(co => {
+    const rev = sumField(co.monthlyPL, 'revenue');
+    const cogs = sumField(co.monthlyPL, 'cogs');
+    const gp = sumField(co.monthlyPL, 'grossProfit');
+    const sga = sumField(co.monthlyPL, 'sga');
+    const op = sumField(co.monthlyPL, 'operatingProfit');
+    return { name: co.displayName, id: co.id, rev, cogs, gp, sga, op, gpRate: pct(gp, rev), opRate: pct(op, rev), bs: co.bs };
+  });
+  const grandRev = totals.reduce((s, t) => s + t.rev, 0);
+  const grandOP = totals.reduce((s, t) => s + t.op, 0);
+  const grandGP = totals.reduce((s, t) => s + t.gp, 0);
+  const avgOpRate = grandRev > 0 ? (grandOP / grandRev * 100).toFixed(1) : '0.0';
+
+  // KPIs
+  document.getElementById('kpi-overview').innerHTML =
+    '<div class="kpi-card"><div class="kpi-label">連結売上高</div><div class="kpi-value">' + fmtOku(grandRev) + '</div><div class="kpi-sub">' + fmt(grandRev) + '円</div></div>' +
+    '<div class="kpi-card green"><div class="kpi-label">連結営業利益</div><div class="kpi-value">' + fmtOku(grandOP) + '</div><div class="kpi-sub">営業利益率: <span class="up">' + avgOpRate + '%</span></div></div>' +
+    '<div class="kpi-card orange"><div class="kpi-label">連結売上総利益</div><div class="kpi-value">' + fmtOku(grandGP) + '</div><div class="kpi-sub">粗利率: ' + pct(grandGP, grandRev) + '%</div></div>' +
+    '<div class="kpi-card"><div class="kpi-label">子会社数</div><div class="kpi-value">' + companies.length + '社</div><div class="kpi-sub">BEYOND Holdings グループ</div></div>';
+
+  document.getElementById('ov-company-count').textContent = companies.length + ' companies';
+
+  // Revenue ranking
+  const revSorted = [...totals].sort((a, b) => b.rev - a.rev);
+  new Chart(document.getElementById('chart-ov-revenue-rank'), {
+    type: 'bar',
+    data: { labels: revSorted.map(t => t.name), datasets: [{ label: '売上高', data: revSorted.map(t => t.rev), backgroundColor: COLORS.slice(0, revSorted.length) }] },
+    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { callback: v => fmtOku(v) } } } }
+  });
+
+  // OP ranking
+  const opSorted = [...totals].sort((a, b) => b.op - a.op);
+  new Chart(document.getElementById('chart-ov-op-rank'), {
+    type: 'bar',
+    data: { labels: opSorted.map(t => t.name), datasets: [{ label: '営業利益', data: opSorted.map(t => t.op), backgroundColor: opSorted.map(t => t.op >= 0 ? '#3ba755cc' : '#ea001ecc') }] },
+    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { callback: v => fmtOku(v) } } } }
+  });
+
+  // Monthly revenue stacked
+  const months = companies[0].monthlyPL.map(r => r.month);
+  new Chart(document.getElementById('chart-ov-monthly-revenue'), {
+    type: 'bar',
+    data: { labels: months.map(monthLabel), datasets: companies.map((co, i) => ({ label: co.displayName, data: co.monthlyPL.map(r => r.revenue), backgroundColor: COLORS[i % COLORS.length] + 'cc' })) },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true } } }, scales: { x: { stacked: true }, y: { stacked: true, ticks: { callback: v => fmtOku(v) } } } }
+  });
+
+  // Monthly OP line
+  new Chart(document.getElementById('chart-ov-monthly-op'), {
+    type: 'line',
+    data: { labels: months.map(monthLabel), datasets: companies.map((co, i) => ({ label: co.displayName, data: co.monthlyPL.map(r => r.operatingProfit), borderColor: COLORS[i % COLORS.length], tension: 0.3, fill: false })) },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true } } }, scales: { y: { ticks: { callback: v => fmtM(v) } } } }
+  });
+
+  // Revenue pie
+  new Chart(document.getElementById('chart-ov-revenue-pie'), {
+    type: 'doughnut',
+    data: { labels: totals.map(t => t.name), datasets: [{ data: totals.map(t => t.rev), backgroundColor: COLORS }] },
+    options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } } }
+  });
+  document.getElementById('legend-ov-revenue').innerHTML = totals.map((t, i) => '<div class="legend-item"><span class="legend-dot" style="background:' + COLORS[i % COLORS.length] + '"></span>' + t.name + ': ' + fmtOku(t.rev) + '</div>').join('');
+
+  // Margin comparison
+  new Chart(document.getElementById('chart-ov-margin-bar'), {
+    type: 'bar',
+    data: { labels: totals.map(t => t.name), datasets: [
+      { label: '粗利率', data: totals.map(t => parseFloat(t.gpRate)), backgroundColor: '#DAA520cc' },
+      { label: '営業利益率', data: totals.map(t => parseFloat(t.opRate)), backgroundColor: '#3ba755cc' }
+    ]},
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true } } }, scales: { y: { ticks: { callback: v => v + '%' } } } }
+  });
+
+  // BS comparison
+  new Chart(document.getElementById('chart-ov-bs-bar'), {
+    type: 'bar',
+    data: { labels: totals.map(t => t.name), datasets: [
+      { label: '総資産', data: totals.map(t => t.bs?.totalAssets || 0), backgroundColor: '#0176d3cc' },
+      { label: '純資産', data: totals.map(t => t.bs?.netAssets || 0), backgroundColor: '#3ba755cc' }
+    ]},
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true } } }, scales: { y: { ticks: { callback: v => fmtOku(v) } } } }
+  });
+
+  // Scorecard table
+  const tbody = document.querySelector('#table-scorecard tbody');
+  totals.forEach(t => {
+    const tr = document.createElement('tr');
+    tr.style.cursor = 'pointer';
+    tr.onclick = function() { showTab('co-' + t.id, document.querySelector('.nav-tab[onclick*="co-' + t.id + '"]')); };
+    tr.innerHTML = '<td style="font-weight:600;color:var(--sf-dark)">' + t.name + '</td>' +
+      '<td class="text-right">' + fmtOku(t.rev) + '</td>' +
+      '<td class="text-right">' + fmtOku(t.cogs) + '</td>' +
+      '<td class="text-right">' + fmtOku(t.gp) + '</td>' +
+      '<td class="text-right">' + t.gpRate + '%</td>' +
+      '<td class="text-right">' + fmtOku(t.sga) + '</td>' +
+      '<td class="text-right ' + (t.op >= 0 ? 'text-green' : 'text-red') + '">' + fmtOku(t.op) + '</td>' +
+      '<td class="text-right ' + (parseFloat(t.opRate) >= 10 ? 'text-green' : '') + '">' + t.opRate + '%</td>';
+    tbody.appendChild(tr);
+  });
+}
+
+function buildSubsidiary(co) {
+  const prefix = 'co-' + co.id;
+  const totalRev = sumField(co.monthlyPL, 'revenue');
+  const totalCogs = sumField(co.monthlyPL, 'cogs');
+  const totalGP = sumField(co.monthlyPL, 'grossProfit');
+  const totalSGA = sumField(co.monthlyPL, 'sga');
+  const totalOP = sumField(co.monthlyPL, 'operatingProfit');
+  const gpRate = pct(totalGP, totalRev);
+  const opRate = pct(totalOP, totalRev);
+  const months = co.monthlyPL.map(r => r.month);
+  const budgets = co.budgets || [];
+  const totalBudgetRev = budgets.reduce((s, b) => s + (b.revenueBudget || 0), 0);
+  const totalBudgetOP = budgets.reduce((s, b) => s + (b.opBudget || 0), 0);
+
+  // Create section HTML
+  const section = document.createElement('div');
+  section.id = prefix;
+  section.className = 'section';
+  section.innerHTML =
+    '<div class="page-header"><h2>' + co.name + '</h2><div class="subtitle">' + co.displayName + ' - Financial Detail</div></div>' +
+    '<div class="content">' +
+      '<div class="kpi-row" id="' + prefix + '-kpi"></div>' +
+      '<div class="grid-3">' +
+        '<div class="card"><div class="card-header"><h3>売上達成率</h3></div><div class="card-body"><div class="gauge-wrap"><canvas id="' + prefix + '-gauge-rev"></canvas><div class="gauge-center" id="' + prefix + '-gauge-rev-center"></div><div class="gauge-footer" id="' + prefix + '-gauge-rev-footer"></div></div></div></div>' +
+        '<div class="card"><div class="card-header"><h3>営業利益達成率</h3></div><div class="card-body"><div class="gauge-wrap"><canvas id="' + prefix + '-gauge-op"></canvas><div class="gauge-center" id="' + prefix + '-gauge-op-center"></div><div class="gauge-footer" id="' + prefix + '-gauge-op-footer"></div></div></div></div>' +
+        '<div class="card"><div class="card-header"><h3>営業利益率</h3></div><div class="card-body"><div class="gauge-wrap"><canvas id="' + prefix + '-gauge-margin"></canvas><div class="gauge-center" id="' + prefix + '-gauge-margin-center"></div><div class="gauge-footer" id="' + prefix + '-gauge-margin-footer"></div></div></div></div>' +
+      '</div>' +
+      '<div class="grid-2">' +
+        '<div class="card full"><div class="card-header"><h3>月次売上 vs 予算</h3></div><div class="card-body" style="height:280px"><canvas id="' + prefix + '-chart-budget"></canvas></div></div>' +
+      '</div>' +
+      '<div class="grid-2">' +
+        '<div class="card full"><div class="card-header"><h3>月次 PL 推移</h3></div><div class="card-body" style="height:260px"><canvas id="' + prefix + '-chart-pl"></canvas></div></div>' +
+      '</div>' +
+      '<div class="grid-2">' +
+        '<div class="card"><div class="card-header"><h3>得意先 Top 10</h3></div><div class="card-body" style="height:300px"><canvas id="' + prefix + '-chart-cust"></canvas></div></div>' +
+        '<div class="card"><div class="card-header"><h3>仕入先 Top 10</h3></div><div class="card-body" style="height:300px"><canvas id="' + prefix + '-chart-supp"></canvas></div></div>' +
+      '</div>' +
+      '<div class="grid-2">' +
+        '<div class="card"><div class="card-header"><h3>得意先構成</h3></div><div class="card-body" style="height:220px;display:flex;align-items:center;gap:8px"><div style="flex:0 0 160px;max-height:180px"><canvas id="' + prefix + '-chart-cust-pie"></canvas></div><div id="' + prefix + '-legend-cust" class="legend-grid"></div></div></div>' +
+        '<div class="card"><div class="card-header"><h3>仕入先構成</h3></div><div class="card-body" style="height:220px;display:flex;align-items:center;gap:8px"><div style="flex:0 0 160px;max-height:180px"><canvas id="' + prefix + '-chart-supp-pie"></canvas></div><div id="' + prefix + '-legend-supp" class="legend-grid"></div></div></div>' +
+      '</div>' +
+      '<div class="card" style="margin-bottom:16px"><div class="card-header"><h3>月次 PL 明細</h3></div><div class="card-body"><table id="' + prefix + '-table-pl"><thead><tr><th>月</th><th class="text-right">売上高</th><th class="text-right">予算</th><th class="text-right">差異</th><th class="text-right">達成率</th><th class="text-right">原価</th><th class="text-right">粗利</th><th class="text-right">粗利率</th><th class="text-right">販管費</th><th class="text-right">営業利益</th><th class="text-right">営業利益率</th></tr></thead><tbody></tbody></table></div></div>' +
+      '<div class="card" style="margin-bottom:16px"><div class="card-header"><h3>BS サマリー</h3></div><div class="card-body"><div class="kpi-row">' +
+        '<div class="kpi-card"><div class="kpi-label">総資産</div><div class="kpi-value">' + fmtOku(co.bs?.totalAssets || 0) + '</div></div>' +
+        '<div class="kpi-card green"><div class="kpi-label">現預金</div><div class="kpi-value">' + fmtOku(co.bs?.cash || 0) + '</div></div>' +
+        '<div class="kpi-card orange"><div class="kpi-label">負債合計</div><div class="kpi-value">' + fmtOku(co.bs?.totalLiabilities || 0) + '</div></div>' +
+        '<div class="kpi-card"><div class="kpi-label">純資産</div><div class="kpi-value">' + fmtOku(co.bs?.netAssets || 0) + '</div><div class="kpi-sub">自己資本比率: ' + pct(co.bs?.netAssets || 0, co.bs?.totalAssets || 1) + '%</div></div>' +
+      '</div></div></div>' +
+    '</div>';
+
+  document.getElementById('subsidiary-sections').appendChild(section);
+
+  // KPI cards
+  const budgetAchieve = totalBudgetRev > 0 ? pct(totalRev, totalBudgetRev) : '--';
+  document.getElementById(prefix + '-kpi').innerHTML =
+    '<div class="kpi-card"><div class="kpi-label">売上高</div><div class="kpi-value">' + fmtOku(totalRev) + '</div>' +
+      '<div class="progress-wrap"><div class="progress-bar"><div class="fill ' + progressColor(parseFloat(budgetAchieve)) + '" style="width:' + Math.min(parseFloat(budgetAchieve) || 0, 100) + '%"></div></div>' +
+      '<div class="progress-label"><span>予算: ' + fmtOku(totalBudgetRev) + '</span><span class="' + (parseFloat(budgetAchieve) >= 100 ? 'text-green' : 'text-red') + '">' + budgetAchieve + '%</span></div></div></div>' +
+    '<div class="kpi-card green"><div class="kpi-label">売上総利益</div><div class="kpi-value">' + fmtOku(totalGP) + '</div><div class="kpi-sub">粗利率: <span class="up">' + gpRate + '%</span></div></div>' +
+    '<div class="kpi-card"><div class="kpi-label">営業利益</div><div class="kpi-value ' + (totalOP >= 0 ? 'text-green' : 'text-red') + '">' + fmtOku(totalOP) + '</div><div class="kpi-sub">営業利益率: ' + opRate + '%</div></div>' +
+    '<div class="kpi-card orange"><div class="kpi-label">販管費</div><div class="kpi-value">' + fmtOku(totalSGA) + '</div><div class="kpi-sub">売上比: ' + pct(totalSGA, totalRev) + '%</div></div>' +
+    '<div class="kpi-card"><div class="kpi-label">月平均売上</div><div class="kpi-value">' + fmtOku(totalRev / 12) + '</div></div>';
+
+  // Gauges
+  drawGauge(prefix + '-gauge-rev', prefix + '-gauge-rev-center', prefix + '-gauge-rev-footer', totalRev, totalBudgetRev, '億');
+  drawGauge(prefix + '-gauge-op', prefix + '-gauge-op-center', prefix + '-gauge-op-footer', totalOP, totalBudgetOP, '億');
+  drawGauge(prefix + '-gauge-margin', prefix + '-gauge-margin-center', prefix + '-gauge-margin-footer', parseFloat(opRate), 15, '%');
+
+  // Budget vs Actual chart
+  const monthlyBudgets = months.map(m => { const b = budgets.find(x => x.month === m); return b ? b.revenueBudget : 0; });
+  new Chart(document.getElementById(prefix + '-chart-budget'), {
+    type: 'bar',
+    data: {
+      labels: months.map(monthLabel),
+      datasets: [
+        { label: '実績', data: co.monthlyPL.map(r => r.revenue), backgroundColor: co.monthlyPL.map((r, i) => r.revenue >= monthlyBudgets[i] ? '#3ba755cc' : '#DAA520cc'), barPercentage: 0.5, categoryPercentage: 0.6 },
+        { label: '予算', data: monthlyBudgets, borderColor: '#ea001e', borderWidth: 2, borderDash: [6, 3], type: 'line', fill: false, pointStyle: 'circle', pointRadius: 3, pointBackgroundColor: '#ea001e' }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true } } }, scales: { y: { ticks: { callback: v => fmtM(v) } } } }
+  });
+
+  // PL trend
+  new Chart(document.getElementById(prefix + '-chart-pl'), {
+    type: 'bar',
+    data: {
+      labels: months.map(monthLabel),
+      datasets: [
+        { label: '売上高', data: co.monthlyPL.map(r => r.revenue), backgroundColor: '#0176d3cc' },
+        { label: '売上原価', data: co.monthlyPL.map(r => r.cogs), backgroundColor: '#fe9339cc' },
+        { label: '営業利益', data: co.monthlyPL.map(r => r.operatingProfit), type: 'line', borderColor: '#3ba755', borderWidth: 2, fill: false, tension: 0.3, pointBackgroundColor: '#3ba755' }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true } } }, scales: { y: { ticks: { callback: v => fmtM(v) } } } }
+  });
+
+  // Top customers bar
+  const custTop = (co.topCustomers || []).slice(0, 10);
+  new Chart(document.getElementById(prefix + '-chart-cust'), {
+    type: 'bar',
+    data: { labels: custTop.map(c => c.name), datasets: [{ label: '売上高', data: custTop.map(c => c.revenue), backgroundColor: '#DAA520cc' }] },
+    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { callback: v => fmtM(v) } } } }
+  });
+
+  // Top suppliers bar
+  const suppTop = (co.topSuppliers || []).slice(0, 10);
+  new Chart(document.getElementById(prefix + '-chart-supp'), {
+    type: 'bar',
+    data: { labels: suppTop.map(s => s.name), datasets: [{ label: '仕入額', data: suppTop.map(s => s.cost), backgroundColor: '#0176d3cc' }] },
+    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { callback: v => fmtM(v) } } } }
+  });
+
+  // Customer pie
+  const custTotal = custTop.reduce((s, c) => s + c.revenue, 0);
+  new Chart(document.getElementById(prefix + '-chart-cust-pie'), {
+    type: 'doughnut',
+    data: { labels: custTop.map(c => c.name), datasets: [{ data: custTop.map(c => c.revenue), backgroundColor: COLORS }] },
+    options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } } }
+  });
+  document.getElementById(prefix + '-legend-cust').innerHTML = custTop.map((c, i) => '<div class="legend-item"><span class="legend-dot" style="background:' + COLORS[i % COLORS.length] + '"></span>' + c.name + '</div>').join('');
+
+  // Supplier pie
+  new Chart(document.getElementById(prefix + '-chart-supp-pie'), {
+    type: 'doughnut',
+    data: { labels: suppTop.map(s => s.name), datasets: [{ data: suppTop.map(s => s.cost), backgroundColor: COLORS }] },
+    options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } } }
+  });
+  document.getElementById(prefix + '-legend-supp').innerHTML = suppTop.map((s, i) => '<div class="legend-item"><span class="legend-dot" style="background:' + COLORS[i % COLORS.length] + '"></span>' + s.name + '</div>').join('');
+
+  // PL detail table
+  const plTbody = document.querySelector('#' + prefix + '-table-pl tbody');
+  co.monthlyPL.forEach((r, i) => {
+    const bRev = monthlyBudgets[i] || 0;
+    const diff = r.revenue - bRev;
+    const rate = bRev > 0 ? pct(r.revenue, bRev) : '--';
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td>' + monthLabel(r.month) + '</td>' +
+      '<td class="text-right" style="font-weight:600">' + fmt(r.revenue) + '</td>' +
+      '<td class="text-right">' + fmt(bRev) + '</td>' +
+      '<td class="text-right ' + (diff >= 0 ? 'text-green' : 'text-red') + '">' + (diff >= 0 ? '+' : '') + fmt(diff) + '</td>' +
+      '<td class="text-right" style="font-weight:600">' + rate + '%</td>' +
+      '<td class="text-right">' + fmt(r.cogs) + '</td>' +
+      '<td class="text-right">' + fmt(r.grossProfit) + '</td>' +
+      '<td class="text-right">' + pct(r.grossProfit, r.revenue) + '%</td>' +
+      '<td class="text-right">' + fmt(r.sga) + '</td>' +
+      '<td class="text-right ' + (r.operatingProfit >= 0 ? 'text-green' : 'text-red') + '">' + fmt(r.operatingProfit) + '</td>' +
+      '<td class="text-right">' + pct(r.operatingProfit, r.revenue) + '%</td>';
+    plTbody.appendChild(tr);
+  });
+  // Total row
+  const totalRow = document.createElement('tr');
+  totalRow.style.fontWeight = '700';
+  totalRow.style.background = '#fafaf9';
+  totalRow.innerHTML = '<td>合計</td>' +
+    '<td class="text-right">' + fmt(totalRev) + '</td>' +
+    '<td class="text-right">' + fmt(totalBudgetRev) + '</td>' +
+    '<td class="text-right ' + (totalRev - totalBudgetRev >= 0 ? 'text-green' : 'text-red') + '">' + (totalRev - totalBudgetRev >= 0 ? '+' : '') + fmt(totalRev - totalBudgetRev) + '</td>' +
+    '<td class="text-right">' + (totalBudgetRev > 0 ? pct(totalRev, totalBudgetRev) : '--') + '%</td>' +
+    '<td class="text-right">' + fmt(totalCogs) + '</td>' +
+    '<td class="text-right">' + fmt(totalGP) + '</td>' +
+    '<td class="text-right">' + gpRate + '%</td>' +
+    '<td class="text-right">' + fmt(totalSGA) + '</td>' +
+    '<td class="text-right ' + (totalOP >= 0 ? 'text-green' : 'text-red') + '">' + fmt(totalOP) + '</td>' +
+    '<td class="text-right">' + opRate + '%</td>';
+  plTbody.appendChild(totalRow);
+}
+
+// Load data and render
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof DASHBOARD_DATA !== 'undefined') {
+    buildAll(DASHBOARD_DATA);
+  }
+});
+</script>
+
+</div>
+</body>
+</html>

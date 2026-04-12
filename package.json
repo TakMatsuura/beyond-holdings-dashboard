@@ -1,0 +1,12 @@
+{
+  "name": "beyond-holdings-dashboard",
+  "version": "1.0.0",
+  "description": "BEYOND Holdings Executive Dashboard - BEYOND Board",
+  "private": true,
+  "scripts": {
+    "fetch": "node fetch_freee.js",
+    "build": "node build_html.js",
+    "build:sample": "USE_SAMPLE=1 node build_html.js"
+  },
+  "dependencies": {}
+}

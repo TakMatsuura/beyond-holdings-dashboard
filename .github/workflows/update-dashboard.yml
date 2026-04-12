@@ -1,0 +1,46 @@
+name: Update BEYOND Holdings Dashboard
+
+on:
+  schedule:
+    # Every 20th of the month at 06:00 JST (21:00 UTC previous day)
+    - cron: '0 21 19 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch data from Freee API
+        env:
+          FREEE_CLIENT_ID: ${{ secrets.FREEE_CLIENT_ID }}
+          FREEE_CLIENT_SECRET: ${{ secrets.FREEE_CLIENT_SECRET }}
+          FREEE_REFRESH_TOKEN: ${{ secrets.FREEE_REFRESH_TOKEN }}
+        run: node fetch_freee.js
+
+      - name: Update refresh token secret
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          if [ -f /tmp/freee_data/new_refresh_token.txt ]; then
+            gh secret set FREEE_REFRESH_TOKEN < /tmp/freee_data/new_refresh_token.txt
+          fi
+
+      - name: Build HTML
+        run: node build_html.js
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public

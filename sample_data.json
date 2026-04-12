@@ -1,0 +1,182 @@
+{
+  "fetchedAt": "2026-04-12T06:00:00Z",
+  "fiscalYear": 2025,
+  "fiscalYearLabel": "FY2025 (2025/04 - 2026/03)",
+  "companies": [
+    {
+      "id": 1,
+      "name": "BEYOND Tech株式会社",
+      "displayName": "BEYOND Tech",
+      "monthlyPL": [
+        {"month": "2025/04", "revenue": 45000000, "cogs": 27000000, "grossProfit": 18000000, "sga": 10000000, "operatingProfit": 8000000},
+        {"month": "2025/05", "revenue": 48000000, "cogs": 28800000, "grossProfit": 19200000, "sga": 10200000, "operatingProfit": 9000000},
+        {"month": "2025/06", "revenue": 52000000, "cogs": 31200000, "grossProfit": 20800000, "sga": 10500000, "operatingProfit": 10300000},
+        {"month": "2025/07", "revenue": 50000000, "cogs": 30000000, "grossProfit": 20000000, "sga": 10300000, "operatingProfit": 9700000},
+        {"month": "2025/08", "revenue": 42000000, "cogs": 25200000, "grossProfit": 16800000, "sga": 10000000, "operatingProfit": 6800000},
+        {"month": "2025/09", "revenue": 55000000, "cogs": 33000000, "grossProfit": 22000000, "sga": 10800000, "operatingProfit": 11200000},
+        {"month": "2025/10", "revenue": 58000000, "cogs": 34800000, "grossProfit": 23200000, "sga": 11000000, "operatingProfit": 12200000},
+        {"month": "2025/11", "revenue": 53000000, "cogs": 31800000, "grossProfit": 21200000, "sga": 10600000, "operatingProfit": 10600000},
+        {"month": "2025/12", "revenue": 62000000, "cogs": 37200000, "grossProfit": 24800000, "sga": 11500000, "operatingProfit": 13300000},
+        {"month": "2026/01", "revenue": 49000000, "cogs": 29400000, "grossProfit": 19600000, "sga": 10200000, "operatingProfit": 9400000},
+        {"month": "2026/02", "revenue": 51000000, "cogs": 30600000, "grossProfit": 20400000, "sga": 10400000, "operatingProfit": 10000000},
+        {"month": "2026/03", "revenue": 60000000, "cogs": 36000000, "grossProfit": 24000000, "sga": 11200000, "operatingProfit": 12800000}
+      ],
+      "budgets": [
+        {"month": "2025/04", "revenueBudget": 50000000, "opBudget": 8000000},
+        {"month": "2025/05", "revenueBudget": 50000000, "opBudget": 8000000},
+        {"month": "2025/06", "revenueBudget": 52000000, "opBudget": 8500000},
+        {"month": "2025/07", "revenueBudget": 52000000, "opBudget": 8500000},
+        {"month": "2025/08", "revenueBudget": 48000000, "opBudget": 7500000},
+        {"month": "2025/09", "revenueBudget": 55000000, "opBudget": 9000000},
+        {"month": "2025/10", "revenueBudget": 55000000, "opBudget": 9000000},
+        {"month": "2025/11", "revenueBudget": 55000000, "opBudget": 9000000},
+        {"month": "2025/12", "revenueBudget": 60000000, "opBudget": 10000000},
+        {"month": "2026/01", "revenueBudget": 50000000, "opBudget": 8000000},
+        {"month": "2026/02", "revenueBudget": 52000000, "opBudget": 8500000},
+        {"month": "2026/03", "revenueBudget": 58000000, "opBudget": 9500000}
+      ],
+      "topCustomers": [
+        {"name": "ABC商事株式会社", "revenue": 85000000},
+        {"name": "東京エレクトロニクス", "revenue": 62000000},
+        {"name": "関東システムズ", "revenue": 48000000},
+        {"name": "日本データサービス", "revenue": 41000000},
+        {"name": "サンライズ工業", "revenue": 35000000},
+        {"name": "グローバルテック", "revenue": 28000000},
+        {"name": "フューチャーラボ", "revenue": 22000000},
+        {"name": "デジタルブリッジ", "revenue": 18000000},
+        {"name": "スマートソリューション", "revenue": 15000000},
+        {"name": "テクノアドバンス", "revenue": 12000000}
+      ],
+      "topSuppliers": [
+        {"name": "グローバル部品", "cost": 72000000},
+        {"name": "精密機器工業", "cost": 55000000},
+        {"name": "テクノサプライ", "cost": 43000000},
+        {"name": "東日本マテリアル", "cost": 38000000},
+        {"name": "品質パーツ", "cost": 29000000},
+        {"name": "スタンダード電子", "cost": 22000000},
+        {"name": "マイクロテック", "cost": 18000000}
+      ],
+      "bs": {
+        "totalAssets": 850000000,
+        "cash": 120000000,
+        "totalLiabilities": 340000000,
+        "netAssets": 510000000
+      }
+    },
+    {
+      "id": 2,
+      "name": "BEYOND Creative株式会社",
+      "displayName": "BEYOND Creative",
+      "monthlyPL": [
+        {"month": "2025/04", "revenue": 25000000, "cogs": 12500000, "grossProfit": 12500000, "sga": 8000000, "operatingProfit": 4500000},
+        {"month": "2025/05", "revenue": 28000000, "cogs": 14000000, "grossProfit": 14000000, "sga": 8200000, "operatingProfit": 5800000},
+        {"month": "2025/06", "revenue": 30000000, "cogs": 15000000, "grossProfit": 15000000, "sga": 8400000, "operatingProfit": 6600000},
+        {"month": "2025/07", "revenue": 27000000, "cogs": 13500000, "grossProfit": 13500000, "sga": 8100000, "operatingProfit": 5400000},
+        {"month": "2025/08", "revenue": 24000000, "cogs": 12000000, "grossProfit": 12000000, "sga": 7800000, "operatingProfit": 4200000},
+        {"month": "2025/09", "revenue": 32000000, "cogs": 16000000, "grossProfit": 16000000, "sga": 8600000, "operatingProfit": 7400000},
+        {"month": "2025/10", "revenue": 35000000, "cogs": 17500000, "grossProfit": 17500000, "sga": 8900000, "operatingProfit": 8600000},
+        {"month": "2025/11", "revenue": 33000000, "cogs": 16500000, "grossProfit": 16500000, "sga": 8700000, "operatingProfit": 7800000},
+        {"month": "2025/12", "revenue": 38000000, "cogs": 19000000, "grossProfit": 19000000, "sga": 9200000, "operatingProfit": 9800000},
+        {"month": "2026/01", "revenue": 26000000, "cogs": 13000000, "grossProfit": 13000000, "sga": 8000000, "operatingProfit": 5000000},
+        {"month": "2026/02", "revenue": 29000000, "cogs": 14500000, "grossProfit": 14500000, "sga": 8300000, "operatingProfit": 6200000},
+        {"month": "2026/03", "revenue": 36000000, "cogs": 18000000, "grossProfit": 18000000, "sga": 9000000, "operatingProfit": 9000000}
+      ],
+      "budgets": [
+        {"month": "2025/04", "revenueBudget": 28000000, "opBudget": 5000000},
+        {"month": "2025/05", "revenueBudget": 28000000, "opBudget": 5000000},
+        {"month": "2025/06", "revenueBudget": 30000000, "opBudget": 5500000},
+        {"month": "2025/07", "revenueBudget": 30000000, "opBudget": 5500000},
+        {"month": "2025/08", "revenueBudget": 26000000, "opBudget": 4500000},
+        {"month": "2025/09", "revenueBudget": 32000000, "opBudget": 6000000},
+        {"month": "2025/10", "revenueBudget": 32000000, "opBudget": 6000000},
+        {"month": "2025/11", "revenueBudget": 32000000, "opBudget": 6000000},
+        {"month": "2025/12", "revenueBudget": 35000000, "opBudget": 7000000},
+        {"month": "2026/01", "revenueBudget": 28000000, "opBudget": 5000000},
+        {"month": "2026/02", "revenueBudget": 30000000, "opBudget": 5500000},
+        {"month": "2026/03", "revenueBudget": 34000000, "opBudget": 6500000}
+      ],
+      "topCustomers": [
+        {"name": "メディアプロ株式会社", "revenue": 52000000},
+        {"name": "クリエイティブワークス", "revenue": 38000000},
+        {"name": "ブランドデザイン", "revenue": 31000000},
+        {"name": "アートスタジオJP", "revenue": 25000000},
+        {"name": "ビジュアルコム", "revenue": 20000000},
+        {"name": "コンテンツファースト", "revenue": 16000000},
+        {"name": "デザインハウス", "revenue": 12000000},
+        {"name": "イメージクラフト", "revenue": 9000000}
+      ],
+      "topSuppliers": [
+        {"name": "印刷マスター", "cost": 42000000},
+        {"name": "メディアサプライ", "cost": 35000000},
+        {"name": "クリエイティブ素材", "cost": 28000000},
+        {"name": "デジタルアセット", "cost": 22000000},
+        {"name": "フォトストック", "cost": 15000000}
+      ],
+      "bs": {
+        "totalAssets": 420000000,
+        "cash": 65000000,
+        "totalLiabilities": 160000000,
+        "netAssets": 260000000
+      }
+    },
+    {
+      "id": 3,
+      "name": "BEYOND Consulting株式会社",
+      "displayName": "BEYOND Consulting",
+      "monthlyPL": [
+        {"month": "2025/04", "revenue": 35000000, "cogs": 14000000, "grossProfit": 21000000, "sga": 12000000, "operatingProfit": 9000000},
+        {"month": "2025/05", "revenue": 38000000, "cogs": 15200000, "grossProfit": 22800000, "sga": 12300000, "operatingProfit": 10500000},
+        {"month": "2025/06", "revenue": 40000000, "cogs": 16000000, "grossProfit": 24000000, "sga": 12600000, "operatingProfit": 11400000},
+        {"month": "2025/07", "revenue": 37000000, "cogs": 14800000, "grossProfit": 22200000, "sga": 12200000, "operatingProfit": 10000000},
+        {"month": "2025/08", "revenue": 33000000, "cogs": 13200000, "grossProfit": 19800000, "sga": 11800000, "operatingProfit": 8000000},
+        {"month": "2025/09", "revenue": 42000000, "cogs": 16800000, "grossProfit": 25200000, "sga": 13000000, "operatingProfit": 12200000},
+        {"month": "2025/10", "revenue": 45000000, "cogs": 18000000, "grossProfit": 27000000, "sga": 13300000, "operatingProfit": 13700000},
+        {"month": "2025/11", "revenue": 43000000, "cogs": 17200000, "grossProfit": 25800000, "sga": 13100000, "operatingProfit": 12700000},
+        {"month": "2025/12", "revenue": 48000000, "cogs": 19200000, "grossProfit": 28800000, "sga": 13800000, "operatingProfit": 15000000},
+        {"month": "2026/01", "revenue": 36000000, "cogs": 14400000, "grossProfit": 21600000, "sga": 12100000, "operatingProfit": 9500000},
+        {"month": "2026/02", "revenue": 39000000, "cogs": 15600000, "grossProfit": 23400000, "sga": 12400000, "operatingProfit": 11000000},
+        {"month": "2026/03", "revenue": 46000000, "cogs": 18400000, "grossProfit": 27600000, "sga": 13500000, "operatingProfit": 14100000}
+      ],
+      "budgets": [
+        {"month": "2025/04", "revenueBudget": 36000000, "opBudget": 8000000},
+        {"month": "2025/05", "revenueBudget": 36000000, "opBudget": 8000000},
+        {"month": "2025/06", "revenueBudget": 38000000, "opBudget": 9000000},
+        {"month": "2025/07", "revenueBudget": 38000000, "opBudget": 9000000},
+        {"month": "2025/08", "revenueBudget": 34000000, "opBudget": 7000000},
+        {"month": "2025/09", "revenueBudget": 40000000, "opBudget": 10000000},
+        {"month": "2025/10", "revenueBudget": 40000000, "opBudget": 10000000},
+        {"month": "2025/11", "revenueBudget": 40000000, "opBudget": 10000000},
+        {"month": "2025/12", "revenueBudget": 45000000, "opBudget": 12000000},
+        {"month": "2026/01", "revenueBudget": 36000000, "opBudget": 8000000},
+        {"month": "2026/02", "revenueBudget": 38000000, "opBudget": 9000000},
+        {"month": "2026/03", "revenueBudget": 44000000, "opBudget": 11000000}
+      ],
+      "topCustomers": [
+        {"name": "大手製造業A社", "revenue": 68000000},
+        {"name": "金融グループB", "revenue": 52000000},
+        {"name": "IT企業C社", "revenue": 40000000},
+        {"name": "商社D", "revenue": 33000000},
+        {"name": "不動産E社", "revenue": 27000000},
+        {"name": "流通F社", "revenue": 21000000},
+        {"name": "エネルギーG社", "revenue": 16000000},
+        {"name": "通信H社", "revenue": 12000000},
+        {"name": "建設I社", "revenue": 9000000},
+        {"name": "医療J社", "revenue": 7000000}
+      ],
+      "topSuppliers": [
+        {"name": "外部コンサルタント協会", "cost": 48000000},
+        {"name": "リサーチパートナーズ", "cost": 35000000},
+        {"name": "データアナリティクス", "cost": 28000000},
+        {"name": "人材エキスパート", "cost": 22000000},
+        {"name": "ナレッジベース", "cost": 15000000},
+        {"name": "トレーニングプロ", "cost": 10000000}
+      ],
+      "bs": {
+        "totalAssets": 620000000,
+        "cash": 95000000,
+        "totalLiabilities": 230000000,
+        "netAssets": 390000000
+      }
+    }
+  ]
+}
