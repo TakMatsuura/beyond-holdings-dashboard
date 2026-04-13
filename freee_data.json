@@ -1,21 +1,14 @@
 {
-  "fetchedAt": "2026-04-13T01:09:59.633Z",
+  "fetchedAt": "2026-04-13T01:29:35.920Z",
   "fiscalYear": 2025,
   "fiscalYearLabel": "FY2025 (2025/04 - 2026/03)",
+  "cutoffMonth": "2026/02",
   "companies": [
     {
       "id": 3115888,
       "name": "デンコー",
       "displayName": "デンコー",
       "monthlyPL": [
-        {
-          "month": "2025/04",
-          "revenue": 1012270788,
-          "cogs": 557864577,
-          "grossProfit": 454406211,
-          "sga": 0,
-          "operatingProfit": 454406211
-        },
         {
           "month": "2025/05",
           "revenue": 103185903,
@@ -26,83 +19,75 @@
         },
         {
           "month": "2025/06",
-          "revenue": 182607149,
-          "cogs": 96918210,
-          "grossProfit": 85688939,
+          "revenue": 79421246,
+          "cogs": 37842761,
+          "grossProfit": 41578485,
           "sga": 0,
-          "operatingProfit": 85688939
+          "operatingProfit": 41578485
         },
         {
           "month": "2025/07",
-          "revenue": 271807727,
-          "cogs": 140681867,
-          "grossProfit": 131125860,
+          "revenue": 89200578,
+          "cogs": 43763657,
+          "grossProfit": 45436921,
           "sga": 0,
-          "operatingProfit": 131125860
+          "operatingProfit": 45436921
         },
         {
           "month": "2025/08",
-          "revenue": 369325169,
-          "cogs": 192520948,
-          "grossProfit": 176804221,
+          "revenue": 97517442,
+          "cogs": 51839081,
+          "grossProfit": 45678361,
           "sga": 0,
-          "operatingProfit": 176804221
+          "operatingProfit": 45678361
         },
         {
           "month": "2025/09",
-          "revenue": 458139530,
-          "cogs": 232456924,
-          "grossProfit": 225682606,
+          "revenue": 88814361,
+          "cogs": 39935976,
+          "grossProfit": 48878385,
           "sga": 0,
-          "operatingProfit": 225682606
+          "operatingProfit": 48878385
         },
         {
           "month": "2025/10",
-          "revenue": 553290894,
-          "cogs": 291898527,
-          "grossProfit": 261392367,
+          "revenue": 95151364,
+          "cogs": 59441603,
+          "grossProfit": 35709761,
           "sga": 0,
-          "operatingProfit": 261392367
+          "operatingProfit": 35709761
         },
         {
           "month": "2025/11",
-          "revenue": 644278869,
-          "cogs": 345591653,
-          "grossProfit": 298687216,
+          "revenue": 90987975,
+          "cogs": 53693126,
+          "grossProfit": 37294849,
           "sga": 0,
-          "operatingProfit": 298687216
+          "operatingProfit": 37294849
         },
         {
           "month": "2025/12",
-          "revenue": 752755019,
-          "cogs": 401804112,
-          "grossProfit": 350950907,
+          "revenue": 108476150,
+          "cogs": 56212459,
+          "grossProfit": 52263691,
           "sga": 0,
-          "operatingProfit": 350950907
+          "operatingProfit": 52263691
         },
         {
           "month": "2026/01",
-          "revenue": 852748847,
-          "cogs": 452828685,
-          "grossProfit": 399920162,
+          "revenue": 99993828,
+          "cogs": 51024573,
+          "grossProfit": 48969255,
           "sga": 0,
-          "operatingProfit": 399920162
+          "operatingProfit": 48969255
         },
         {
           "month": "2026/02",
-          "revenue": 955044044,
-          "cogs": 514296638,
-          "grossProfit": 440747406,
+          "revenue": 102295197,
+          "cogs": 61467953,
+          "grossProfit": 40827244,
           "sga": 0,
-          "operatingProfit": 440747406
-        },
-        {
-          "month": "2026/03",
-          "revenue": 1037759801,
-          "cogs": 558871906,
-          "grossProfit": 478887895,
-          "sga": 0,
-          "operatingProfit": 478887895
+          "operatingProfit": 40827244
         }
       ],
       "budgets": [],
@@ -152,54 +137,6 @@
       "displayName": "SAFARI",
       "monthlyPL": [
         {
-          "month": "2025/04",
-          "revenue": 23930803,
-          "cogs": 13002442,
-          "grossProfit": 10928361,
-          "sga": 0,
-          "operatingProfit": 10928361
-        },
-        {
-          "month": "2025/05",
-          "revenue": 749440,
-          "cogs": 470340,
-          "grossProfit": 279100,
-          "sga": 0,
-          "operatingProfit": 279100
-        },
-        {
-          "month": "2025/06",
-          "revenue": 1330085,
-          "cogs": 533451,
-          "grossProfit": 796634,
-          "sga": 0,
-          "operatingProfit": 796634
-        },
-        {
-          "month": "2025/07",
-          "revenue": 2762147,
-          "cogs": 1206847,
-          "grossProfit": 1555300,
-          "sga": 0,
-          "operatingProfit": 1555300
-        },
-        {
-          "month": "2025/08",
-          "revenue": 3371036,
-          "cogs": 2146972,
-          "grossProfit": 1224064,
-          "sga": 0,
-          "operatingProfit": 1224064
-        },
-        {
-          "month": "2025/09",
-          "revenue": 5167389,
-          "cogs": 2664572,
-          "grossProfit": 2502817,
-          "sga": 0,
-          "operatingProfit": 2502817
-        },
-        {
           "month": "2025/10",
           "revenue": 6096632,
           "cogs": 3214812,
@@ -209,43 +146,35 @@
         },
         {
           "month": "2025/11",
-          "revenue": 9288170,
-          "cogs": 4347472,
-          "grossProfit": 4940698,
+          "revenue": 3191538,
+          "cogs": 1132660,
+          "grossProfit": 2058878,
           "sga": 0,
-          "operatingProfit": 4940698
+          "operatingProfit": 2058878
         },
         {
           "month": "2025/12",
-          "revenue": 10692901,
-          "cogs": 4781392,
-          "grossProfit": 5911509,
+          "revenue": 1404731,
+          "cogs": 433920,
+          "grossProfit": 970811,
           "sga": 0,
-          "operatingProfit": 5911509
+          "operatingProfit": 970811
         },
         {
           "month": "2026/01",
-          "revenue": 11559289,
-          "cogs": 5309465,
-          "grossProfit": 6249824,
+          "revenue": 866388,
+          "cogs": 528073,
+          "grossProfit": 338315,
           "sga": 0,
-          "operatingProfit": 6249824
+          "operatingProfit": 338315
         },
         {
           "month": "2026/02",
-          "revenue": 14643745,
-          "cogs": 6124569,
-          "grossProfit": 8519176,
+          "revenue": 3084456,
+          "cogs": 815104,
+          "grossProfit": 2269352,
           "sga": 0,
-          "operatingProfit": 8519176
-        },
-        {
-          "month": "2026/03",
-          "revenue": 16159993,
-          "cogs": 6727337,
-          "grossProfit": 9432656,
-          "sga": 0,
-          "operatingProfit": 9432656
+          "operatingProfit": 2269352
         }
       ],
       "budgets": [],
@@ -292,54 +221,6 @@
       "displayName": "BEYOND Holdings",
       "monthlyPL": [
         {
-          "month": "2025/04",
-          "revenue": 31200000,
-          "cogs": 0,
-          "grossProfit": 31200000,
-          "sga": 0,
-          "operatingProfit": 31200000
-        },
-        {
-          "month": "2025/05",
-          "revenue": 8750000,
-          "cogs": 0,
-          "grossProfit": 8750000,
-          "sga": 0,
-          "operatingProfit": 8750000
-        },
-        {
-          "month": "2025/06",
-          "revenue": 17701985,
-          "cogs": 0,
-          "grossProfit": 17701985,
-          "sga": 0,
-          "operatingProfit": 17701985
-        },
-        {
-          "month": "2025/07",
-          "revenue": 26451985,
-          "cogs": 0,
-          "grossProfit": 26451985,
-          "sga": 0,
-          "operatingProfit": 26451985
-        },
-        {
-          "month": "2025/08",
-          "revenue": 35201985,
-          "cogs": 0,
-          "grossProfit": 35201985,
-          "sga": 0,
-          "operatingProfit": 35201985
-        },
-        {
-          "month": "2025/09",
-          "revenue": 43951985,
-          "cogs": 0,
-          "grossProfit": 43951985,
-          "sga": 0,
-          "operatingProfit": 43951985
-        },
-        {
           "month": "2025/10",
           "revenue": 52701985,
           "cogs": 0,
@@ -349,43 +230,35 @@
         },
         {
           "month": "2025/11",
-          "revenue": 61451985,
+          "revenue": 8750000,
           "cogs": 0,
-          "grossProfit": 61451985,
+          "grossProfit": 8750000,
           "sga": 0,
-          "operatingProfit": 61451985
+          "operatingProfit": 8750000
         },
         {
           "month": "2025/12",
-          "revenue": 70201985,
+          "revenue": 8750000,
           "cogs": 0,
-          "grossProfit": 70201985,
+          "grossProfit": 8750000,
           "sga": 0,
-          "operatingProfit": 70201985
+          "operatingProfit": 8750000
         },
         {
           "month": "2026/01",
-          "revenue": 78951985,
+          "revenue": 8750000,
           "cogs": 0,
-          "grossProfit": 78951985,
+          "grossProfit": 8750000,
           "sga": 0,
-          "operatingProfit": 78951985
+          "operatingProfit": 8750000
         },
         {
           "month": "2026/02",
-          "revenue": 87701985,
+          "revenue": 8750000,
           "cogs": 0,
-          "grossProfit": 87701985,
+          "grossProfit": 8750000,
           "sga": 0,
-          "operatingProfit": 87701985
-        },
-        {
-          "month": "2026/03",
-          "revenue": 95251985,
-          "cogs": 0,
-          "grossProfit": 95251985,
-          "sga": 0,
-          "operatingProfit": 95251985
+          "operatingProfit": 8750000
         }
       ],
       "budgets": [],
@@ -423,62 +296,6 @@
       "displayName": "HANABI",
       "monthlyPL": [
         {
-          "month": "2025/04",
-          "revenue": 45053903,
-          "cogs": 6155271,
-          "grossProfit": 38898632,
-          "sga": 0,
-          "operatingProfit": 38898632
-        },
-        {
-          "month": "2025/05",
-          "revenue": 4170856,
-          "cogs": 537016,
-          "grossProfit": 3633840,
-          "sga": 0,
-          "operatingProfit": 3633840
-        },
-        {
-          "month": "2025/06",
-          "revenue": 7957985,
-          "cogs": 977157,
-          "grossProfit": 6980828,
-          "sga": 0,
-          "operatingProfit": 6980828
-        },
-        {
-          "month": "2025/07",
-          "revenue": 11599129,
-          "cogs": 1616341,
-          "grossProfit": 9982788,
-          "sga": 0,
-          "operatingProfit": 9982788
-        },
-        {
-          "month": "2025/08",
-          "revenue": 15169822,
-          "cogs": 2094286,
-          "grossProfit": 13075536,
-          "sga": 0,
-          "operatingProfit": 13075536
-        },
-        {
-          "month": "2025/09",
-          "revenue": 24684929,
-          "cogs": 1385089,
-          "grossProfit": 23299840,
-          "sga": 0,
-          "operatingProfit": 23299840
-        },
-        {
-          "month": "2025/10",
-          "revenue": 34094044,
-          "cogs": 2279781,
-          "grossProfit": 31814263,
-          "sga": 0,
-          "operatingProfit": 31814263
-        },
-        {
           "month": "2025/11",
           "revenue": 43102703,
           "cogs": 2262965,
@@ -488,35 +305,27 @@
         },
         {
           "month": "2025/12",
-          "revenue": 54576828,
-          "cogs": 3767764,
-          "grossProfit": 50809064,
+          "revenue": 11474125,
+          "cogs": 1504799,
+          "grossProfit": 9969326,
           "sga": 0,
-          "operatingProfit": 50809064
+          "operatingProfit": 9969326
         },
         {
           "month": "2026/01",
-          "revenue": 63513108,
-          "cogs": 5134531,
-          "grossProfit": 58378577,
+          "revenue": 8936280,
+          "cogs": 1366767,
+          "grossProfit": 7569513,
           "sga": 0,
-          "operatingProfit": 58378577
+          "operatingProfit": 7569513
         },
         {
           "month": "2026/02",
-          "revenue": 73068416,
-          "cogs": 6179548,
-          "grossProfit": 66888868,
+          "revenue": 9555308,
+          "cogs": 1045017,
+          "grossProfit": 8510291,
           "sga": 0,
-          "operatingProfit": 66888868
-        },
-        {
-          "month": "2026/03",
-          "revenue": 83315819,
-          "cogs": 6929711,
-          "grossProfit": 76386108,
-          "sga": 0,
-          "operatingProfit": 76386108
+          "operatingProfit": 8510291
         }
       ],
       "budgets": [],
@@ -545,62 +354,6 @@
       "displayName": "K2",
       "monthlyPL": [
         {
-          "month": "2025/04",
-          "revenue": 216013831,
-          "cogs": 58716624,
-          "grossProfit": 157297207,
-          "sga": 0,
-          "operatingProfit": 157297207
-        },
-        {
-          "month": "2025/05",
-          "revenue": 21037459,
-          "cogs": 5415625,
-          "grossProfit": 15621834,
-          "sga": 0,
-          "operatingProfit": 15621834
-        },
-        {
-          "month": "2025/06",
-          "revenue": 41669220,
-          "cogs": 10681691,
-          "grossProfit": 30987529,
-          "sga": 0,
-          "operatingProfit": 30987529
-        },
-        {
-          "month": "2025/07",
-          "revenue": 62574740,
-          "cogs": 16221854,
-          "grossProfit": 46352886,
-          "sga": 0,
-          "operatingProfit": 46352886
-        },
-        {
-          "month": "2025/08",
-          "revenue": 87128390,
-          "cogs": 22581261,
-          "grossProfit": 64547129,
-          "sga": 0,
-          "operatingProfit": 64547129
-        },
-        {
-          "month": "2025/09",
-          "revenue": 106863137,
-          "cogs": 27743667,
-          "grossProfit": 79119470,
-          "sga": 0,
-          "operatingProfit": 79119470
-        },
-        {
-          "month": "2025/10",
-          "revenue": 128651359,
-          "cogs": 33537876,
-          "grossProfit": 95113483,
-          "sga": 0,
-          "operatingProfit": 95113483
-        },
-        {
           "month": "2025/11",
           "revenue": 150776145,
           "cogs": 39321383,
@@ -610,35 +363,27 @@
         },
         {
           "month": "2025/12",
-          "revenue": 195935111,
-          "cogs": 53833972,
-          "grossProfit": 142101139,
+          "revenue": 45158966,
+          "cogs": 14512589,
+          "grossProfit": 30646377,
           "sga": 0,
-          "operatingProfit": 142101139
+          "operatingProfit": 30646377
         },
         {
           "month": "2026/01",
-          "revenue": 223028093,
-          "cogs": 61170024,
-          "grossProfit": 161858069,
+          "revenue": 27092982,
+          "cogs": 7336052,
+          "grossProfit": 19756930,
           "sga": 0,
-          "operatingProfit": 161858069
+          "operatingProfit": 19756930
         },
         {
           "month": "2026/02",
-          "revenue": 244879282,
-          "cogs": 65168022,
-          "grossProfit": 179711260,
+          "revenue": 21851189,
+          "cogs": 3997998,
+          "grossProfit": 17853191,
           "sga": 0,
-          "operatingProfit": 179711260
-        },
-        {
-          "month": "2026/03",
-          "revenue": 273122015,
-          "cogs": 73545667,
-          "grossProfit": 199576348,
-          "sga": 0,
-          "operatingProfit": 199576348
+          "operatingProfit": 17853191
         }
       ],
       "budgets": [],
@@ -679,70 +424,6 @@
       "displayName": "ライフプロ",
       "monthlyPL": [
         {
-          "month": "2025/04",
-          "revenue": 48127250,
-          "cogs": 22045038,
-          "grossProfit": 26082212,
-          "sga": 0,
-          "operatingProfit": 26082212
-        },
-        {
-          "month": "2025/05",
-          "revenue": 5468912,
-          "cogs": 0,
-          "grossProfit": 5468912,
-          "sga": 0,
-          "operatingProfit": 5468912
-        },
-        {
-          "month": "2025/06",
-          "revenue": 5578896,
-          "cogs": 0,
-          "grossProfit": 5578896,
-          "sga": 0,
-          "operatingProfit": 5578896
-        },
-        {
-          "month": "2025/07",
-          "revenue": 9500481,
-          "cogs": 0,
-          "grossProfit": 9500481,
-          "sga": 0,
-          "operatingProfit": 9500481
-        },
-        {
-          "month": "2025/08",
-          "revenue": 11105507,
-          "cogs": 0,
-          "grossProfit": 11105507,
-          "sga": 0,
-          "operatingProfit": 11105507
-        },
-        {
-          "month": "2025/09",
-          "revenue": 13071017,
-          "cogs": 0,
-          "grossProfit": 13071017,
-          "sga": 0,
-          "operatingProfit": 13071017
-        },
-        {
-          "month": "2025/10",
-          "revenue": 13090563,
-          "cogs": 0,
-          "grossProfit": 13090563,
-          "sga": 0,
-          "operatingProfit": 13090563
-        },
-        {
-          "month": "2025/11",
-          "revenue": 14970784,
-          "cogs": 0,
-          "grossProfit": 14970784,
-          "sga": 0,
-          "operatingProfit": 14970784
-        },
-        {
           "month": "2025/12",
           "revenue": 15084876,
           "cogs": 0,
@@ -752,27 +433,19 @@
         },
         {
           "month": "2026/01",
-          "revenue": 18518682,
+          "revenue": 3433806,
           "cogs": 0,
-          "grossProfit": 18518682,
+          "grossProfit": 3433806,
           "sga": 0,
-          "operatingProfit": 18518682
+          "operatingProfit": 3433806
         },
         {
           "month": "2026/02",
-          "revenue": 24752253,
+          "revenue": 6233571,
           "cogs": 0,
-          "grossProfit": 24752253,
+          "grossProfit": 6233571,
           "sga": 0,
-          "operatingProfit": 24752253
-        },
-        {
-          "month": "2026/03",
-          "revenue": 25998940,
-          "cogs": 0,
-          "grossProfit": 25998940,
-          "sga": 0,
-          "operatingProfit": 25998940
+          "operatingProfit": 6233571
         }
       ],
       "budgets": [],
@@ -822,22 +495,6 @@
       "displayName": "M7Logi",
       "monthlyPL": [
         {
-          "month": "2025/04",
-          "revenue": 28127313,
-          "cogs": 7925379,
-          "grossProfit": 20201934,
-          "sga": 0,
-          "operatingProfit": 20201934
-        },
-        {
-          "month": "2025/05",
-          "revenue": 4341964,
-          "cogs": 1946440,
-          "grossProfit": 2395524,
-          "sga": 0,
-          "operatingProfit": 2395524
-        },
-        {
           "month": "2025/06",
           "revenue": 9303052,
           "cogs": 4135694,
@@ -847,75 +504,67 @@
         },
         {
           "month": "2025/07",
-          "revenue": 18306406,
-          "cogs": 7857976,
-          "grossProfit": 10448430,
+          "revenue": 9003354,
+          "cogs": 3722282,
+          "grossProfit": 5281072,
           "sga": 0,
-          "operatingProfit": 10448430
+          "operatingProfit": 5281072
         },
         {
           "month": "2025/08",
-          "revenue": 27411564,
-          "cogs": 13098943,
-          "grossProfit": 14312621,
+          "revenue": 9105158,
+          "cogs": 5240967,
+          "grossProfit": 3864191,
           "sga": 0,
-          "operatingProfit": 14312621
+          "operatingProfit": 3864191
         },
         {
           "month": "2025/09",
-          "revenue": 34400972,
-          "cogs": 16751359,
-          "grossProfit": 17649613,
+          "revenue": 6989408,
+          "cogs": 3652416,
+          "grossProfit": 3336992,
           "sga": 0,
-          "operatingProfit": 17649613
+          "operatingProfit": 3336992
         },
         {
           "month": "2025/10",
-          "revenue": 42556954,
-          "cogs": 20914674,
-          "grossProfit": 21642280,
+          "revenue": 8155982,
+          "cogs": 4163315,
+          "grossProfit": 3992667,
           "sga": 0,
-          "operatingProfit": 21642280
+          "operatingProfit": 3992667
         },
         {
           "month": "2025/11",
-          "revenue": 54570635,
-          "cogs": 26926424,
-          "grossProfit": 27644211,
+          "revenue": 12013681,
+          "cogs": 6011750,
+          "grossProfit": 6001931,
           "sga": 0,
-          "operatingProfit": 27644211
+          "operatingProfit": 6001931
         },
         {
           "month": "2025/12",
-          "revenue": 63808977,
-          "cogs": 31535144,
-          "grossProfit": 32273833,
+          "revenue": 9238342,
+          "cogs": 4608720,
+          "grossProfit": 4629622,
           "sga": 0,
-          "operatingProfit": 32273833
+          "operatingProfit": 4629622
         },
         {
           "month": "2026/01",
-          "revenue": 74194529,
-          "cogs": 36259829,
-          "grossProfit": 37934700,
+          "revenue": 10385552,
+          "cogs": 4724685,
+          "grossProfit": 5660867,
           "sga": 0,
-          "operatingProfit": 37934700
+          "operatingProfit": 5660867
         },
         {
           "month": "2026/02",
-          "revenue": 84060011,
-          "cogs": 40572524,
-          "grossProfit": 43487487,
+          "revenue": 9865482,
+          "cogs": 4312695,
+          "grossProfit": 5552787,
           "sga": 0,
-          "operatingProfit": 43487487
-        },
-        {
-          "month": "2026/03",
-          "revenue": 92497985,
-          "cogs": 42118214,
-          "grossProfit": 50379771,
-          "sga": 0,
-          "operatingProfit": 50379771
+          "operatingProfit": 5552787
         }
       ],
       "budgets": [],
@@ -926,114 +575,17 @@
       ],
       "topSuppliers": [],
       "bs": {
-        "totalAssets": 16577048,
+        "totalAssets": 11765133,
         "cash": 796129,
-        "totalLiabilities": 5999841,
-        "netAssets": 10577207
+        "totalLiabilities": 2611491,
+        "netAssets": 9153642
       }
     },
     {
       "id": 12243427,
       "name": "184",
       "displayName": "184",
-      "monthlyPL": [
-        {
-          "month": "2025/04",
-          "revenue": 0,
-          "cogs": 0,
-          "grossProfit": 0,
-          "sga": 0,
-          "operatingProfit": 0
-        },
-        {
-          "month": "2025/05",
-          "revenue": 0,
-          "cogs": 0,
-          "grossProfit": 0,
-          "sga": 0,
-          "operatingProfit": 0
-        },
-        {
-          "month": "2025/06",
-          "revenue": 0,
-          "cogs": 0,
-          "grossProfit": 0,
-          "sga": 0,
-          "operatingProfit": 0
-        },
-        {
-          "month": "2025/07",
-          "revenue": 0,
-          "cogs": 0,
-          "grossProfit": 0,
-          "sga": 0,
-          "operatingProfit": 0
-        },
-        {
-          "month": "2025/08",
-          "revenue": 0,
-          "cogs": 0,
-          "grossProfit": 0,
-          "sga": 0,
-          "operatingProfit": 0
-        },
-        {
-          "month": "2025/09",
-          "revenue": 0,
-          "cogs": 0,
-          "grossProfit": 0,
-          "sga": 0,
-          "operatingProfit": 0
-        },
-        {
-          "month": "2025/10",
-          "revenue": 0,
-          "cogs": 0,
-          "grossProfit": 0,
-          "sga": 0,
-          "operatingProfit": 0
-        },
-        {
-          "month": "2025/11",
-          "revenue": 0,
-          "cogs": 0,
-          "grossProfit": 0,
-          "sga": 0,
-          "operatingProfit": 0
-        },
-        {
-          "month": "2025/12",
-          "revenue": 0,
-          "cogs": 0,
-          "grossProfit": 0,
-          "sga": 0,
-          "operatingProfit": 0
-        },
-        {
-          "month": "2026/01",
-          "revenue": 132370,
-          "cogs": 0,
-          "grossProfit": 132370,
-          "sga": 0,
-          "operatingProfit": 132370
-        },
-        {
-          "month": "2026/02",
-          "revenue": 891150,
-          "cogs": 0,
-          "grossProfit": 891150,
-          "sga": 0,
-          "operatingProfit": 891150
-        },
-        {
-          "month": "2026/03",
-          "revenue": 1990980,
-          "cogs": 0,
-          "grossProfit": 1990980,
-          "sga": 0,
-          "operatingProfit": 1990980
-        }
-      ],
+      "monthlyPL": [],
       "budgets": [],
       "topCustomers": [
         {
@@ -1054,22 +606,6 @@
       "displayName": "DNK",
       "monthlyPL": [
         {
-          "month": "2025/04",
-          "revenue": 441750,
-          "cogs": 116775,
-          "grossProfit": 324975,
-          "sga": 0,
-          "operatingProfit": 324975
-        },
-        {
-          "month": "2025/05",
-          "revenue": 669750,
-          "cogs": 0,
-          "grossProfit": 669750,
-          "sga": 0,
-          "operatingProfit": 669750
-        },
-        {
           "month": "2025/06",
           "revenue": 764750,
           "cogs": 0,
@@ -1079,75 +615,67 @@
         },
         {
           "month": "2025/07",
-          "revenue": 888500,
+          "revenue": 123750,
           "cogs": 0,
-          "grossProfit": 888500,
+          "grossProfit": 123750,
           "sga": 0,
-          "operatingProfit": 888500
+          "operatingProfit": 123750
         },
         {
           "month": "2025/08",
-          "revenue": 893250,
+          "revenue": 4750,
           "cogs": 0,
-          "grossProfit": 893250,
+          "grossProfit": 4750,
           "sga": 0,
-          "operatingProfit": 893250
+          "operatingProfit": 4750
         },
         {
           "month": "2025/09",
-          "revenue": 902750,
+          "revenue": 9500,
           "cogs": 0,
-          "grossProfit": 902750,
+          "grossProfit": 9500,
           "sga": 0,
-          "operatingProfit": 902750
+          "operatingProfit": 9500
         },
         {
           "month": "2025/10",
-          "revenue": 912250,
+          "revenue": 9500,
           "cogs": 0,
-          "grossProfit": 912250,
+          "grossProfit": 9500,
           "sga": 0,
-          "operatingProfit": 912250
+          "operatingProfit": 9500
         },
         {
           "month": "2025/11",
-          "revenue": 912250,
+          "revenue": 0,
           "cogs": 188270,
-          "grossProfit": 723980,
+          "grossProfit": -188270,
           "sga": 0,
-          "operatingProfit": 723980
+          "operatingProfit": -188270
         },
         {
           "month": "2025/12",
-          "revenue": 912250,
-          "cogs": 188270,
-          "grossProfit": 723980,
+          "revenue": 0,
+          "cogs": 0,
+          "grossProfit": 0,
           "sga": 0,
-          "operatingProfit": 723980
+          "operatingProfit": 0
         },
         {
           "month": "2026/01",
-          "revenue": 912250,
-          "cogs": 188270,
-          "grossProfit": 723980,
+          "revenue": 0,
+          "cogs": 0,
+          "grossProfit": 0,
           "sga": 0,
-          "operatingProfit": 723980
+          "operatingProfit": 0
         },
         {
           "month": "2026/02",
-          "revenue": 912250,
-          "cogs": 188270,
-          "grossProfit": 723980,
+          "revenue": 0,
+          "cogs": 0,
+          "grossProfit": 0,
           "sga": 0,
-          "operatingProfit": 723980
-        },
-        {
-          "month": "2026/03",
-          "revenue": 1041250,
-          "cogs": 250670,
-          "grossProfit": 790580,
-          "sga": 0,
-          "operatingProfit": 790580
+          "operatingProfit": 0
         }
       ],
       "budgets": [],
