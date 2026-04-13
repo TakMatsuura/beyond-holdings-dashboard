@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-04-13T09:19:17.841Z",
+  "fetchedAt": "2026-04-13T09:24:20.727Z",
   "fiscalYear": 2025,
   "fiscalYearLabel": "FY2025 (2025/04 - 2026/03)",
   "cutoffMonth": "2026/02",
@@ -412,10 +412,10 @@
       ],
       "topSuppliers": [],
       "bs": {
-        "totalAssets": 112415393,
+        "totalAssets": 112420783,
         "cash": 100000,
-        "totalLiabilities": 151696280,
-        "netAssets": 39280887
+        "totalLiabilities": 151755580,
+        "netAssets": 39334797
       }
     },
     {
@@ -585,7 +585,40 @@
       "id": 12243427,
       "name": "184",
       "displayName": "184",
-      "monthlyPL": [],
+      "monthlyPL": [
+        {
+          "month": "2025/11",
+          "revenue": 0,
+          "cogs": 0,
+          "grossProfit": 0,
+          "sga": 0,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/12",
+          "revenue": 0,
+          "cogs": 0,
+          "grossProfit": 0,
+          "sga": 0,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2026/01",
+          "revenue": 132370,
+          "cogs": 0,
+          "grossProfit": 132370,
+          "sga": 0,
+          "operatingProfit": 132370
+        },
+        {
+          "month": "2026/02",
+          "revenue": 758780,
+          "cogs": 0,
+          "grossProfit": 758780,
+          "sga": 0,
+          "operatingProfit": 758780
+        }
+      ],
       "budgets": [],
       "topCustomers": [
         {

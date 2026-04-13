@@ -24,6 +24,12 @@ const FY_START_OVERRIDES = {
   // Add company_id: month here if Freee returns wrong FY start
 };
 
+// FY start date overrides for companies with mid-month start (e.g. founding date)
+// Format: company_id: 'YYYY-MM-DD'
+const FY_START_DATE_OVERRIDES = {
+  12243427: '2025-11-13'  // 184: 創業日 2025/11/13
+};
+
 const SCRIPT_DIR = __dirname;
 const TOKENS_FILE = path.join(SCRIPT_DIR, 'freee_tokens.json');
 const OUTPUT_FILE = path.join(SCRIPT_DIR, 'freee_data.json');
@@ -185,7 +191,8 @@ async function fetchMonthlyPL(token, companyId, companyFYStart) {
     const range = getMonthRange(year, month);
     try {
       // Query from FY start to end of this month to get cumulative
-      const fyStartDate = `${companyFiscalYear}-${String(companyFYStart).padStart(2, '0')}-01`;
+      const fyStartDate = FY_START_DATE_OVERRIDES[companyId]
+        || `${companyFiscalYear}-${String(companyFYStart).padStart(2, '0')}-01`;
       const data = await apiGet(token, '/reports/trial_pl', {
         company_id: companyId,
         start_date: fyStartDate,
