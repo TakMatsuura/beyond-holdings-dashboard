@@ -7,90 +7,105 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <style>
 :root {
-  --sf-blue: #DAA520;
-  --sf-dark: #8B6914;
-  --sf-navy: #6B5210;
-  --sf-light: #f3f3f3;
-  --sf-white: #ffffff;
-  --sf-border: #e5e5e5;
-  --sf-green: #2e844a;
-  --sf-red: #ea001e;
-  --sf-orange: #fe9339;
-  --sf-text: #181818;
-  --sf-muted: #706e6b;
-  --sf-card-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  --sf-radius: 8px;
+  --bg: #0f1117;
+  --bg-card: #1a1d27;
+  --bg-card-hover: #222632;
+  --border: #2a2e3a;
+  --accent: #c9a227;
+  --accent-light: #e8c94a;
+  --accent-dim: rgba(201,162,39,0.15);
+  --green: #22c55e;
+  --green-dim: rgba(34,197,94,0.15);
+  --red: #ef4444;
+  --red-dim: rgba(239,68,68,0.15);
+  --blue: #3b82f6;
+  --blue-dim: rgba(59,130,246,0.15);
+  --orange: #f59e0b;
+  --text: #e4e4e7;
+  --text-muted: #71717a;
+  --text-dim: #52525b;
+  --radius: 12px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.3);
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Salesforce Sans', 'SF Pro Display', -apple-system, 'Segoe UI', 'Meiryo', sans-serif; background: var(--sf-light); color: var(--sf-text); font-size: 11px; }
+body { font-family: 'Inter', 'SF Pro Display', -apple-system, 'Segoe UI', 'Meiryo', sans-serif; background: var(--bg); color: var(--text); font-size: 13px; line-height: 1.5; }
 
-.navbar { background: var(--sf-navy); height: 36px; display: flex; align-items: center; padding: 0 24px; gap: 24px; position: sticky; top: 0; z-index: 100; }
-.navbar .logo { color: #fff; font-size: 13px; font-weight: 700; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+/* Navbar */
+.navbar { background: linear-gradient(135deg, #1a1d27 0%, #0f1117 100%); height: 56px; display: flex; align-items: center; padding: 0 32px; gap: 32px; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); }
+.navbar .logo { color: var(--accent); font-size: 16px; font-weight: 800; letter-spacing: 2px; white-space: nowrap; }
+.navbar .logo span { color: var(--text-muted); font-weight: 400; font-size: 12px; letter-spacing: 0; margin-left: 8px; }
 .navbar .nav-tabs { display: flex; gap: 4px; height: 100%; overflow-x: auto; }
-.navbar .nav-tab { color: rgba(255,255,255,0.7); padding: 0 10px; height: 100%; display: flex; align-items: center; font-size: 11px; font-weight: 500; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.15s; white-space: nowrap; }
-.navbar .nav-tab:hover { color: #fff; background: rgba(255,255,255,0.08); }
-.navbar .nav-tab.active { color: #fff; border-bottom-color: var(--sf-blue); }
-.navbar .nav-right { margin-left: auto; color: rgba(255,255,255,0.6); font-size: 12px; white-space: nowrap; }
+.navbar .nav-tab { color: var(--text-muted); padding: 0 16px; height: 100%; display: flex; align-items: center; font-size: 12px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; }
+.navbar .nav-tab:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+.navbar .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.navbar .nav-right { margin-left: auto; color: var(--text-dim); font-size: 12px; white-space: nowrap; background: var(--accent-dim); padding: 4px 12px; border-radius: 20px; color: var(--accent); font-weight: 500; }
 
-.page-header { background: var(--sf-white); border-bottom: 1px solid var(--sf-border); padding: 10px 16px; }
-.page-header h2 { font-size: 14px; font-weight: 700; color: var(--sf-dark); }
-.page-header .subtitle { font-size: 12px; color: var(--sf-muted); margin-top: 2px; }
+/* Page header */
+.page-header { padding: 24px 32px 16px; }
+.page-header h2 { font-size: 20px; font-weight: 700; color: var(--text); }
+.page-header .subtitle { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
 
-.content { padding: 10px 16px; }
+.content { padding: 0 32px 32px; }
 .section { display: none; }
 .section.active { display: block; }
 
-.kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-bottom: 10px; }
-.kpi-card { background: var(--sf-white); border: 1px solid var(--sf-border); border-radius: var(--sf-radius); padding: 10px 14px; box-shadow: var(--sf-card-shadow); position: relative; overflow: hidden; }
-.kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--sf-blue); }
-.kpi-card.green::before { background: var(--sf-green); }
-.kpi-card.orange::before { background: var(--sf-orange); }
-.kpi-card.red::before { background: var(--sf-red); }
-.kpi-card .kpi-label { font-size: 10px; font-weight: 600; color: var(--sf-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-.kpi-card .kpi-value { font-size: 18px; font-weight: 700; color: var(--sf-dark); }
-.kpi-card .kpi-sub { font-size: 10px; color: var(--sf-muted); margin-top: 4px; display: flex; align-items: center; gap: 4px; }
-.kpi-card .kpi-sub .up { color: var(--sf-green); font-weight: 600; }
-.kpi-card .kpi-sub .down { color: var(--sf-red); font-weight: 600; }
+/* KPI Cards */
+.kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.kpi-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; position: relative; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; }
+.kpi-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); }
+.kpi-card.green::before { background: var(--green); }
+.kpi-card.orange::before { background: var(--orange); }
+.kpi-card.red::before { background: var(--red); }
+.kpi-card .kpi-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+.kpi-card .kpi-value { font-size: 28px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; }
+.kpi-card .kpi-sub { font-size: 12px; color: var(--text-muted); margin-top: 8px; display: flex; align-items: center; gap: 6px; }
+.kpi-card .kpi-sub .up { color: var(--green); font-weight: 600; }
+.kpi-card .kpi-sub .down { color: var(--red); font-weight: 600; }
 
-.progress-wrap { margin-top: 10px; }
-.progress-bar { height: 8px; background: #e0e5ee; border-radius: 4px; overflow: hidden; }
-.progress-bar .fill { height: 100%; border-radius: 4px; transition: width 1s ease; }
-.progress-bar .fill.blue { background: var(--sf-blue); }
-.progress-bar .fill.green { background: var(--sf-green); }
-.progress-bar .fill.orange { background: var(--sf-orange); }
-.progress-bar .fill.red { background: var(--sf-red); }
-.progress-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--sf-muted); margin-top: 4px; }
+.progress-wrap { margin-top: 12px; }
+.progress-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.progress-bar .fill { height: 100%; border-radius: 3px; transition: width 1s ease; }
+.progress-bar .fill.blue { background: var(--blue); }
+.progress-bar .fill.green { background: var(--green); }
+.progress-bar .fill.orange { background: var(--orange); }
+.progress-bar .fill.red { background: var(--red); }
+.progress-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); margin-top: 6px; }
 
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-.card { background: var(--sf-white); border: 1px solid var(--sf-border); border-radius: var(--sf-radius); box-shadow: var(--sf-card-shadow); }
+/* Grid */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+
+/* Cards */
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); transition: box-shadow 0.2s; }
+.card:hover { box-shadow: var(--shadow); }
 .card.full { grid-column: 1 / -1; }
-.card-header { padding: 8px 12px; border-bottom: 1px solid var(--sf-border); display: flex; align-items: center; justify-content: space-between; }
-.card-header h3 { font-size: 15px; font-weight: 700; color: var(--sf-dark); border-bottom: 2px solid #DAA520; padding-bottom: 2px; }
-.card-header .badge { font-size: 11px; background: #fdf5e0; color: var(--sf-blue); padding: 2px 8px; border-radius: 10px; font-weight: 600; }
-.card-body { padding: 10px; }
+.card-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.card-header h3 { font-size: 14px; font-weight: 600; color: var(--text); }
+.card-header .badge { font-size: 11px; background: var(--accent-dim); color: var(--accent); padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+.card-body { padding: 16px 20px; }
 
+/* Table */
 table { width: 100%; border-collapse: collapse; }
-th { font-size: 10px; font-weight: 600; color: var(--sf-muted); text-transform: uppercase; letter-spacing: 0.3px; padding: 5px 8px; text-align: left; border-bottom: 1px solid var(--sf-border); background: #fafaf9; }
-td { padding: 8px 12px; border-bottom: 1px solid #f0f0f0; font-size: 11px; }
-tr:hover td { background: #f3f3f3; }
+th { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); }
+td { padding: 12px; border-bottom: 1px solid var(--border); font-size: 12px; color: var(--text); }
+tr:hover td { background: rgba(255,255,255,0.03); }
 .text-right { text-align: right; }
-.text-green { color: var(--sf-green); font-weight: 600; }
-.text-red { color: var(--sf-red); font-weight: 600; }
+.text-green { color: var(--green); font-weight: 600; }
+.text-red { color: var(--red); font-weight: 600; }
 
-.mini-bar { display: inline-block; width: 60px; height: 6px; background: #e0e5ee; border-radius: 3px; vertical-align: middle; margin-left: 6px; }
-.mini-bar .mini-fill { height: 100%; border-radius: 3px; }
+/* Legend */
+.legend-grid { display: flex; flex-direction: column; gap: 6px; font-size: 12px; flex: 1; }
+.legend-item { display: flex; align-items: center; gap: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-muted); }
+.legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
 
-.legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 12px; font-size: 12px; flex: 1; }
-.legend-item { display: flex; align-items: center; gap: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
-
+/* Gauge */
 .gauge-wrap { position: relative; text-align: center; padding-bottom: 10px; }
 .gauge-wrap canvas { max-height: 130px; margin-bottom: 30px; }
 .gauge-center { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); text-align: center; }
-.gauge-center .gauge-val { font-size: 20px; font-weight: 700; color: var(--sf-dark); }
-.gauge-center .gauge-pct { font-size: 11px; color: var(--sf-muted); }
-.gauge-footer { text-align: center; font-size: 10px; color: var(--sf-muted); margin-top: 2px; }
+.gauge-center .gauge-val { font-size: 22px; font-weight: 800; color: var(--text); }
+.gauge-center .gauge-pct { font-size: 11px; color: var(--text-muted); }
+.gauge-footer { text-align: center; font-size: 11px; color: var(--text-muted); margin-top: 2px; }
 
 @media (max-width: 1000px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
 @media print {
@@ -103,23 +118,23 @@ tr:hover td { background: #f3f3f3; }
 <body>
 
 <!-- LOGIN SCREEN -->
-<div id="login-screen" style="display:flex; justify-content:center; align-items:center; height:100vh; background:linear-gradient(135deg, #6B5210 0%, #DAA520 50%, #8B6914 100%);">
-  <div style="background:#fff; border-radius:12px; padding:40px 36px; box-shadow:0 8px 32px rgba(0,0,0,0.2); width:360px; text-align:center;">
-    <div style="margin-bottom:24px;">
-      <div style="font-size:28px; font-weight:800; color:#6B5210; letter-spacing:1px;">BEYOND</div>
-      <div style="font-size:14px; font-weight:600; color:#8B6914; margin-top:2px;">HOLDINGS</div>
-      <div style="font-size:12px; color:#706e6b; margin-top:8px;">Executive Dashboard Login</div>
+<div id="login-screen" style="display:flex; justify-content:center; align-items:center; height:100vh; background:linear-gradient(135deg, #0f1117 0%, #1a1d27 40%, #0f1117 100%);">
+  <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:48px 40px; box-shadow:0 16px 64px rgba(0,0,0,0.5); width:380px; text-align:center;">
+    <div style="margin-bottom:32px;">
+      <div style="font-size:32px; font-weight:800; color:var(--accent); letter-spacing:3px;">BEYOND</div>
+      <div style="font-size:13px; font-weight:500; color:var(--text-muted); letter-spacing:4px; margin-top:4px;">HOLDINGS</div>
+      <div style="font-size:12px; color:var(--text-dim); margin-top:12px;">Executive Dashboard</div>
     </div>
-    <div style="margin-bottom:16px; text-align:left;">
-      <label style="font-size:11px; font-weight:600; color:#706e6b; text-transform:uppercase; letter-spacing:0.5px;">User ID</label>
-      <input id="login-id" type="text" placeholder="IDを入力" autocomplete="off" style="width:100%; padding:10px 12px; border:1px solid #e5e5e5; border-radius:6px; font-size:14px; margin-top:4px; outline:none; transition:border 0.2s;" onfocus="this.style.borderColor='#DAA520'" onblur="this.style.borderColor='#e5e5e5'">
+    <div style="margin-bottom:20px; text-align:left;">
+      <label style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px;">User ID</label>
+      <input id="login-id" type="text" placeholder="IDを入力" autocomplete="off" style="width:100%; padding:12px 16px; border:1px solid var(--border); border-radius:8px; font-size:14px; margin-top:6px; outline:none; transition:border 0.2s; background:var(--bg); color:var(--text);" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
     </div>
-    <div style="margin-bottom:24px; text-align:left;">
-      <label style="font-size:11px; font-weight:600; color:#706e6b; text-transform:uppercase; letter-spacing:0.5px;">Password</label>
-      <input id="login-pw" type="password" placeholder="パスワードを入力" autocomplete="off" style="width:100%; padding:10px 12px; border:1px solid #e5e5e5; border-radius:6px; font-size:14px; margin-top:4px; outline:none; transition:border 0.2s;" onfocus="this.style.borderColor='#DAA520'" onblur="this.style.borderColor='#e5e5e5'" onkeydown="if(event.key==='Enter')doLogin()">
+    <div style="margin-bottom:28px; text-align:left;">
+      <label style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px;">Password</label>
+      <input id="login-pw" type="password" placeholder="パスワードを入力" autocomplete="off" style="width:100%; padding:12px 16px; border:1px solid var(--border); border-radius:8px; font-size:14px; margin-top:6px; outline:none; transition:border 0.2s; background:var(--bg); color:var(--text);" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'" onkeydown="if(event.key==='Enter')doLogin()">
     </div>
-    <button onclick="doLogin()" style="width:100%; padding:12px; background:#DAA520; color:#fff; border:none; border-radius:6px; font-size:14px; font-weight:700; cursor:pointer; transition:background 0.2s; letter-spacing:0.5px;" onmouseover="this.style.background='#8B6914'" onmouseout="this.style.background='#DAA520'">ログイン</button>
-    <div id="login-error" style="color:#ea001e; font-size:12px; margin-top:12px; display:none;">IDまたはパスワードが違います</div>
+    <button onclick="doLogin()" style="width:100%; padding:14px; background:linear-gradient(135deg, var(--accent) 0%, #e8c94a 100%); color:#0f1117; border:none; border-radius:8px; font-size:14px; font-weight:700; cursor:pointer; transition:opacity 0.2s; letter-spacing:0.5px;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">Sign In</button>
+    <div id="login-error" style="color:var(--red); font-size:12px; margin-top:16px; display:none;">IDまたはパスワードが違います</div>
   </div>
 </div>
 <script>
@@ -150,36 +165,35 @@ if (sessionStorage.getItem('beyond-auth') === '1') {
 <div id="dashboard-main" style="display:none;">
 
 <div class="navbar">
-  <div class="logo">BEYOND HOLDINGS</div>
+  <div class="logo">BEYOND<span>HOLDINGS</span></div>
   <div class="nav-tabs" id="nav-tabs"></div>
   <div class="nav-right" id="nav-fiscal-year"></div>
 </div>
 
-<!-- Overview Section (static shell, content filled by JS) -->
+<!-- Overview Section -->
 <div id="overview" class="section active">
   <div class="page-header"><h2>Performance Overview</h2><div class="subtitle" id="overview-subtitle"></div></div>
   <div class="content">
     <div class="kpi-row" id="kpi-overview"></div>
     <div class="grid-3">
-      <div class="card"><div class="card-header"><h3>子会社別 売上高</h3></div><div class="card-body" style="height:280px"><canvas id="chart-ov-revenue-rank"></canvas></div></div>
-      <div class="card"><div class="card-header"><h3>子会社別 営業利益</h3></div><div class="card-body" style="height:280px"><canvas id="chart-ov-op-rank"></canvas></div></div>
-      <div class="card"><div class="card-header"><h3>子会社別 EBITDA</h3></div><div class="card-body" style="height:280px"><canvas id="chart-ov-ebitda-rank"></canvas></div></div>
+      <div class="card"><div class="card-header"><h3>子会社別 売上高</h3></div><div class="card-body" style="height:320px"><canvas id="chart-ov-revenue-rank"></canvas></div></div>
+      <div class="card"><div class="card-header"><h3>子会社別 営業利益</h3></div><div class="card-body" style="height:320px"><canvas id="chart-ov-op-rank"></canvas></div></div>
+      <div class="card"><div class="card-header"><h3>子会社別 EBITDA</h3></div><div class="card-body" style="height:320px"><canvas id="chart-ov-ebitda-rank"></canvas></div></div>
+    </div>
+    <div class="grid-2">
+      <div class="card"><div class="card-header"><h3>月次売上推移</h3></div><div class="card-body" style="height:320px"><canvas id="chart-ov-monthly-revenue"></canvas></div></div>
+      <div class="card"><div class="card-header"><h3>月次営業利益推移</h3></div><div class="card-body" style="height:320px"><canvas id="chart-ov-monthly-op"></canvas></div></div>
     </div>
     <div class="grid-3">
-      <div class="card"><div class="card-header"><h3>売上構成比</h3></div><div class="card-body" style="height:280px;display:flex;align-items:center;gap:8px"><div style="flex:0 0 140px;max-height:200px"><canvas id="chart-ov-revenue-pie"></canvas></div><div id="legend-ov-revenue" class="legend-grid"></div></div></div>
-      <div class="card"><div class="card-header"><h3>月次売上推移（子会社別）</h3></div><div class="card-body" style="height:280px"><canvas id="chart-ov-monthly-revenue"></canvas></div></div>
-      <div class="card"><div class="card-header"><h3>月次営業利益推移</h3></div><div class="card-body" style="height:280px"><canvas id="chart-ov-monthly-op"></canvas></div></div>
+      <div class="card"><div class="card-header"><h3>売上構成比</h3></div><div class="card-body" style="height:300px;display:flex;align-items:center;gap:16px"><div style="flex:0 0 180px;max-height:240px"><canvas id="chart-ov-revenue-pie"></canvas></div><div id="legend-ov-revenue" class="legend-grid"></div></div></div>
+      <div class="card"><div class="card-header"><h3>営業利益率 比較</h3></div><div class="card-body" style="height:300px"><canvas id="chart-ov-margin-bar"></canvas></div></div>
+      <div class="card"><div class="card-header"><h3>総資産 / 純資産</h3></div><div class="card-body" style="height:300px"><canvas id="chart-ov-bs-bar"></canvas></div></div>
     </div>
-    <div class="grid-3">
-      <div class="card"><div class="card-header"><h3>営業利益率 比較</h3></div><div class="card-body" style="height:280px"><canvas id="chart-ov-margin-bar"></canvas></div></div>
-      <div class="card"><div class="card-header"><h3>総資産 / 純資産</h3></div><div class="card-body" style="height:280px"><canvas id="chart-ov-bs-bar"></canvas></div></div>
-      <div class="card"></div>
-    </div>
-    <div class="card" style="margin-bottom:16px"><div class="card-header"><h3>Subsidiary Scorecard</h3><div class="badge" id="ov-company-count"></div></div><div class="card-body"><table id="table-scorecard"><thead><tr><th>子会社</th><th class="text-right">売上高</th><th class="text-right">売上原価</th><th class="text-right">売上総利益</th><th class="text-right">粗利率</th><th class="text-right">販管費</th><th class="text-right">営業利益</th><th class="text-right">営業利益率</th><th class="text-right">EBITDA</th></tr></thead><tbody></tbody></table></div></div>
+    <div class="card" style="margin-bottom:16px"><div class="card-header"><h3>Subsidiary Scorecard</h3><div class="badge" id="ov-company-count"></div></div><div class="card-body" style="overflow-x:auto"><table id="table-scorecard"><thead><tr><th>子会社</th><th class="text-right">売上高</th><th class="text-right">売上原価</th><th class="text-right">売上総利益</th><th class="text-right">粗利率</th><th class="text-right">販管費</th><th class="text-right">営業利益</th><th class="text-right">営業利益率</th><th class="text-right">EBITDA</th></tr></thead><tbody></tbody></table></div></div>
   </div>
 </div>
 
-<!-- Dynamic subsidiary sections are generated by JS -->
+<!-- Dynamic subsidiary sections -->
 <div id="subsidiary-sections"></div>
 
 </div>
@@ -190,7 +204,7 @@ const DASHBOARD_DATA = {"fetchedAt":"2026-04-13T11:26:45.022Z","fiscalYear":2025
 
 
 <script>
-const COLORS = ['#0176d3','#1b96ff','#3ba755','#fe9339','#9050e9','#04a9c9','#e8006f','#444','#c0392b','#16a085','#7f8c8d','#e67e22'];
+const COLORS = ['#3b82f6','#22c55e','#f59e0b','#ef4444','#a855f7','#06b6d4','#ec4899','#84cc16','#f97316','#6366f1','#14b8a6','#e11d48'];
 
 function fmt(n) { return isNaN(n) ? '0' : Math.round(n).toLocaleString('ja-JP'); }
 function fmtM(n) { return (n / 10000).toFixed(0) + '万'; }
@@ -201,6 +215,11 @@ function fmtOku(n) {
 function monthLabel(m) { return m.replace('/', '年') + '月'; }
 function progressColor(pct) { return pct >= 100 ? 'green' : pct >= 80 ? 'blue' : pct >= 50 ? 'orange' : 'red'; }
 function pct(a, b) { return b !== 0 ? (a / b * 100).toFixed(1) : '0.0'; }
+
+// Dark theme for Chart.js
+Chart.defaults.color = '#71717a';
+Chart.defaults.borderColor = '#2a2e3a';
+Chart.defaults.backgroundColor = 'rgba(255,255,255,0.05)';
 
 function showTab(id, el) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -216,7 +235,7 @@ function drawGauge(canvasId, centerId, footerId, value, target, unit) {
   const displayPct = target > 0 ? (value / target * 100).toFixed(1) : '0.0';
   new Chart(document.getElementById(canvasId), {
     type: 'doughnut',
-    data: { datasets: [{ data: [30, 20, 20, 30, 50], backgroundColor: ['#c23934','#e87040','#fe9339','#f2cf5b','#2e844a'], borderWidth: 0 }] },
+    data: { datasets: [{ data: [30, 20, 20, 30, 50], backgroundColor: ['#dc2626','#f97316','#f59e0b','#eab308','#22c55e'], borderWidth: 0 }] },
     options: { circumference: 180, rotation: -90, cutout: '75%', responsive: true, plugins: { legend: { display: false }, tooltip: { enabled: false } } },
     plugins: [{
       id: 'gaugeNeedle',
@@ -227,8 +246,8 @@ function drawGauge(canvasId, centerId, footerId, value, target, unit) {
         const r = (chartArea.right - chartArea.left) / 2 * 0.35;
         const angle = Math.PI + (Math.PI * Math.min(pctVal, 150) / 150);
         ctx.save(); ctx.translate(cx, cy); ctx.rotate(angle);
-        ctx.beginPath(); ctx.moveTo(0, -5); ctx.lineTo(r, 0); ctx.lineTo(0, 5); ctx.fillStyle = '#333'; ctx.fill();
-        ctx.beginPath(); ctx.arc(0, 0, 7, 0, Math.PI * 2); ctx.fillStyle = '#333'; ctx.fill();
+        ctx.beginPath(); ctx.moveTo(0, -5); ctx.lineTo(r, 0); ctx.lineTo(0, 5); ctx.fillStyle = '#e4e4e7'; ctx.fill();
+        ctx.beginPath(); ctx.arc(0, 0, 7, 0, Math.PI * 2); ctx.fillStyle = '#e4e4e7'; ctx.fill();
         ctx.restore();
       }
     }]
@@ -236,7 +255,7 @@ function drawGauge(canvasId, centerId, footerId, value, target, unit) {
   const centerEl = document.getElementById(centerId);
   const footerEl = document.getElementById(footerId);
   if (centerEl) centerEl.innerHTML = '<div class="gauge-val">' + (unit === '%' ? displayPct + '%' : fmtOku(value)) + '</div><div class="gauge-pct">(' + displayPct + '%)</div>';
-  if (footerEl) footerEl.innerHTML = '<span style="color:var(--sf-muted)">予算: </span><span style="font-weight:700;color:var(--sf-dark)">' + (unit === '%' ? target + '%' : fmtOku(target)) + '</span><span style="color:var(--sf-muted)"> / 残: </span><span style="font-weight:600;color:' + (value >= target ? 'var(--sf-green)' : 'var(--sf-red)') + '">' + (unit === '%' ? (parseFloat(displayPct) - 100).toFixed(1) + '%' : (value >= target ? '+' : '') + fmtOku(value - target)) + '</span>';
+  if (footerEl) footerEl.innerHTML = '<span style="color:var(--text-muted)">予算: </span><span style="font-weight:700;color:var(--text)">' + (unit === '%' ? target + '%' : fmtOku(target)) + '</span><span style="color:var(--text-muted)"> / 残: </span><span style="font-weight:600;color:' + (value >= target ? 'var(--green)' : 'var(--red)') + '">' + (unit === '%' ? (parseFloat(displayPct) - 100).toFixed(1) + '%' : (value >= target ? '+' : '') + fmtOku(value - target)) + '</span>';
 }
 
 function buildAll(data) {
@@ -244,12 +263,10 @@ function buildAll(data) {
   document.getElementById('nav-fiscal-year').textContent = data.fiscalYearLabel || 'FY' + data.fiscalYear;
   document.getElementById('overview-subtitle').textContent = 'BEYOND Holdings Group Summary';
 
-  // Separate BEYOND Holdings (parent) from subsidiaries
   const bhId = companies.findIndex(co => co.displayName === 'BEYOND Holdings');
   const subsidiaries = companies.filter((co, i) => i !== bhId);
   data.subsidiaries = subsidiaries;
 
-  // Build nav tabs - no separate tab for BEYOND Holdings
   const tabsEl = document.getElementById('nav-tabs');
   tabsEl.innerHTML = '<div class="nav-tab active" onclick="showTab(\'overview\',this)">BEYOND Holdings Overview</div>';
   subsidiaries.forEach(co => {
@@ -261,7 +278,7 @@ function buildAll(data) {
 }
 
 function buildOverview(data) {
-  const companies = data.subsidiaries;  // Exclude BEYOND Holdings
+  const companies = data.subsidiaries;
   const totals = companies.map(co => {
     const rev = sumField(co.monthlyPL, 'revenue');
     const cogs = sumField(co.monthlyPL, 'cogs');
@@ -277,92 +294,86 @@ function buildOverview(data) {
   const grandEBITDA = totals.reduce((s, t) => s + t.ebitda, 0);
   const avgOpRate = grandRev > 0 ? (grandOP / grandRev * 100).toFixed(1) : '0.0';
 
-  // KPIs
   document.getElementById('kpi-overview').innerHTML =
     '<div class="kpi-card"><div class="kpi-label">連結売上高</div><div class="kpi-value">' + fmtOku(grandRev) + '</div><div class="kpi-sub">' + fmt(grandRev) + '円</div></div>' +
-    '<div class="kpi-card green"><div class="kpi-label">連結営業利益</div><div class="kpi-value">' + fmtOku(grandOP) + '</div><div class="kpi-sub">営業利益率: <span class="up">' + avgOpRate + '%</span></div></div>' +
+    '<div class="kpi-card green"><div class="kpi-label">連結営業利益</div><div class="kpi-value">' + fmtOku(grandOP) + '</div><div class="kpi-sub">営業利益率: <span class="' + (grandOP >= 0 ? 'up' : 'down') + '">' + avgOpRate + '%</span></div></div>' +
     '<div class="kpi-card orange"><div class="kpi-label">連結売上総利益</div><div class="kpi-value">' + fmtOku(grandGP) + '</div><div class="kpi-sub">粗利率: ' + pct(grandGP, grandRev) + '%</div></div>' +
-    '<div class="kpi-card"><div class="kpi-label">子会社数</div><div class="kpi-value">' + companies.length + '社</div><div class="kpi-sub">BEYOND Holdings グループ（持株会社除く）</div></div>';
+    '<div class="kpi-card"><div class="kpi-label">連結EBITDA</div><div class="kpi-value">' + fmtOku(grandEBITDA) + '</div><div class="kpi-sub">子会社 ' + companies.length + '社</div></div>';
 
-  document.getElementById('ov-company-count').textContent = companies.length + ' companies';
+  document.getElementById('ov-company-count').textContent = companies.length + ' subsidiaries';
 
-  // Revenue ranking
+  const chartOpts = (axis) => ({ indexAxis: axis, responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: axis === 'y' ? { x: { ticks: { callback: v => fmtOku(v) }, grid: { color: 'rgba(255,255,255,0.04)' } }, y: { grid: { display: false } } } : {} });
+
   const revSorted = [...totals].sort((a, b) => b.rev - a.rev);
   new Chart(document.getElementById('chart-ov-revenue-rank'), {
     type: 'bar',
-    data: { labels: revSorted.map(t => t.name), datasets: [{ label: '売上高', data: revSorted.map(t => t.rev), backgroundColor: COLORS.slice(0, revSorted.length) }] },
-    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { callback: v => fmtOku(v) } } } }
+    data: { labels: revSorted.map(t => t.name), datasets: [{ label: '売上高', data: revSorted.map(t => t.rev), backgroundColor: COLORS.slice(0, revSorted.length), borderRadius: 4 }] },
+    options: chartOpts('y')
   });
 
-  // OP ranking
   const opSorted = [...totals].sort((a, b) => b.op - a.op);
   new Chart(document.getElementById('chart-ov-op-rank'), {
     type: 'bar',
-    data: { labels: opSorted.map(t => t.name), datasets: [{ label: '営業利益', data: opSorted.map(t => t.op), backgroundColor: opSorted.map(t => t.op >= 0 ? '#3ba755cc' : '#ea001ecc') }] },
-    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { callback: v => fmtOku(v) } } } }
+    data: { labels: opSorted.map(t => t.name), datasets: [{ label: '営業利益', data: opSorted.map(t => t.op), backgroundColor: opSorted.map(t => t.op >= 0 ? 'rgba(34,197,94,0.7)' : 'rgba(239,68,68,0.7)'), borderRadius: 4 }] },
+    options: chartOpts('y')
   });
 
-  // Monthly revenue line chart - merge all months across companies
+  const ebitdaSorted = [...totals].sort((a, b) => b.ebitda - a.ebitda);
+  new Chart(document.getElementById('chart-ov-ebitda-rank'), {
+    type: 'bar',
+    data: { labels: ebitdaSorted.map(t => t.name), datasets: [{ label: 'EBITDA', data: ebitdaSorted.map(t => t.ebitda), backgroundColor: ebitdaSorted.map(t => t.ebitda >= 0 ? 'rgba(59,130,246,0.7)' : 'rgba(239,68,68,0.7)'), borderRadius: 4 }] },
+    options: chartOpts('y')
+  });
+
   const allMonthsSet = new Set();
   companies.forEach(co => co.monthlyPL.forEach(r => allMonthsSet.add(r.month)));
   const months = [...allMonthsSet].sort();
   const monthMap = (co) => { const m = {}; co.monthlyPL.forEach(r => m[r.month] = r); return m; };
+  const lineOpts = (cb) => ({ responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 16, color: '#a1a1aa' } } }, scales: { x: { grid: { color: 'rgba(255,255,255,0.04)' } }, y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: cb } } } });
+
   new Chart(document.getElementById('chart-ov-monthly-revenue'), {
     type: 'line',
-    data: { labels: months.map(monthLabel), datasets: companies.map((co, i) => { const m = monthMap(co); return { label: co.displayName, data: months.map(mon => m[mon] ? m[mon].revenue : 0), borderColor: COLORS[i % COLORS.length], tension: 0.3, fill: false }; }) },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true } } }, scales: { y: { ticks: { callback: v => fmtOku(v) } } } }
+    data: { labels: months.map(monthLabel), datasets: companies.map((co, i) => { const m = monthMap(co); return { label: co.displayName, data: months.map(mon => m[mon] ? m[mon].revenue : 0), borderColor: COLORS[i % COLORS.length], borderWidth: 2, tension: 0.3, fill: false, pointRadius: 3, pointBackgroundColor: COLORS[i % COLORS.length] }; }) },
+    options: lineOpts(v => fmtOku(v))
   });
 
-  // Monthly OP line chart
   new Chart(document.getElementById('chart-ov-monthly-op'), {
     type: 'line',
-    data: { labels: months.map(monthLabel), datasets: companies.map((co, i) => { const m = monthMap(co); return { label: co.displayName, data: months.map(mon => m[mon] ? m[mon].operatingProfit : 0), borderColor: COLORS[i % COLORS.length], tension: 0.3, fill: false }; }) },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true } } }, scales: { y: { ticks: { callback: v => fmtM(v) } } } }
+    data: { labels: months.map(monthLabel), datasets: companies.map((co, i) => { const m = monthMap(co); return { label: co.displayName, data: months.map(mon => m[mon] ? m[mon].operatingProfit : 0), borderColor: COLORS[i % COLORS.length], borderWidth: 2, tension: 0.3, fill: false, pointRadius: 3, pointBackgroundColor: COLORS[i % COLORS.length] }; }) },
+    options: lineOpts(v => fmtM(v))
   });
 
-  // Revenue pie
   new Chart(document.getElementById('chart-ov-revenue-pie'), {
     type: 'doughnut',
-    data: { labels: totals.map(t => t.name), datasets: [{ data: totals.map(t => t.rev), backgroundColor: COLORS }] },
-    options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } } }
+    data: { labels: totals.map(t => t.name), datasets: [{ data: totals.map(t => t.rev), backgroundColor: COLORS, borderColor: 'var(--bg-card)', borderWidth: 2 }] },
+    options: { responsive: true, maintainAspectRatio: true, cutout: '55%', plugins: { legend: { display: false } } }
   });
   document.getElementById('legend-ov-revenue').innerHTML = totals.map((t, i) => '<div class="legend-item"><span class="legend-dot" style="background:' + COLORS[i % COLORS.length] + '"></span>' + t.name + ': ' + fmtOku(t.rev) + '</div>').join('');
 
-  // EBITDA ranking
-  const ebitdaSorted = [...totals].sort((a, b) => b.ebitda - a.ebitda);
-  new Chart(document.getElementById('chart-ov-ebitda-rank'), {
-    type: 'bar',
-    data: { labels: ebitdaSorted.map(t => t.name), datasets: [{ label: 'EBITDA', data: ebitdaSorted.map(t => t.ebitda), backgroundColor: ebitdaSorted.map(t => t.ebitda >= 0 ? '#0176d3cc' : '#ea001ecc') }] },
-    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { callback: v => fmtOku(v) } } } }
-  });
-
-  // Margin comparison
   new Chart(document.getElementById('chart-ov-margin-bar'), {
     type: 'bar',
     data: { labels: totals.map(t => t.name), datasets: [
-      { label: '粗利率', data: totals.map(t => parseFloat(t.gpRate)), backgroundColor: '#DAA520cc' },
-      { label: '営業利益率', data: totals.map(t => parseFloat(t.opRate)), backgroundColor: '#3ba755cc' }
+      { label: '粗利率', data: totals.map(t => parseFloat(t.gpRate)), backgroundColor: 'rgba(201,162,39,0.6)', borderRadius: 4 },
+      { label: '営業利益率', data: totals.map(t => parseFloat(t.opRate)), backgroundColor: 'rgba(34,197,94,0.6)', borderRadius: 4 }
     ]},
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true } } }, scales: { y: { ticks: { callback: v => v + '%' } } } }
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, color: '#a1a1aa' } } }, scales: { x: { grid: { display: false } }, y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => v + '%' } } } }
   });
 
-  // BS comparison
   new Chart(document.getElementById('chart-ov-bs-bar'), {
     type: 'bar',
     data: { labels: totals.map(t => t.name), datasets: [
-      { label: '総資産', data: totals.map(t => t.bs?.totalAssets || 0), backgroundColor: '#0176d3cc' },
-      { label: '純資産', data: totals.map(t => t.bs?.netAssets || 0), backgroundColor: '#3ba755cc' }
+      { label: '総資産', data: totals.map(t => t.bs?.totalAssets || 0), backgroundColor: 'rgba(59,130,246,0.6)', borderRadius: 4 },
+      { label: '純資産', data: totals.map(t => t.bs?.netAssets || 0), backgroundColor: 'rgba(34,197,94,0.6)', borderRadius: 4 }
     ]},
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true } } }, scales: { y: { ticks: { callback: v => fmtOku(v) } } } }
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, color: '#a1a1aa' } } }, scales: { x: { grid: { display: false } }, y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => fmtOku(v) } } } }
   });
 
-  // Scorecard table
   const tbody = document.querySelector('#table-scorecard tbody');
   totals.forEach(t => {
     const tr = document.createElement('tr');
     tr.style.cursor = 'pointer';
     tr.onclick = function() { showTab('co-' + t.id, document.querySelector('.nav-tab[onclick*="co-' + t.id + '"]')); };
-    tr.innerHTML = '<td style="font-weight:600;color:var(--sf-dark)">' + t.name + '</td>' +
+    tr.innerHTML = '<td style="font-weight:600;color:var(--accent)">' + t.name + '</td>' +
       '<td class="text-right">' + fmtOku(t.rev) + '</td>' +
       '<td class="text-right">' + fmtOku(t.cogs) + '</td>' +
       '<td class="text-right">' + fmtOku(t.gp) + '</td>' +
@@ -389,12 +400,11 @@ function buildSubsidiary(co) {
   const totalBudgetRev = budgets.reduce((s, b) => s + (b.revenueBudget || 0), 0);
   const totalBudgetOP = budgets.reduce((s, b) => s + (b.opBudget || 0), 0);
 
-  // Create section HTML
   const section = document.createElement('div');
   section.id = prefix;
   section.className = 'section';
   section.innerHTML =
-    '<div class="page-header"><h2>' + co.name + '</h2><div class="subtitle">' + co.displayName + ' - Financial Detail</div></div>' +
+    '<div class="page-header"><h2>' + co.displayName + '</h2><div class="subtitle">Financial Detail</div></div>' +
     '<div class="content">' +
       '<div class="kpi-row" id="' + prefix + '-kpi"></div>' +
       '<div class="grid-3">' +
@@ -402,21 +412,16 @@ function buildSubsidiary(co) {
         '<div class="card"><div class="card-header"><h3>営業利益達成率</h3></div><div class="card-body"><div class="gauge-wrap"><canvas id="' + prefix + '-gauge-op"></canvas><div class="gauge-center" id="' + prefix + '-gauge-op-center"></div><div class="gauge-footer" id="' + prefix + '-gauge-op-footer"></div></div></div></div>' +
         '<div class="card"><div class="card-header"><h3>営業利益率</h3></div><div class="card-body"><div class="gauge-wrap"><canvas id="' + prefix + '-gauge-margin"></canvas><div class="gauge-center" id="' + prefix + '-gauge-margin-center"></div><div class="gauge-footer" id="' + prefix + '-gauge-margin-footer"></div></div></div></div>' +
       '</div>' +
+      '<div class="card full" style="margin-bottom:16px"><div class="card-header"><h3>月次 PL 推移</h3></div><div class="card-body" style="height:300px"><canvas id="' + prefix + '-chart-pl"></canvas></div></div>' +
       '<div class="grid-2">' +
-        '<div class="card full"><div class="card-header"><h3>月次売上 vs 予算</h3></div><div class="card-body" style="height:280px"><canvas id="' + prefix + '-chart-budget"></canvas></div></div>' +
+        '<div class="card"><div class="card-header"><h3>得意先 Top 10</h3></div><div class="card-body" style="height:320px"><canvas id="' + prefix + '-chart-cust"></canvas></div></div>' +
+        '<div class="card"><div class="card-header"><h3>仕入先 Top 10</h3></div><div class="card-body" style="height:320px"><canvas id="' + prefix + '-chart-supp"></canvas></div></div>' +
       '</div>' +
       '<div class="grid-2">' +
-        '<div class="card full"><div class="card-header"><h3>月次 PL 推移</h3></div><div class="card-body" style="height:260px"><canvas id="' + prefix + '-chart-pl"></canvas></div></div>' +
+        '<div class="card"><div class="card-header"><h3>得意先構成</h3></div><div class="card-body" style="height:260px;display:flex;align-items:center;gap:16px"><div style="flex:0 0 180px;max-height:220px"><canvas id="' + prefix + '-chart-cust-pie"></canvas></div><div id="' + prefix + '-legend-cust" class="legend-grid"></div></div></div>' +
+        '<div class="card"><div class="card-header"><h3>仕入先構成</h3></div><div class="card-body" style="height:260px;display:flex;align-items:center;gap:16px"><div style="flex:0 0 180px;max-height:220px"><canvas id="' + prefix + '-chart-supp-pie"></canvas></div><div id="' + prefix + '-legend-supp" class="legend-grid"></div></div></div>' +
       '</div>' +
-      '<div class="grid-2">' +
-        '<div class="card"><div class="card-header"><h3>得意先 Top 10</h3></div><div class="card-body" style="height:300px"><canvas id="' + prefix + '-chart-cust"></canvas></div></div>' +
-        '<div class="card"><div class="card-header"><h3>仕入先 Top 10</h3></div><div class="card-body" style="height:300px"><canvas id="' + prefix + '-chart-supp"></canvas></div></div>' +
-      '</div>' +
-      '<div class="grid-2">' +
-        '<div class="card"><div class="card-header"><h3>得意先構成</h3></div><div class="card-body" style="height:220px;display:flex;align-items:center;gap:8px"><div style="flex:0 0 160px;max-height:180px"><canvas id="' + prefix + '-chart-cust-pie"></canvas></div><div id="' + prefix + '-legend-cust" class="legend-grid"></div></div></div>' +
-        '<div class="card"><div class="card-header"><h3>仕入先構成</h3></div><div class="card-body" style="height:220px;display:flex;align-items:center;gap:8px"><div style="flex:0 0 160px;max-height:180px"><canvas id="' + prefix + '-chart-supp-pie"></canvas></div><div id="' + prefix + '-legend-supp" class="legend-grid"></div></div></div>' +
-      '</div>' +
-      '<div class="card" style="margin-bottom:16px"><div class="card-header"><h3>月次 PL 明細</h3></div><div class="card-body"><table id="' + prefix + '-table-pl"><thead><tr><th>月</th><th class="text-right">売上高</th><th class="text-right">予算</th><th class="text-right">差異</th><th class="text-right">達成率</th><th class="text-right">原価</th><th class="text-right">粗利</th><th class="text-right">粗利率</th><th class="text-right">販管費</th><th class="text-right">営業利益</th><th class="text-right">営業利益率</th></tr></thead><tbody></tbody></table></div></div>' +
+      '<div class="card" style="margin-bottom:16px"><div class="card-header"><h3>月次 PL 明細</h3></div><div class="card-body" style="overflow-x:auto"><table id="' + prefix + '-table-pl"><thead><tr><th>月</th><th class="text-right">売上高</th><th class="text-right">予算</th><th class="text-right">差異</th><th class="text-right">達成率</th><th class="text-right">原価</th><th class="text-right">粗利</th><th class="text-right">粗利率</th><th class="text-right">販管費</th><th class="text-right">営業利益</th><th class="text-right">営業利益率</th></tr></thead><tbody></tbody></table></div></div>' +
       '<div class="card" style="margin-bottom:16px"><div class="card-header"><h3>BS サマリー</h3></div><div class="card-body"><div class="kpi-row">' +
         '<div class="kpi-card"><div class="kpi-label">総資産</div><div class="kpi-value">' + fmtOku(co.bs?.totalAssets || 0) + '</div></div>' +
         '<div class="kpi-card green"><div class="kpi-label">現預金</div><div class="kpi-value">' + fmtOku(co.bs?.cash || 0) + '</div></div>' +
@@ -427,7 +432,6 @@ function buildSubsidiary(co) {
 
   document.getElementById('subsidiary-sections').appendChild(section);
 
-  // KPI cards
   const budgetAchieve = totalBudgetRev > 0 ? pct(totalRev, totalBudgetRev) : '--';
   document.getElementById(prefix + '-kpi').innerHTML =
     '<div class="kpi-card"><div class="kpi-label">売上高</div><div class="kpi-value">' + fmtOku(totalRev) + '</div>' +
@@ -436,75 +440,55 @@ function buildSubsidiary(co) {
     '<div class="kpi-card green"><div class="kpi-label">売上総利益</div><div class="kpi-value">' + fmtOku(totalGP) + '</div><div class="kpi-sub">粗利率: <span class="up">' + gpRate + '%</span></div></div>' +
     '<div class="kpi-card"><div class="kpi-label">営業利益</div><div class="kpi-value ' + (totalOP >= 0 ? 'text-green' : 'text-red') + '">' + fmtOku(totalOP) + '</div><div class="kpi-sub">営業利益率: ' + opRate + '%</div></div>' +
     '<div class="kpi-card orange"><div class="kpi-label">販管費</div><div class="kpi-value">' + fmtOku(totalSGA) + '</div><div class="kpi-sub">売上比: ' + pct(totalSGA, totalRev) + '%</div></div>' +
-    '<div class="kpi-card"><div class="kpi-label">月平均売上</div><div class="kpi-value">' + fmtOku(totalRev / 12) + '</div></div>';
+    '<div class="kpi-card"><div class="kpi-label">月平均売上</div><div class="kpi-value">' + fmtOku(totalRev / (co.monthlyPL.length || 1)) + '</div></div>';
 
-  // Gauges
   drawGauge(prefix + '-gauge-rev', prefix + '-gauge-rev-center', prefix + '-gauge-rev-footer', totalRev, totalBudgetRev, '億');
   drawGauge(prefix + '-gauge-op', prefix + '-gauge-op-center', prefix + '-gauge-op-footer', totalOP, totalBudgetOP, '億');
   drawGauge(prefix + '-gauge-margin', prefix + '-gauge-margin-center', prefix + '-gauge-margin-footer', parseFloat(opRate), 15, '%');
 
-  // Budget vs Actual chart
   const monthlyBudgets = months.map(m => { const b = budgets.find(x => x.month === m); return b ? b.revenueBudget : 0; });
-  new Chart(document.getElementById(prefix + '-chart-budget'), {
-    type: 'bar',
-    data: {
-      labels: months.map(monthLabel),
-      datasets: [
-        { label: '実績', data: co.monthlyPL.map(r => r.revenue), backgroundColor: co.monthlyPL.map((r, i) => r.revenue >= monthlyBudgets[i] ? '#3ba755cc' : '#DAA520cc'), barPercentage: 0.5, categoryPercentage: 0.6 },
-        { label: '予算', data: monthlyBudgets, borderColor: '#ea001e', borderWidth: 2, borderDash: [6, 3], type: 'line', fill: false, pointStyle: 'circle', pointRadius: 3, pointBackgroundColor: '#ea001e' }
-      ]
-    },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true } } }, scales: { y: { ticks: { callback: v => fmtM(v) } } } }
-  });
 
-  // PL trend
   new Chart(document.getElementById(prefix + '-chart-pl'), {
     type: 'bar',
     data: {
       labels: months.map(monthLabel),
       datasets: [
-        { label: '売上高', data: co.monthlyPL.map(r => r.revenue), backgroundColor: '#0176d3cc' },
-        { label: '売上原価', data: co.monthlyPL.map(r => r.cogs), backgroundColor: '#fe9339cc' },
-        { label: '営業利益', data: co.monthlyPL.map(r => r.operatingProfit), type: 'line', borderColor: '#3ba755', borderWidth: 2, fill: false, tension: 0.3, pointBackgroundColor: '#3ba755' }
+        { label: '売上高', data: co.monthlyPL.map(r => r.revenue), backgroundColor: 'rgba(59,130,246,0.6)', borderRadius: 4 },
+        { label: '売上原価', data: co.monthlyPL.map(r => r.cogs), backgroundColor: 'rgba(245,158,11,0.6)', borderRadius: 4 },
+        { label: '営業利益', data: co.monthlyPL.map(r => r.operatingProfit), type: 'line', borderColor: '#22c55e', borderWidth: 2, fill: false, tension: 0.3, pointBackgroundColor: '#22c55e', pointRadius: 3 }
       ]
     },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true } } }, scales: { y: { ticks: { callback: v => fmtM(v) } } } }
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, color: '#a1a1aa' } } }, scales: { x: { grid: { color: 'rgba(255,255,255,0.04)' } }, y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => fmtM(v) } } } }
   });
 
-  // Top customers bar
   const custTop = (co.topCustomers || []).slice(0, 10);
   new Chart(document.getElementById(prefix + '-chart-cust'), {
     type: 'bar',
-    data: { labels: custTop.map(c => c.name), datasets: [{ label: '売上高', data: custTop.map(c => c.revenue), backgroundColor: '#DAA520cc' }] },
-    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { callback: v => fmtM(v) } } } }
+    data: { labels: custTop.map(c => c.name), datasets: [{ label: '売上高', data: custTop.map(c => c.revenue), backgroundColor: 'rgba(201,162,39,0.6)', borderRadius: 4 }] },
+    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => fmtM(v) } }, y: { grid: { display: false } } } }
   });
 
-  // Top suppliers bar
   const suppTop = (co.topSuppliers || []).slice(0, 10);
   new Chart(document.getElementById(prefix + '-chart-supp'), {
     type: 'bar',
-    data: { labels: suppTop.map(s => s.name), datasets: [{ label: '仕入額', data: suppTop.map(s => s.cost), backgroundColor: '#0176d3cc' }] },
-    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { callback: v => fmtM(v) } } } }
+    data: { labels: suppTop.map(s => s.name), datasets: [{ label: '仕入額', data: suppTop.map(s => s.cost), backgroundColor: 'rgba(59,130,246,0.6)', borderRadius: 4 }] },
+    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => fmtM(v) } }, y: { grid: { display: false } } } }
   });
 
-  // Customer pie
-  const custTotal = custTop.reduce((s, c) => s + c.revenue, 0);
   new Chart(document.getElementById(prefix + '-chart-cust-pie'), {
     type: 'doughnut',
-    data: { labels: custTop.map(c => c.name), datasets: [{ data: custTop.map(c => c.revenue), backgroundColor: COLORS }] },
-    options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } } }
+    data: { labels: custTop.map(c => c.name), datasets: [{ data: custTop.map(c => c.revenue), backgroundColor: COLORS, borderColor: 'var(--bg-card)', borderWidth: 2 }] },
+    options: { responsive: true, maintainAspectRatio: true, cutout: '55%', plugins: { legend: { display: false } } }
   });
   document.getElementById(prefix + '-legend-cust').innerHTML = custTop.map((c, i) => '<div class="legend-item"><span class="legend-dot" style="background:' + COLORS[i % COLORS.length] + '"></span>' + c.name + '</div>').join('');
 
-  // Supplier pie
   new Chart(document.getElementById(prefix + '-chart-supp-pie'), {
     type: 'doughnut',
-    data: { labels: suppTop.map(s => s.name), datasets: [{ data: suppTop.map(s => s.cost), backgroundColor: COLORS }] },
-    options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } } }
+    data: { labels: suppTop.map(s => s.name), datasets: [{ data: suppTop.map(s => s.cost), backgroundColor: COLORS, borderColor: 'var(--bg-card)', borderWidth: 2 }] },
+    options: { responsive: true, maintainAspectRatio: true, cutout: '55%', plugins: { legend: { display: false } } }
   });
   document.getElementById(prefix + '-legend-supp').innerHTML = suppTop.map((s, i) => '<div class="legend-item"><span class="legend-dot" style="background:' + COLORS[i % COLORS.length] + '"></span>' + s.name + '</div>').join('');
 
-  // PL detail table
   const plTbody = document.querySelector('#' + prefix + '-table-pl tbody');
   co.monthlyPL.forEach((r, i) => {
     const bRev = monthlyBudgets[i] || 0;
@@ -524,10 +508,9 @@ function buildSubsidiary(co) {
       '<td class="text-right">' + pct(r.operatingProfit, r.revenue) + '%</td>';
     plTbody.appendChild(tr);
   });
-  // Total row
   const totalRow = document.createElement('tr');
   totalRow.style.fontWeight = '700';
-  totalRow.style.background = '#fafaf9';
+  totalRow.style.background = 'rgba(255,255,255,0.03)';
   totalRow.innerHTML = '<td>合計</td>' +
     '<td class="text-right">' + fmt(totalRev) + '</td>' +
     '<td class="text-right">' + fmt(totalBudgetRev) + '</td>' +
@@ -542,7 +525,6 @@ function buildSubsidiary(co) {
   plTbody.appendChild(totalRow);
 }
 
-// Load data and render
 document.addEventListener('DOMContentLoaded', function() {
   if (typeof DASHBOARD_DATA !== 'undefined') {
     buildAll(DASHBOARD_DATA);
