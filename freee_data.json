@@ -1,7 +1,7 @@
 {
-  "fetchedAt": "2026-04-13T10:53:25.368Z",
+  "fetchedAt": "2026-04-13T11:02:44.565Z",
   "fiscalYear": 2025,
-  "fiscalYearLabel": "FY2025 (2025/04 - 2026/03)",
+  "fiscalYearLabel": "FY2025 (2025/05 - 2026/04)",
   "cutoffMonth": "2026/02",
   "companies": [
     {
@@ -588,10 +588,10 @@
       ],
       "topSuppliers": [],
       "bs": {
-        "totalAssets": 112817017,
+        "totalAssets": 112271023,
         "cash": 100000,
-        "totalLiabilities": 154762448,
-        "netAssets": 41945431
+        "totalLiabilities": 154310331,
+        "netAssets": 42039308
       }
     },
     {

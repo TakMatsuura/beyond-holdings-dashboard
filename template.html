@@ -242,19 +242,24 @@ function buildAll(data) {
   document.getElementById('nav-fiscal-year').textContent = data.fiscalYearLabel || 'FY' + data.fiscalYear;
   document.getElementById('overview-subtitle').textContent = data.fiscalYearLabel + ' グループ全体サマリー';
 
-  // Build nav tabs
+  // Separate BEYOND Holdings (parent) from subsidiaries
+  const bhId = companies.findIndex(co => co.displayName === 'BEYOND Holdings');
+  const subsidiaries = companies.filter((co, i) => i !== bhId);
+  data.subsidiaries = subsidiaries;
+
+  // Build nav tabs - no separate tab for BEYOND Holdings
   const tabsEl = document.getElementById('nav-tabs');
-  tabsEl.innerHTML = '<div class="nav-tab active" onclick="showTab(\'overview\',this)">Overview</div>';
-  companies.forEach(co => {
+  tabsEl.innerHTML = '<div class="nav-tab active" onclick="showTab(\'overview\',this)">BEYOND Holdings Overview</div>';
+  subsidiaries.forEach(co => {
     tabsEl.innerHTML += '<div class="nav-tab" onclick="showTab(\'co-' + co.id + '\',this)">' + co.displayName + '</div>';
   });
 
   buildOverview(data);
-  companies.forEach(co => buildSubsidiary(co));
+  subsidiaries.forEach(co => buildSubsidiary(co));
 }
 
 function buildOverview(data) {
-  const companies = data.companies;
+  const companies = data.subsidiaries;  // Exclude BEYOND Holdings
   const totals = companies.map(co => {
     const rev = sumField(co.monthlyPL, 'revenue');
     const cogs = sumField(co.monthlyPL, 'cogs');
@@ -273,7 +278,7 @@ function buildOverview(data) {
     '<div class="kpi-card"><div class="kpi-label">連結売上高</div><div class="kpi-value">' + fmtOku(grandRev) + '</div><div class="kpi-sub">' + fmt(grandRev) + '円</div></div>' +
     '<div class="kpi-card green"><div class="kpi-label">連結営業利益</div><div class="kpi-value">' + fmtOku(grandOP) + '</div><div class="kpi-sub">営業利益率: <span class="up">' + avgOpRate + '%</span></div></div>' +
     '<div class="kpi-card orange"><div class="kpi-label">連結売上総利益</div><div class="kpi-value">' + fmtOku(grandGP) + '</div><div class="kpi-sub">粗利率: ' + pct(grandGP, grandRev) + '%</div></div>' +
-    '<div class="kpi-card"><div class="kpi-label">子会社数</div><div class="kpi-value">' + companies.length + '社</div><div class="kpi-sub">BEYOND Holdings グループ</div></div>';
+    '<div class="kpi-card"><div class="kpi-label">子会社数</div><div class="kpi-value">' + companies.length + '社</div><div class="kpi-sub">BEYOND Holdings グループ（持株会社除く）</div></div>';
 
   document.getElementById('ov-company-count').textContent = companies.length + ' companies';
 

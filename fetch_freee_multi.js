@@ -50,7 +50,7 @@ const fyStartMonth = 4;
 console.log('=== BEYOND Holdings Freee Multi-Company Fetch ===');
 console.log(`Today: ${todayYear}/${todayMonth}/${todayDay}`);
 console.log(`Last closed month: ${cutoffYear}/${String(cutoffMonth).padStart(2, '0')}`);
-console.log(`Fiscal Year: ${fiscalYear} (${fiscalYear}/04 - ${fiscalYear + 1}/03)`);
+console.log(`Fiscal Year: ${fiscalYear} (${fiscalYear}/05 - ${fiscalYear + 1}/04)`);
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
@@ -361,7 +361,7 @@ async function main() {
   const output = {
     fetchedAt: new Date().toISOString(),
     fiscalYear,
-    fiscalYearLabel: `FY${fiscalYear} (${fiscalYear}/04 - ${fiscalYear + 1}/03)`,
+    fiscalYearLabel: `FY${fiscalYear} (${fiscalYear}/05 - ${fiscalYear + 1}/04)`,
     cutoffMonth: `${cutoffYear}/${String(cutoffMonth).padStart(2, '0')}`,
     companies
   };
