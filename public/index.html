@@ -187,11 +187,7 @@ if (sessionStorage.getItem('beyond-auth') === '1') {
         <div class="axis-break"></div>
         <div style="flex:1;position:relative"><canvas id="chart-ov-rev-lo"></canvas></div>
       </div></div>
-      <div class="card"><div class="card-header"><h3>月次営業利益推移</h3></div><div class="card-body" style="height:360px;display:flex;flex-direction:column;gap:0">
-        <div style="flex:1;position:relative"><canvas id="chart-ov-op-hi"></canvas></div>
-        <div class="axis-break"></div>
-        <div style="flex:1;position:relative"><canvas id="chart-ov-op-lo"></canvas></div>
-      </div></div>
+      <div class="card"><div class="card-header"><h3>月次営業利益推移</h3></div><div class="card-body" style="height:360px"><canvas id="chart-ov-monthly-op"></canvas></div></div>
     </div>
     <div class="grid-3">
       <div class="card"><div class="card-header"><h3>売上構成比</h3></div><div class="card-body" style="height:300px;display:flex;align-items:center;gap:16px"><div style="flex:0 0 180px;max-height:240px"><canvas id="chart-ov-revenue-pie"></canvas></div><div id="legend-ov-revenue" class="legend-grid"></div></div></div>
@@ -352,21 +348,11 @@ function buildOverview(data) {
     options: breakOpts(v => fmtM(v), 0, 50000000, true, false)
   });
 
-  // OP: find natural break from data
-  const allOPvals = companies.flatMap(co => co.monthlyPL.map(r => r.operatingProfit));
-  const opValsSorted = [...allOPvals].sort((a, b) => a - b);
-  const opP75 = opValsSorted[Math.floor(opValsSorted.length * 0.75)] || 0;
-  const opMax = opValsSorted[opValsSorted.length - 1] || 0;
-  const opLoMax = Math.ceil(opP75 * 1.5 / 1000000) * 1000000 || 5000000;
-  const opHiMin = Math.max(opLoMax, Math.floor(opMax * 0.5 / 1000000) * 1000000);
-
-  new Chart(document.getElementById('chart-ov-op-hi'), {
+  // OP: single normal chart
+  const lineOpts = (cb) => ({ responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 12, color: '#a1a1aa' } } }, scales: { x: { grid: { color: 'rgba(255,255,255,0.04)' } }, y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: cb } } } });
+  new Chart(document.getElementById('chart-ov-monthly-op'), {
     type: 'line', data: { labels: months.map(monthLabel), datasets: allDS('operatingProfit') },
-    options: breakOpts(v => fmtM(v), opHiMin, undefined, false, true)
-  });
-  new Chart(document.getElementById('chart-ov-op-lo'), {
-    type: 'line', data: { labels: months.map(monthLabel), datasets: allDS('operatingProfit') },
-    options: breakOpts(v => fmtM(v), undefined, opLoMax, true, false)
+    options: lineOpts(v => fmtM(v))
   });
 
   new Chart(document.getElementById('chart-ov-revenue-pie'), {
