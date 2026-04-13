@@ -160,22 +160,19 @@ if (sessionStorage.getItem('beyond-auth') === '1') {
   <div class="page-header"><h2>Performance Overview</h2><div class="subtitle" id="overview-subtitle"></div></div>
   <div class="content">
     <div class="kpi-row" id="kpi-overview"></div>
-    <div class="grid-2">
+    <div class="grid-3">
       <div class="card"><div class="card-header"><h3>子会社別 売上高</h3></div><div class="card-body" style="height:280px"><canvas id="chart-ov-revenue-rank"></canvas></div></div>
       <div class="card"><div class="card-header"><h3>子会社別 営業利益</h3></div><div class="card-body" style="height:280px"><canvas id="chart-ov-op-rank"></canvas></div></div>
+      <div class="card"><div class="card-header"><h3>売上構成比</h3></div><div class="card-body" style="height:280px;display:flex;align-items:center;gap:8px"><div style="flex:0 0 160px;max-height:220px"><canvas id="chart-ov-revenue-pie"></canvas></div><div id="legend-ov-revenue" class="legend-grid"></div></div></div>
     </div>
-    <div class="grid-2">
-      <div class="card full"><div class="card-header"><h3>月次売上推移（子会社別）</h3></div><div class="card-body" style="height:300px"><canvas id="chart-ov-monthly-revenue"></canvas></div></div>
-    </div>
-    <div class="grid-2">
-      <div class="card full"><div class="card-header"><h3>月次営業利益推移</h3></div><div class="card-body" style="height:260px"><canvas id="chart-ov-monthly-op"></canvas></div></div>
-    </div>
+    <div class="card full" style="margin-bottom:16px"><div class="card-header"><h3>月次売上推移（子会社別）</h3></div><div class="card-body" style="height:300px"><canvas id="chart-ov-monthly-revenue"></canvas></div></div>
+    <div class="card full" style="margin-bottom:16px"><div class="card-header"><h3>月次営業利益推移</h3></div><div class="card-body" style="height:260px"><canvas id="chart-ov-monthly-op"></canvas></div></div>
     <div class="grid-3">
-      <div class="card"><div class="card-header"><h3>売上構成比</h3></div><div class="card-body" style="height:220px;display:flex;align-items:center;gap:8px"><div style="flex:0 0 160px;max-height:180px"><canvas id="chart-ov-revenue-pie"></canvas></div><div id="legend-ov-revenue" class="legend-grid"></div></div></div>
-      <div class="card"><div class="card-header"><h3>営業利益率 比較</h3></div><div class="card-body" style="height:220px"><canvas id="chart-ov-margin-bar"></canvas></div></div>
-      <div class="card"><div class="card-header"><h3>総資産 / 純資産</h3></div><div class="card-body" style="height:220px"><canvas id="chart-ov-bs-bar"></canvas></div></div>
+      <div class="card"><div class="card-header"><h3>子会社別 EBITDA</h3></div><div class="card-body" style="height:280px"><canvas id="chart-ov-ebitda-rank"></canvas></div></div>
+      <div class="card"><div class="card-header"><h3>営業利益率 比較</h3></div><div class="card-body" style="height:280px"><canvas id="chart-ov-margin-bar"></canvas></div></div>
+      <div class="card"><div class="card-header"><h3>総資産 / 純資産</h3></div><div class="card-body" style="height:280px"><canvas id="chart-ov-bs-bar"></canvas></div></div>
     </div>
-    <div class="card" style="margin-bottom:16px"><div class="card-header"><h3>Subsidiary Scorecard</h3><div class="badge" id="ov-company-count"></div></div><div class="card-body"><table id="table-scorecard"><thead><tr><th>子会社</th><th class="text-right">売上高</th><th class="text-right">売上原価</th><th class="text-right">売上総利益</th><th class="text-right">粗利率</th><th class="text-right">販管費</th><th class="text-right">営業利益</th><th class="text-right">営業利益率</th></tr></thead><tbody></tbody></table></div></div>
+    <div class="card" style="margin-bottom:16px"><div class="card-header"><h3>Subsidiary Scorecard</h3><div class="badge" id="ov-company-count"></div></div><div class="card-body"><table id="table-scorecard"><thead><tr><th>子会社</th><th class="text-right">売上高</th><th class="text-right">売上原価</th><th class="text-right">売上総利益</th><th class="text-right">粗利率</th><th class="text-right">販管費</th><th class="text-right">営業利益</th><th class="text-right">営業利益率</th><th class="text-right">EBITDA</th></tr></thead><tbody></tbody></table></div></div>
   </div>
 </div>
 
@@ -266,11 +263,13 @@ function buildOverview(data) {
     const gp = sumField(co.monthlyPL, 'grossProfit');
     const sga = sumField(co.monthlyPL, 'sga');
     const op = sumField(co.monthlyPL, 'operatingProfit');
-    return { name: co.displayName, id: co.id, rev, cogs, gp, sga, op, gpRate: pct(gp, rev), opRate: pct(op, rev), bs: co.bs };
+    const ebitda = sumField(co.monthlyPL, 'ebitda');
+    return { name: co.displayName, id: co.id, rev, cogs, gp, sga, op, ebitda, gpRate: pct(gp, rev), opRate: pct(op, rev), bs: co.bs };
   });
   const grandRev = totals.reduce((s, t) => s + t.rev, 0);
   const grandOP = totals.reduce((s, t) => s + t.op, 0);
   const grandGP = totals.reduce((s, t) => s + t.gp, 0);
+  const grandEBITDA = totals.reduce((s, t) => s + t.ebitda, 0);
   const avgOpRate = grandRev > 0 ? (grandOP / grandRev * 100).toFixed(1) : '0.0';
 
   // KPIs
@@ -298,18 +297,18 @@ function buildOverview(data) {
     options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { callback: v => fmtOku(v) } } } }
   });
 
-  // Monthly revenue stacked - merge all months across companies
+  // Monthly revenue line chart - merge all months across companies
   const allMonthsSet = new Set();
   companies.forEach(co => co.monthlyPL.forEach(r => allMonthsSet.add(r.month)));
   const months = [...allMonthsSet].sort();
   const monthMap = (co) => { const m = {}; co.monthlyPL.forEach(r => m[r.month] = r); return m; };
   new Chart(document.getElementById('chart-ov-monthly-revenue'), {
-    type: 'bar',
-    data: { labels: months.map(monthLabel), datasets: companies.map((co, i) => { const m = monthMap(co); return { label: co.displayName, data: months.map(mon => m[mon] ? m[mon].revenue : 0), backgroundColor: COLORS[i % COLORS.length] + 'cc' }; }) },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true } } }, scales: { x: { stacked: true }, y: { stacked: true, ticks: { callback: v => fmtOku(v) } } } }
+    type: 'line',
+    data: { labels: months.map(monthLabel), datasets: companies.map((co, i) => { const m = monthMap(co); return { label: co.displayName, data: months.map(mon => m[mon] ? m[mon].revenue : 0), borderColor: COLORS[i % COLORS.length], tension: 0.3, fill: false }; }) },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true } } }, scales: { y: { ticks: { callback: v => fmtOku(v) } } } }
   });
 
-  // Monthly OP line
+  // Monthly OP line chart
   new Chart(document.getElementById('chart-ov-monthly-op'), {
     type: 'line',
     data: { labels: months.map(monthLabel), datasets: companies.map((co, i) => { const m = monthMap(co); return { label: co.displayName, data: months.map(mon => m[mon] ? m[mon].operatingProfit : 0), borderColor: COLORS[i % COLORS.length], tension: 0.3, fill: false }; }) },
@@ -323,6 +322,14 @@ function buildOverview(data) {
     options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } } }
   });
   document.getElementById('legend-ov-revenue').innerHTML = totals.map((t, i) => '<div class="legend-item"><span class="legend-dot" style="background:' + COLORS[i % COLORS.length] + '"></span>' + t.name + ': ' + fmtOku(t.rev) + '</div>').join('');
+
+  // EBITDA ranking
+  const ebitdaSorted = [...totals].sort((a, b) => b.ebitda - a.ebitda);
+  new Chart(document.getElementById('chart-ov-ebitda-rank'), {
+    type: 'bar',
+    data: { labels: ebitdaSorted.map(t => t.name), datasets: [{ label: 'EBITDA', data: ebitdaSorted.map(t => t.ebitda), backgroundColor: ebitdaSorted.map(t => t.ebitda >= 0 ? '#0176d3cc' : '#ea001ecc') }] },
+    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { callback: v => fmtOku(v) } } } }
+  });
 
   // Margin comparison
   new Chart(document.getElementById('chart-ov-margin-bar'), {
@@ -357,7 +364,8 @@ function buildOverview(data) {
       '<td class="text-right">' + t.gpRate + '%</td>' +
       '<td class="text-right">' + fmtOku(t.sga) + '</td>' +
       '<td class="text-right ' + (t.op >= 0 ? 'text-green' : 'text-red') + '">' + fmtOku(t.op) + '</td>' +
-      '<td class="text-right ' + (parseFloat(t.opRate) >= 10 ? 'text-green' : '') + '">' + t.opRate + '%</td>';
+      '<td class="text-right ' + (parseFloat(t.opRate) >= 10 ? 'text-green' : '') + '">' + t.opRate + '%</td>' +
+      '<td class="text-right ' + (t.ebitda >= 0 ? 'text-green' : 'text-red') + '">' + fmtOku(t.ebitda) + '</td>';
     tbody.appendChild(tr);
   });
 }

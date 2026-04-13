@@ -204,8 +204,12 @@ async function fetchMonthlyPL(token, companyId, companyFYStart) {
       const cogs = revenue - grossProfit;
       const operatingProfit = findH1('営業損益金額');  // can be negative
       const sga = grossProfit - operatingProfit;
+      // Depreciation for EBITDA: find 減価償却費 in individual items
+      const depreciation = balances
+        .filter(b => b.account_item_name && b.account_item_name.includes('減価償却'))
+        .reduce((sum, b) => sum + Math.abs(b.closing_balance || 0), 0);
 
-      cumulativeValues.push({ revenue, cogs, grossProfit, sga, operatingProfit });
+      cumulativeValues.push({ revenue, cogs, grossProfit, sga, operatingProfit, depreciation });
       console.log(`    ${range.start}: cumRev=${(revenue / 10000).toFixed(0)}万 cumOP=${(operatingProfit / 10000).toFixed(0)}万`);
     } catch (e) {
       console.log(`    ${range.start}: ERROR - ${e.message}`);
@@ -224,13 +228,14 @@ async function fetchMonthlyPL(token, companyId, companyFYStart) {
       continue;
     }
 
-    let revenue, cogs, grossProfit, sga, operatingProfit;
+    let revenue, cogs, grossProfit, sga, operatingProfit, depreciation;
     if (i === 0 || cumulativeValues[i - 1] === null) {
       revenue = cumulativeValues[i].revenue;
       cogs = cumulativeValues[i].cogs;
       grossProfit = cumulativeValues[i].grossProfit;
       sga = cumulativeValues[i].sga;
       operatingProfit = cumulativeValues[i].operatingProfit;
+      depreciation = cumulativeValues[i].depreciation;
     } else {
       const prev = cumulativeValues[i - 1];
       revenue = cumulativeValues[i].revenue - prev.revenue;
@@ -238,9 +243,11 @@ async function fetchMonthlyPL(token, companyId, companyFYStart) {
       grossProfit = cumulativeValues[i].grossProfit - prev.grossProfit;
       sga = cumulativeValues[i].sga - prev.sga;
       operatingProfit = cumulativeValues[i].operatingProfit - prev.operatingProfit;
+      depreciation = cumulativeValues[i].depreciation - prev.depreciation;
     }
+    const ebitda = operatingProfit + depreciation;
 
-    monthlyPL.push({ month: monthStr, revenue, cogs, grossProfit, sga, operatingProfit });
+    monthlyPL.push({ month: monthStr, revenue, cogs, grossProfit, sga, operatingProfit, depreciation, ebitda });
     console.log(`    → ${monthStr}: monthly rev=${(revenue / 10000).toFixed(0)}万 op=${(operatingProfit / 10000).toFixed(0)}万`);
   }
 
