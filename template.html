@@ -165,7 +165,7 @@ if (sessionStorage.getItem('beyond-auth') === '1') {
 <div id="dashboard-main" style="display:none;">
 
 <div class="navbar">
-  <div class="logo">BEYOND<span>HOLDINGS</span></div>
+  <div class="logo" style="cursor:pointer" onclick="document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.nav-tab')[0].classList.add('active');document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById('overview').classList.add('active');">BEYOND<span>HOLDINGS</span></div>
   <div class="nav-tabs" id="nav-tabs"></div>
   <div class="nav-right" id="nav-fiscal-year"></div>
 </div>
@@ -327,18 +327,20 @@ function buildOverview(data) {
   companies.forEach(co => co.monthlyPL.forEach(r => allMonthsSet.add(r.month)));
   const months = [...allMonthsSet].sort();
   const monthMap = (co) => { const m = {}; co.monthlyPL.forEach(r => m[r.month] = r); return m; };
-  const lineOpts = (cb) => ({ responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 16, color: '#a1a1aa' } } }, scales: { x: { grid: { color: 'rgba(255,255,255,0.04)' } }, y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: cb } } } });
+  // Find the largest company by total revenue to put on separate axis
+  const largestCo = totals[0]?.name || '';
+  const dualLineOpts = (cbL, cbR) => ({ responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 16, color: '#a1a1aa' } } }, scales: { x: { grid: { color: 'rgba(255,255,255,0.04)' } }, yLeft: { position: 'left', grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: cbL, color: '#52525b' }, title: { display: true, text: largestCo, color: '#52525b', font: { size: 11 } } }, yRight: { position: 'right', grid: { drawOnChartArea: false }, ticks: { callback: cbR }, title: { display: true, text: 'その他', color: '#a1a1aa', font: { size: 11 } } } } });
 
   new Chart(document.getElementById('chart-ov-monthly-revenue'), {
     type: 'line',
-    data: { labels: months.map(monthLabel), datasets: companies.map((co, i) => { const m = monthMap(co); return { label: co.displayName, data: months.map(mon => m[mon] ? m[mon].revenue : 0), borderColor: COLORS[i % COLORS.length], borderWidth: 2, tension: 0.3, fill: false, pointRadius: 3, pointBackgroundColor: COLORS[i % COLORS.length] }; }) },
-    options: lineOpts(v => fmtOku(v))
+    data: { labels: months.map(monthLabel), datasets: companies.map((co, i) => { const m = monthMap(co); const isLargest = co.displayName === largestCo; return { label: co.displayName, data: months.map(mon => m[mon] ? m[mon].revenue : null), borderColor: COLORS[i % COLORS.length], borderWidth: isLargest ? 3 : 2, tension: 0.3, fill: false, pointRadius: 3, pointBackgroundColor: COLORS[i % COLORS.length], yAxisID: isLargest ? 'yLeft' : 'yRight', borderDash: isLargest ? [] : [] }; }) },
+    options: dualLineOpts(v => fmtOku(v), v => fmtM(v))
   });
 
   new Chart(document.getElementById('chart-ov-monthly-op'), {
     type: 'line',
-    data: { labels: months.map(monthLabel), datasets: companies.map((co, i) => { const m = monthMap(co); return { label: co.displayName, data: months.map(mon => m[mon] ? m[mon].operatingProfit : 0), borderColor: COLORS[i % COLORS.length], borderWidth: 2, tension: 0.3, fill: false, pointRadius: 3, pointBackgroundColor: COLORS[i % COLORS.length] }; }) },
-    options: lineOpts(v => fmtM(v))
+    data: { labels: months.map(monthLabel), datasets: companies.map((co, i) => { const m = monthMap(co); const isLargest = co.displayName === largestCo; return { label: co.displayName, data: months.map(mon => m[mon] ? m[mon].operatingProfit : null), borderColor: COLORS[i % COLORS.length], borderWidth: isLargest ? 3 : 2, tension: 0.3, fill: false, pointRadius: 3, pointBackgroundColor: COLORS[i % COLORS.length], yAxisID: isLargest ? 'yLeft' : 'yRight' }; }) },
+    options: dualLineOpts(v => fmtM(v), v => fmtM(v))
   });
 
   new Chart(document.getElementById('chart-ov-revenue-pie'), {
