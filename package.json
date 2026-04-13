@@ -8,5 +8,7 @@
     "build": "node build_html.js",
     "build:sample": "USE_SAMPLE=1 node build_html.js"
   },
-  "dependencies": {}
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  }
 }

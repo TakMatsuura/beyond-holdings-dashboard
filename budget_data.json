@@ -1,0 +1,464 @@
+[
+  {
+    "companyId": 3115888,
+    "name": "デンコー",
+    "budgets": [
+      {
+        "month": "2025/05",
+        "revenueBudget": 94158333,
+        "opBudget": 2424288
+      },
+      {
+        "month": "2025/06",
+        "revenueBudget": 94158333,
+        "opBudget": 2424288
+      },
+      {
+        "month": "2025/07",
+        "revenueBudget": 94158333,
+        "opBudget": 2424288
+      },
+      {
+        "month": "2025/08",
+        "revenueBudget": 94158333,
+        "opBudget": 2424288
+      },
+      {
+        "month": "2025/09",
+        "revenueBudget": 94158333,
+        "opBudget": 2424288
+      },
+      {
+        "month": "2025/10",
+        "revenueBudget": 94158333,
+        "opBudget": 2424288
+      },
+      {
+        "month": "2025/11",
+        "revenueBudget": 94158333,
+        "opBudget": 2424288
+      },
+      {
+        "month": "2025/12",
+        "revenueBudget": 94158333,
+        "opBudget": 2424288
+      },
+      {
+        "month": "2026/01",
+        "revenueBudget": 94158333,
+        "opBudget": 2424288
+      },
+      {
+        "month": "2026/02",
+        "revenueBudget": 94158333,
+        "opBudget": 2424288
+      },
+      {
+        "month": "2026/03",
+        "revenueBudget": 94158333,
+        "opBudget": 2424288
+      },
+      {
+        "month": "2026/04",
+        "revenueBudget": 94158333,
+        "opBudget": 2424288
+      }
+    ]
+  },
+  {
+    "companyId": 1980825,
+    "name": "SAFARI",
+    "budgets": [
+      {
+        "month": "2025/05",
+        "revenueBudget": 4180000,
+        "opBudget": -126000
+      },
+      {
+        "month": "2025/06",
+        "revenueBudget": 1780000,
+        "opBudget": -456000
+      },
+      {
+        "month": "2025/07",
+        "revenueBudget": 1780000,
+        "opBudget": -481000
+      },
+      {
+        "month": "2025/08",
+        "revenueBudget": 4180000,
+        "opBudget": -306000
+      },
+      {
+        "month": "2025/09",
+        "revenueBudget": 1180000,
+        "opBudget": -876000
+      },
+      {
+        "month": "2025/10",
+        "revenueBudget": 1780000,
+        "opBudget": -1056000
+      },
+      {
+        "month": "2025/11",
+        "revenueBudget": 1780000,
+        "opBudget": -276000
+      },
+      {
+        "month": "2025/12",
+        "revenueBudget": 4600000,
+        "opBudget": -106000
+      },
+      {
+        "month": "2026/01",
+        "revenueBudget": 1600000,
+        "opBudget": -676000
+      },
+      {
+        "month": "2026/02",
+        "revenueBudget": 2200000,
+        "opBudget": -256000
+      },
+      {
+        "month": "2026/03",
+        "revenueBudget": 4600000,
+        "opBudget": 74000
+      },
+      {
+        "month": "2026/04",
+        "revenueBudget": 2200000,
+        "opBudget": -856000
+      }
+    ]
+  },
+  {
+    "companyId": 2619462,
+    "name": "HANABI",
+    "budgets": [
+      {
+        "month": "2025/05",
+        "revenueBudget": 4300000,
+        "opBudget": 455852
+      },
+      {
+        "month": "2025/06",
+        "revenueBudget": 4300000,
+        "opBudget": 455852
+      },
+      {
+        "month": "2025/07",
+        "revenueBudget": 4300000,
+        "opBudget": 455852
+      },
+      {
+        "month": "2025/08",
+        "revenueBudget": 4300000,
+        "opBudget": 455852
+      },
+      {
+        "month": "2025/09",
+        "revenueBudget": 10500000,
+        "opBudget": 745102
+      },
+      {
+        "month": "2025/10",
+        "revenueBudget": 10300000,
+        "opBudget": 533102
+      },
+      {
+        "month": "2025/11",
+        "revenueBudget": 10300000,
+        "opBudget": 533102
+      },
+      {
+        "month": "2025/12",
+        "revenueBudget": 10700000,
+        "opBudget": 671102
+      },
+      {
+        "month": "2026/01",
+        "revenueBudget": 10300000,
+        "opBudget": 533102
+      },
+      {
+        "month": "2026/02",
+        "revenueBudget": 10100000,
+        "opBudget": 464102
+      },
+      {
+        "month": "2026/03",
+        "revenueBudget": 10600000,
+        "opBudget": 586602
+      },
+      {
+        "month": "2026/04",
+        "revenueBudget": 10300000,
+        "opBudget": 533102
+      }
+    ]
+  },
+  {
+    "companyId": 2619418,
+    "name": "K2",
+    "budgets": [
+      {
+        "month": "2025/05",
+        "revenueBudget": 20300000,
+        "opBudget": 1234206
+      },
+      {
+        "month": "2025/06",
+        "revenueBudget": 21800000,
+        "opBudget": 1819206
+      },
+      {
+        "month": "2025/07",
+        "revenueBudget": 22100000,
+        "opBudget": 1936206
+      },
+      {
+        "month": "2025/08",
+        "revenueBudget": 25300000,
+        "opBudget": 3184206
+      },
+      {
+        "month": "2025/09",
+        "revenueBudget": 20800000,
+        "opBudget": 1429206
+      },
+      {
+        "month": "2025/10",
+        "revenueBudget": 20800000,
+        "opBudget": 1429206
+      },
+      {
+        "month": "2025/11",
+        "revenueBudget": 21300000,
+        "opBudget": 1624206
+      },
+      {
+        "month": "2025/12",
+        "revenueBudget": 35000000,
+        "opBudget": 6967206
+      },
+      {
+        "month": "2026/01",
+        "revenueBudget": 20600000,
+        "opBudget": 1351206
+      },
+      {
+        "month": "2026/02",
+        "revenueBudget": 18300000,
+        "opBudget": 454206
+      },
+      {
+        "month": "2026/03",
+        "revenueBudget": 20800000,
+        "opBudget": 1429206
+      },
+      {
+        "month": "2026/04",
+        "revenueBudget": 21300000,
+        "opBudget": 1624206
+      }
+    ]
+  },
+  {
+    "companyId": 11006999,
+    "name": "ライフプロ",
+    "budgets": [
+      {
+        "month": "2025/05",
+        "revenueBudget": 3528000,
+        "opBudget": 103000
+      },
+      {
+        "month": "2025/06",
+        "revenueBudget": 3528000,
+        "opBudget": 103000
+      },
+      {
+        "month": "2025/07",
+        "revenueBudget": 4528000,
+        "opBudget": 1503000
+      },
+      {
+        "month": "2025/08",
+        "revenueBudget": 3528000,
+        "opBudget": 503000
+      },
+      {
+        "month": "2025/09",
+        "revenueBudget": 3528000,
+        "opBudget": -497000
+      },
+      {
+        "month": "2025/10",
+        "revenueBudget": 3528000,
+        "opBudget": 503000
+      },
+      {
+        "month": "2025/11",
+        "revenueBudget": 4528000,
+        "opBudget": 1503000
+      },
+      {
+        "month": "2025/12",
+        "revenueBudget": 27528000,
+        "opBudget": 4503000
+      },
+      {
+        "month": "2026/01",
+        "revenueBudget": 4028000,
+        "opBudget": 1003000
+      },
+      {
+        "month": "2026/02",
+        "revenueBudget": 4028000,
+        "opBudget": 1003000
+      },
+      {
+        "month": "2026/03",
+        "revenueBudget": 5028000,
+        "opBudget": 2003000
+      },
+      {
+        "month": "2026/04",
+        "revenueBudget": 3528000,
+        "opBudget": 503000
+      }
+    ]
+  },
+  {
+    "companyId": 10713894,
+    "name": "M7Logi",
+    "budgets": [
+      {
+        "month": "2025/05",
+        "revenueBudget": 3793333,
+        "opBudget": 160345
+      },
+      {
+        "month": "2025/06",
+        "revenueBudget": 4763333,
+        "opBudget": 530345
+      },
+      {
+        "month": "2025/07",
+        "revenueBudget": 6913333,
+        "opBudget": 1047345
+      },
+      {
+        "month": "2025/08",
+        "revenueBudget": 5628333,
+        "opBudget": 662345
+      },
+      {
+        "month": "2025/09",
+        "revenueBudget": 6628333,
+        "opBudget": 862345
+      },
+      {
+        "month": "2025/10",
+        "revenueBudget": 5328333,
+        "opBudget": 602345
+      },
+      {
+        "month": "2025/11",
+        "revenueBudget": 5113333,
+        "opBudget": 327345
+      },
+      {
+        "month": "2025/12",
+        "revenueBudget": 5613333,
+        "opBudget": 767345
+      },
+      {
+        "month": "2026/01",
+        "revenueBudget": 5213333,
+        "opBudget": 367345
+      },
+      {
+        "month": "2026/02",
+        "revenueBudget": 5213333,
+        "opBudget": 367345
+      },
+      {
+        "month": "2026/03",
+        "revenueBudget": 5213333,
+        "opBudget": 367345
+      },
+      {
+        "month": "2026/04",
+        "revenueBudget": 5213333,
+        "opBudget": 323845
+      }
+    ]
+  },
+  {
+    "companyId": 10815529,
+    "name": "BEYOND Holdings",
+    "budgets": [
+      {
+        "month": "2025/05",
+        "revenueBudget": 8750000,
+        "opBudget": 803200
+      },
+      {
+        "month": "2025/06",
+        "revenueBudget": 8750000,
+        "opBudget": 803200
+      },
+      {
+        "month": "2025/07",
+        "revenueBudget": 8750000,
+        "opBudget": 1203200
+      },
+      {
+        "month": "2025/08",
+        "revenueBudget": 8750000,
+        "opBudget": 1203200
+      },
+      {
+        "month": "2025/09",
+        "revenueBudget": 8750000,
+        "opBudget": 1203200
+      },
+      {
+        "month": "2025/10",
+        "revenueBudget": 8750000,
+        "opBudget": 1203200
+      },
+      {
+        "month": "2025/11",
+        "revenueBudget": 8750000,
+        "opBudget": 1203200
+      },
+      {
+        "month": "2025/12",
+        "revenueBudget": 8750000,
+        "opBudget": 1203200
+      },
+      {
+        "month": "2026/01",
+        "revenueBudget": 8750000,
+        "opBudget": 1203200
+      },
+      {
+        "month": "2026/02",
+        "revenueBudget": 8750000,
+        "opBudget": 1203200
+      },
+      {
+        "month": "2026/03",
+        "revenueBudget": 8750000,
+        "opBudget": 1203200
+      },
+      {
+        "month": "2026/04",
+        "revenueBudget": 8750000,
+        "opBudget": -3296800
+      }
+    ]
+  }
+]

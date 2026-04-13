@@ -30,6 +30,22 @@ const dashboardData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 console.log(`  Companies: ${dashboardData.companies.length}`);
 console.log(`  Fiscal Year: ${dashboardData.fiscalYear}`);
 
+// Merge budget data if available
+const BUDGET_FILE = path.join(SCRIPT_DIR, 'budget_data.json');
+if (fs.existsSync(BUDGET_FILE)) {
+  const budgetData = JSON.parse(fs.readFileSync(BUDGET_FILE, 'utf8'));
+  console.log(`  Budget data: ${budgetData.length} companies`);
+  for (const co of dashboardData.companies) {
+    const budgetCo = budgetData.find(b => b.companyId === co.id);
+    if (budgetCo) {
+      co.budgets = budgetCo.budgets;
+      console.log(`    ${co.name}: ${budgetCo.budgets.length} months budget loaded`);
+    }
+  }
+} else {
+  console.log('  No budget data found (budget_data.json)');
+}
+
 // Read template
 let template = fs.readFileSync(TEMPLATE, 'utf8');
 template = template.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
