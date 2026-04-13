@@ -189,17 +189,24 @@ async function fetchMonthlyPL(token, companyId, companyFYStart) {
       });
 
       const balances = data.trial_pl?.balances || [];
-      const find = (name) => {
-        const item = balances.find(b => b.account_category_name === name);
-        return item ? Math.abs(item.closing_balance || 0) : 0;
+      // Use hierarchy_level to find summary rows (h1/h2), not detail rows (h3+)
+      const findH1 = (name) => {
+        const item = balances.find(b => b.account_category_name === name && b.hierarchy_level === 1);
+        return item ? (item.closing_balance || 0) : 0;
+      };
+      const findH2 = (name) => {
+        const item = balances.find(b => b.account_category_name === name && b.hierarchy_level === 2);
+        return item ? (item.closing_balance || 0) : 0;
       };
 
-      cumulativeValues.push({
-        revenue: find('売上高'),
-        cogs: find('売上原価'),
-        sga: find('販売費及び一般管理費')
-      });
-      console.log(`    ${range.start}: cumRev=${(cumulativeValues[cumulativeValues.length - 1].revenue / 10000).toFixed(0)}万`);
+      const revenue = Math.abs(findH1('売上高'));
+      const grossProfit = findH1('売上総損益金額');  // can be negative
+      const cogs = revenue - grossProfit;
+      const operatingProfit = findH1('営業損益金額');  // can be negative
+      const sga = grossProfit - operatingProfit;
+
+      cumulativeValues.push({ revenue, cogs, grossProfit, sga, operatingProfit });
+      console.log(`    ${range.start}: cumRev=${(revenue / 10000).toFixed(0)}万 cumOP=${(operatingProfit / 10000).toFixed(0)}万`);
     } catch (e) {
       console.log(`    ${range.start}: ERROR - ${e.message}`);
       cumulativeValues.push(null);
@@ -217,21 +224,21 @@ async function fetchMonthlyPL(token, companyId, companyFYStart) {
       continue;
     }
 
-    let revenue, cogs, sga;
+    let revenue, cogs, grossProfit, sga, operatingProfit;
     if (i === 0 || cumulativeValues[i - 1] === null) {
-      // First month of FY or first available month
       revenue = cumulativeValues[i].revenue;
       cogs = cumulativeValues[i].cogs;
+      grossProfit = cumulativeValues[i].grossProfit;
       sga = cumulativeValues[i].sga;
+      operatingProfit = cumulativeValues[i].operatingProfit;
     } else {
-      // Monthly = current cumulative - previous cumulative
-      revenue = cumulativeValues[i].revenue - cumulativeValues[i - 1].revenue;
-      cogs = cumulativeValues[i].cogs - cumulativeValues[i - 1].cogs;
-      sga = cumulativeValues[i].sga - cumulativeValues[i - 1].sga;
+      const prev = cumulativeValues[i - 1];
+      revenue = cumulativeValues[i].revenue - prev.revenue;
+      cogs = cumulativeValues[i].cogs - prev.cogs;
+      grossProfit = cumulativeValues[i].grossProfit - prev.grossProfit;
+      sga = cumulativeValues[i].sga - prev.sga;
+      operatingProfit = cumulativeValues[i].operatingProfit - prev.operatingProfit;
     }
-
-    const grossProfit = revenue - cogs;
-    const operatingProfit = grossProfit - sga;
 
     monthlyPL.push({ month: monthStr, revenue, cogs, grossProfit, sga, operatingProfit });
     console.log(`    → ${monthStr}: monthly rev=${(revenue / 10000).toFixed(0)}万 op=${(operatingProfit / 10000).toFixed(0)}万`);
