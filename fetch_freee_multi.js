@@ -20,9 +20,8 @@ const RATE_LIMIT_DELAY = 600;
 const MAX_RETRIES = 3;
 
 // FY start month overrides (when Freee API returns incorrect values)
-// 184: established mid-FY, Freee returns wrong FY start. Actual: May start (4月末締め)
 const FY_START_OVERRIDES = {
-  12243427: 5  // 184: 5月スタート
+  // Add company_id: month here if Freee returns wrong FY start
 };
 
 const SCRIPT_DIR = __dirname;
@@ -155,10 +154,20 @@ async function getCompanyFYStart(accessToken, companyId) {
 }
 
 async function fetchMonthlyPL(token, companyId, companyFYStart) {
-  // Determine the 12 months of this fiscal year
+  // Determine which fiscal year contains the cutoff month for THIS company's FY calendar
+  // e.g. cutoff=2026/02, FY start=11 → FY starts 2025/11, so companyFiscalYear=2025
+  // e.g. cutoff=2026/02, FY start=5  → FY starts 2025/05, so companyFiscalYear=2025
+  let companyFiscalYear;
+  if (cutoffMonth >= companyFYStart) {
+    companyFiscalYear = cutoffYear;
+  } else {
+    companyFiscalYear = cutoffYear - 1;
+  }
+
+  // Determine the 12 months of this company's fiscal year
   const months = [];
   for (let i = 0; i < 12; i++) {
-    let y = fiscalYear;
+    let y = companyFiscalYear;
     let m = companyFYStart + i;
     if (m > 12) { m -= 12; y++; }
     months.push({ year: y, month: m });
@@ -176,7 +185,7 @@ async function fetchMonthlyPL(token, companyId, companyFYStart) {
     const range = getMonthRange(year, month);
     try {
       // Query from FY start to end of this month to get cumulative
-      const fyStartDate = `${fiscalYear}-${String(companyFYStart).padStart(2, '0')}-01`;
+      const fyStartDate = `${companyFiscalYear}-${String(companyFYStart).padStart(2, '0')}-01`;
       const data = await apiGet(token, '/reports/trial_pl', {
         company_id: companyId,
         start_date: fyStartDate,

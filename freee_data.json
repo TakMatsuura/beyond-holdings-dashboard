@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-04-13T01:49:16.102Z",
+  "fetchedAt": "2026-04-13T09:19:17.841Z",
   "fiscalYear": 2025,
   "fiscalYearLabel": "FY2025 (2025/04 - 2026/03)",
   "cutoffMonth": "2026/02",
@@ -125,10 +125,10 @@
       ],
       "topSuppliers": [],
       "bs": {
-        "totalAssets": 999631752,
+        "totalAssets": 998381171,
         "cash": 5085295,
-        "totalLiabilities": 563820145,
-        "netAssets": 435811607
+        "totalLiabilities": 563643659,
+        "netAssets": 434737512
       }
     },
     {
@@ -412,10 +412,10 @@
       ],
       "topSuppliers": [],
       "bs": {
-        "totalAssets": 112390179,
+        "totalAssets": 112415393,
         "cash": 100000,
-        "totalLiabilities": 151417403,
-        "netAssets": 39027224
+        "totalLiabilities": 151696280,
+        "netAssets": 39280887
       }
     },
     {
@@ -451,7 +451,7 @@
       "budgets": [],
       "topCustomers": [
         {
-          "revenue": 15242505
+          "revenue": 15957705
         },
         {
           "revenue": 1960078
@@ -461,6 +461,9 @@
         },
         {
           "revenue": 1303030
+        },
+        {
+          "revenue": 1194000
         },
         {
           "revenue": 1120958
@@ -476,17 +479,14 @@
         },
         {
           "revenue": 665728
-        },
-        {
-          "revenue": 483877
         }
       ],
       "topSuppliers": [],
       "bs": {
-        "totalAssets": 11536727,
+        "totalAssets": 13548646,
         "cash": 111434,
-        "totalLiabilities": 67373861,
-        "netAssets": 55837134
+        "totalLiabilities": 67570081,
+        "netAssets": 54021435
       }
     },
     {
@@ -577,8 +577,8 @@
       "bs": {
         "totalAssets": 11765133,
         "cash": 796129,
-        "totalLiabilities": 2611491,
-        "netAssets": 9153642
+        "totalLiabilities": 3147262,
+        "netAssets": 8617871
       }
     },
     {
