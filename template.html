@@ -352,9 +352,9 @@ function buildOverview(data) {
 
   // OP: find natural break from data
   const allOPvals = companies.flatMap(co => co.monthlyPL.map(r => r.operatingProfit));
-  const opSorted = [...allOPvals].sort((a, b) => a - b);
-  const opP75 = opSorted[Math.floor(opSorted.length * 0.75)] || 0;
-  const opMax = opSorted[opSorted.length - 1] || 0;
+  const opValsSorted = [...allOPvals].sort((a, b) => a - b);
+  const opP75 = opValsSorted[Math.floor(opValsSorted.length * 0.75)] || 0;
+  const opMax = opValsSorted[opValsSorted.length - 1] || 0;
   const opLoMax = Math.ceil(opP75 * 1.5 / 1000000) * 1000000 || 5000000;
   const opHiMin = Math.max(opLoMax, Math.floor(opMax * 0.5 / 1000000) * 1000000);
 
