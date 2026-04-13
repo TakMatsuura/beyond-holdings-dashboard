@@ -240,7 +240,7 @@ function drawGauge(canvasId, centerId, footerId, value, target, unit) {
 function buildAll(data) {
   const companies = data.companies;
   document.getElementById('nav-fiscal-year').textContent = data.fiscalYearLabel || 'FY' + data.fiscalYear;
-  document.getElementById('overview-subtitle').textContent = data.fiscalYearLabel + ' グループ全体サマリー';
+  document.getElementById('overview-subtitle').textContent = 'BEYOND Holdings Group Summary';
 
   // Separate BEYOND Holdings (parent) from subsidiaries
   const bhId = companies.findIndex(co => co.displayName === 'BEYOND Holdings');
