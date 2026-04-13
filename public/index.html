@@ -295,18 +295,21 @@ function buildOverview(data) {
     options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { callback: v => fmtOku(v) } } } }
   });
 
-  // Monthly revenue stacked
-  const months = companies[0].monthlyPL.map(r => r.month);
+  // Monthly revenue stacked - merge all months across companies
+  const allMonthsSet = new Set();
+  companies.forEach(co => co.monthlyPL.forEach(r => allMonthsSet.add(r.month)));
+  const months = [...allMonthsSet].sort();
+  const monthMap = (co) => { const m = {}; co.monthlyPL.forEach(r => m[r.month] = r); return m; };
   new Chart(document.getElementById('chart-ov-monthly-revenue'), {
     type: 'bar',
-    data: { labels: months.map(monthLabel), datasets: companies.map((co, i) => ({ label: co.displayName, data: co.monthlyPL.map(r => r.revenue), backgroundColor: COLORS[i % COLORS.length] + 'cc' })) },
+    data: { labels: months.map(monthLabel), datasets: companies.map((co, i) => { const m = monthMap(co); return { label: co.displayName, data: months.map(mon => m[mon] ? m[mon].revenue : 0), backgroundColor: COLORS[i % COLORS.length] + 'cc' }; }) },
     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true } } }, scales: { x: { stacked: true }, y: { stacked: true, ticks: { callback: v => fmtOku(v) } } } }
   });
 
   // Monthly OP line
   new Chart(document.getElementById('chart-ov-monthly-op'), {
     type: 'line',
-    data: { labels: months.map(monthLabel), datasets: companies.map((co, i) => ({ label: co.displayName, data: co.monthlyPL.map(r => r.operatingProfit), borderColor: COLORS[i % COLORS.length], tension: 0.3, fill: false })) },
+    data: { labels: months.map(monthLabel), datasets: companies.map((co, i) => { const m = monthMap(co); return { label: co.displayName, data: months.map(mon => m[mon] ? m[mon].operatingProfit : 0), borderColor: COLORS[i % COLORS.length], tension: 0.3, fill: false }; }) },
     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true } } }, scales: { y: { ticks: { callback: v => fmtM(v) } } } }
   });
 
