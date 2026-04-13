@@ -49,9 +49,11 @@ const before = template.substring(0, startIdx);
 const after = template.substring(endIdx + endPlaceholder.length);
 const output = before + dataBlock + after;
 
-// Write output
+// Write output to both public/ and docs/ (GitHub Pages serves from /docs)
 fs.mkdirSync(path.join(SCRIPT_DIR, 'public'), { recursive: true });
+fs.mkdirSync(path.join(SCRIPT_DIR, 'docs'), { recursive: true });
 fs.writeFileSync(OUTPUT, output, 'utf8');
+fs.writeFileSync(path.join(SCRIPT_DIR, 'docs', 'index.html'), output, 'utf8');
 
 const lineCount = output.split('\n').length;
 console.log(`=== Build complete ===`);
