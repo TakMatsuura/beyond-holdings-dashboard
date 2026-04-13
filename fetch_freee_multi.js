@@ -19,15 +19,12 @@ const CLIENT_SECRET = '1YLBoILMxQUtYkj45xI4lFqy7VKP8I91Z4CY3Y_RI8rQz9ShSr1Kyxr_0
 const RATE_LIMIT_DELAY = 600;
 const MAX_RETRIES = 3;
 
-// FY start month overrides (when Freee API returns incorrect values)
-const FY_START_OVERRIDES = {
-  // Add company_id: month here if Freee returns wrong FY start
-};
-
-// FY start date overrides for companies with mid-month start (e.g. founding date)
-// Format: company_id: 'YYYY-MM-DD'
+// All companies: FY starts May 1st (5月1日〜4月30日)
+// Freee API returns incorrect FY start months, so we hardcode.
+// 184 only: founded 2025/11/13, first FY is Nov 2025 - Apr 2026
+const DEFAULT_FY_START_MONTH = 5;
 const FY_START_DATE_OVERRIDES = {
-  12243427: '2025-11-13'  // 184: 創業日 2025/11/13
+  12243427: { month: 11, startDate: '2025-11-13' }  // 184: 初年度のみ11月開始
 };
 
 const SCRIPT_DIR = __dirname;
@@ -140,23 +137,14 @@ function isMonthClosed(year, month) {
 }
 
 // Get company's fiscal year start month from Freee
-async function getCompanyFYStart(accessToken, companyId) {
-  // Check override first
-  if (FY_START_OVERRIDES[companyId]) {
-    console.log(`    Using FY start override: month ${FY_START_OVERRIDES[companyId]}`);
-    return FY_START_OVERRIDES[companyId];
+function getCompanyFYStart(companyId) {
+  const override = FY_START_DATE_OVERRIDES[companyId];
+  if (override) {
+    console.log(`    FY start override: month ${override.month} (startDate: ${override.startDate})`);
+    return override.month;
   }
-  try {
-    const data = await apiGet(accessToken, '/companies/' + companyId, {});
-    const fy = data.company?.fiscal_years;
-    if (fy && fy.length > 0) {
-      const startMonth = parseInt(fy[0].start_date?.split('-')[1]) || 4;
-      return startMonth;
-    }
-  } catch (e) {
-    console.log('    Could not get FY start, defaulting to April');
-  }
-  return 4; // Default April
+  console.log(`    FY start: month ${DEFAULT_FY_START_MONTH}`);
+  return DEFAULT_FY_START_MONTH;
 }
 
 async function fetchMonthlyPL(token, companyId, companyFYStart) {
@@ -191,7 +179,8 @@ async function fetchMonthlyPL(token, companyId, companyFYStart) {
     const range = getMonthRange(year, month);
     try {
       // Query from FY start to end of this month to get cumulative
-      const fyStartDate = FY_START_DATE_OVERRIDES[companyId]
+      const override = FY_START_DATE_OVERRIDES[companyId];
+      const fyStartDate = (override && override.startDate)
         || `${companyFiscalYear}-${String(companyFYStart).padStart(2, '0')}-01`;
       const data = await apiGet(token, '/reports/trial_pl', {
         company_id: companyId,
@@ -331,9 +320,7 @@ async function main() {
     updatedTokens.push({ ...t, access_token: accessToken, refresh_token: newRefreshToken });
 
     // Get company FY start month
-    console.log('  Getting FY info...');
-    const companyFYStart = await getCompanyFYStart(accessToken, t.company_id);
-    console.log(`  FY starts: month ${companyFYStart}`);
+    const companyFYStart = getCompanyFYStart(t.company_id);
 
     // Fetch monthly PL (cumulative -> monthly conversion)
     console.log('  Fetching monthly PL...');
