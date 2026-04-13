@@ -163,14 +163,17 @@ if (sessionStorage.getItem('beyond-auth') === '1') {
     <div class="grid-3">
       <div class="card"><div class="card-header"><h3>子会社別 売上高</h3></div><div class="card-body" style="height:280px"><canvas id="chart-ov-revenue-rank"></canvas></div></div>
       <div class="card"><div class="card-header"><h3>子会社別 営業利益</h3></div><div class="card-body" style="height:280px"><canvas id="chart-ov-op-rank"></canvas></div></div>
-      <div class="card"><div class="card-header"><h3>売上構成比</h3></div><div class="card-body" style="height:280px;display:flex;align-items:center;gap:8px"><div style="flex:0 0 160px;max-height:220px"><canvas id="chart-ov-revenue-pie"></canvas></div><div id="legend-ov-revenue" class="legend-grid"></div></div></div>
-    </div>
-    <div class="card full" style="margin-bottom:16px"><div class="card-header"><h3>月次売上推移（子会社別）</h3></div><div class="card-body" style="height:300px"><canvas id="chart-ov-monthly-revenue"></canvas></div></div>
-    <div class="card full" style="margin-bottom:16px"><div class="card-header"><h3>月次営業利益推移</h3></div><div class="card-body" style="height:260px"><canvas id="chart-ov-monthly-op"></canvas></div></div>
-    <div class="grid-3">
       <div class="card"><div class="card-header"><h3>子会社別 EBITDA</h3></div><div class="card-body" style="height:280px"><canvas id="chart-ov-ebitda-rank"></canvas></div></div>
+    </div>
+    <div class="grid-3">
+      <div class="card"><div class="card-header"><h3>売上構成比</h3></div><div class="card-body" style="height:280px;display:flex;align-items:center;gap:8px"><div style="flex:0 0 140px;max-height:200px"><canvas id="chart-ov-revenue-pie"></canvas></div><div id="legend-ov-revenue" class="legend-grid"></div></div></div>
+      <div class="card"><div class="card-header"><h3>月次売上推移（子会社別）</h3></div><div class="card-body" style="height:280px"><canvas id="chart-ov-monthly-revenue"></canvas></div></div>
+      <div class="card"><div class="card-header"><h3>月次営業利益推移</h3></div><div class="card-body" style="height:280px"><canvas id="chart-ov-monthly-op"></canvas></div></div>
+    </div>
+    <div class="grid-3">
       <div class="card"><div class="card-header"><h3>営業利益率 比較</h3></div><div class="card-body" style="height:280px"><canvas id="chart-ov-margin-bar"></canvas></div></div>
       <div class="card"><div class="card-header"><h3>総資産 / 純資産</h3></div><div class="card-body" style="height:280px"><canvas id="chart-ov-bs-bar"></canvas></div></div>
+      <div class="card"></div>
     </div>
     <div class="card" style="margin-bottom:16px"><div class="card-header"><h3>Subsidiary Scorecard</h3><div class="badge" id="ov-company-count"></div></div><div class="card-body"><table id="table-scorecard"><thead><tr><th>子会社</th><th class="text-right">売上高</th><th class="text-right">売上原価</th><th class="text-right">売上総利益</th><th class="text-right">粗利率</th><th class="text-right">販管費</th><th class="text-right">営業利益</th><th class="text-right">営業利益率</th><th class="text-right">EBITDA</th></tr></thead><tbody></tbody></table></div></div>
   </div>
