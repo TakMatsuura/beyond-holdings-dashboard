@@ -4,6 +4,7 @@ const path = require('path');
 const SCRIPT_DIR = __dirname;
 const TEMPLATE = path.join(SCRIPT_DIR, 'template.html');
 const OUTPUT = path.join(SCRIPT_DIR, 'public', 'index.html');
+const FREEE_DATA_LOCAL = path.join(SCRIPT_DIR, 'freee_data.json');
 const FREEE_DATA = '/tmp/freee_data/dashboard_data.json';
 const SAMPLE_DATA = path.join(SCRIPT_DIR, 'sample_data.json');
 
@@ -14,6 +15,9 @@ let dataPath;
 if (process.env.USE_SAMPLE === '1') {
   dataPath = SAMPLE_DATA;
   console.log('Using sample data (USE_SAMPLE=1)');
+} else if (fs.existsSync(FREEE_DATA_LOCAL)) {
+  dataPath = FREEE_DATA_LOCAL;
+  console.log('Using local Freee data');
 } else if (fs.existsSync(FREEE_DATA)) {
   dataPath = FREEE_DATA;
   console.log('Using Freee API data');
