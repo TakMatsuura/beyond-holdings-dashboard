@@ -213,10 +213,10 @@ if (sessionStorage.getItem('beyond-auth') === '1') {
 const COLORS = ['#3b82f6','#22c55e','#f59e0b','#ef4444','#a855f7','#06b6d4','#ec4899','#84cc16','#f97316','#6366f1','#14b8a6','#e11d48'];
 
 function fmt(n) { return isNaN(n) ? '0' : Math.round(n).toLocaleString('ja-JP'); }
-function fmtM(n) { return (n / 10000).toFixed(0) + '万'; }
+function fmtM(n) { return Math.round(n / 10000).toLocaleString('ja-JP') + '万'; }
 function fmtOku(n) {
   if (Math.abs(n) >= 100000000) return (n / 100000000).toFixed(2) + '億';
-  return (n / 10000).toFixed(0) + '万';
+  return Math.round(n / 10000).toLocaleString('ja-JP') + '万';
 }
 function monthLabel(m) { return m.replace('/', '年') + '月'; }
 function progressColor(pct) { return pct >= 100 ? 'green' : pct >= 80 ? 'blue' : pct >= 50 ? 'orange' : 'red'; }
