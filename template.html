@@ -140,13 +140,19 @@ tr:hover td { background: rgba(255,255,255,0.03); }
 </div>
 <script>
 // CREDENTIALS_PLACEHOLDER
-const DASHBOARD_ID = 'beyond';
-const DASHBOARD_PW = 'BYD-Board!2025#exec';
+const DASHBOARD_ID_HASH = '5e8818d1dd191490273376c09764e7c1b1c5403c815cbf08088bdabdfe61000f';
+const DASHBOARD_PW_HASH = 'c20fbc33ceeb0c333a8dca61821d0dffae7957c5a0545e55d5c76d6ccc269d1d';
 // END_CREDENTIALS_PLACEHOLDER
-function doLogin() {
+async function sha256Hex(str) {
+  const buf = new TextEncoder().encode(str);
+  const hash = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+async function doLogin() {
   const id = document.getElementById('login-id').value;
   const pw = document.getElementById('login-pw').value;
-  if (id === DASHBOARD_ID && pw === DASHBOARD_PW) {
+  const [idH, pwH] = await Promise.all([sha256Hex(id), sha256Hex(pw)]);
+  if (idH === DASHBOARD_ID_HASH && pwH === DASHBOARD_PW_HASH) {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('dashboard-main').style.display = 'block';
     sessionStorage.setItem('beyond-auth', '1');
