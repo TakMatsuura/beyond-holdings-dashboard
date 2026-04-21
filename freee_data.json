@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-04-20T10:32:16.190Z",
+  "fetchedAt": "2026-04-21T08:27:03.369Z",
   "fiscalYear": 2025,
   "fiscalYearLabel": "FY2025 (2025/05 - 2026/04)",
   "cutoffMonth": "2026/03",
@@ -84,10 +84,10 @@
           "revenue": 109625260,
           "cogs": 56212459,
           "grossProfit": 53412801,
-          "sga": 45266004,
-          "operatingProfit": 8146797,
+          "sga": 45390877,
+          "operatingProfit": 8021924,
           "depreciation": 524356,
-          "ebitda": 8671153
+          "ebitda": 8546280
         },
         {
           "month": "2026/01",
@@ -104,10 +104,20 @@
           "revenue": 103584660,
           "cogs": 61467953,
           "grossProfit": 42116707,
-          "sga": 38267503,
-          "operatingProfit": 3849204,
+          "sga": 38247503,
+          "operatingProfit": 3869204,
           "depreciation": 524356,
-          "ebitda": 4373560
+          "ebitda": 4393560
+        },
+        {
+          "month": "2026/03",
+          "revenue": 82626052,
+          "cogs": 48009047,
+          "grossProfit": 34617005,
+          "sga": 39554350,
+          "operatingProfit": -4937345,
+          "depreciation": 524356,
+          "ebitda": -4412989
         }
       ],
       "budgets": [],
@@ -145,10 +155,10 @@
       ],
       "topSuppliers": [],
       "bs": {
-        "totalAssets": 998381171,
+        "totalAssets": 961262583,
         "cash": 5085295,
-        "totalLiabilities": 563643659,
-        "netAssets": 434737512
+        "totalLiabilities": 538744787,
+        "netAssets": 422517796
       }
     },
     {
@@ -255,6 +265,16 @@
           "operatingProfit": 1688520,
           "depreciation": 25000,
           "ebitda": 1713520
+        },
+        {
+          "month": "2026/03",
+          "revenue": 1516248,
+          "cogs": 602768,
+          "grossProfit": 913480,
+          "sga": 729069,
+          "operatingProfit": 184411,
+          "depreciation": 25000,
+          "ebitda": 209411
         }
       ],
       "budgets": [],
@@ -544,6 +564,16 @@
           "operatingProfit": 92078,
           "depreciation": 1954580,
           "ebitda": 2046658
+        },
+        {
+          "month": "2026/03",
+          "revenue": 10249204,
+          "cogs": 1060372,
+          "grossProfit": 9188832,
+          "sga": 8977846,
+          "operatingProfit": 210986,
+          "depreciation": 1954580,
+          "ebitda": 2165566
         }
       ],
       "budgets": [],
@@ -552,7 +582,7 @@
           "revenue": 42850145
         },
         {
-          "revenue": 40400674
+          "revenue": 40402475
         },
         {
           "revenue": 65000
@@ -560,10 +590,10 @@
       ],
       "topSuppliers": [],
       "bs": {
-        "totalAssets": 134034527,
-        "cash": 91552,
-        "totalLiabilities": 156490938,
-        "netAssets": 22456411
+        "totalAssets": 132399067,
+        "cash": 70360,
+        "totalLiabilities": 156179667,
+        "netAssets": 23780600
       }
     },
     {
@@ -941,10 +971,10 @@
           "revenue": 12013681,
           "cogs": 6011750,
           "grossProfit": 6001931,
-          "sga": 3365807,
-          "operatingProfit": 2636124,
+          "sga": 3574807,
+          "operatingProfit": 2427124,
           "depreciation": 0,
-          "ebitda": 2636124
+          "ebitda": 2427124
         },
         {
           "month": "2025/12",
@@ -975,20 +1005,30 @@
           "operatingProfit": 1948642,
           "depreciation": 0,
           "ebitda": 1948642
+        },
+        {
+          "month": "2026/03",
+          "revenue": 8437974,
+          "cogs": 2964690,
+          "grossProfit": 5473284,
+          "sga": 4077796,
+          "operatingProfit": 1395488,
+          "depreciation": 38116,
+          "ebitda": 1433604
         }
       ],
       "budgets": [],
       "topCustomers": [
         {
-          "revenue": 96201492
+          "revenue": 97557492
         }
       ],
       "topSuppliers": [],
       "bs": {
-        "totalAssets": 11765133,
+        "totalAssets": 12665092,
         "cash": 796129,
-        "totalLiabilities": 3147262,
-        "netAssets": 8617871
+        "totalLiabilities": 3383054,
+        "netAssets": 9282038
       }
     },
     {
@@ -1035,20 +1075,30 @@
           "operatingProfit": -530098,
           "depreciation": 0,
           "ebitda": -530098
+        },
+        {
+          "month": "2026/03",
+          "revenue": 1059250,
+          "cogs": 0,
+          "grossProfit": 1059250,
+          "sga": 1265450,
+          "operatingProfit": -206200,
+          "depreciation": 0,
+          "ebitda": -206200
         }
       ],
       "budgets": [],
       "topCustomers": [
         {
-          "revenue": 2522460
+          "revenue": 2787240
         }
       ],
       "topSuppliers": [],
       "bs": {
-        "totalAssets": 2069948,
+        "totalAssets": 2130053,
         "cash": 113095,
-        "totalLiabilities": 2696802,
-        "netAssets": 626854
+        "totalLiabilities": 3051648,
+        "netAssets": 921595
       }
     },
     {
@@ -1155,6 +1205,16 @@
           "operatingProfit": -4400,
           "depreciation": 0,
           "ebitda": -4400
+        },
+        {
+          "month": "2026/03",
+          "revenue": 129000,
+          "cogs": 62400,
+          "grossProfit": 66600,
+          "sga": 4400,
+          "operatingProfit": 62200,
+          "depreciation": 0,
+          "ebitda": 62200
         }
       ],
       "budgets": [],
@@ -1165,10 +1225,10 @@
       ],
       "topSuppliers": [],
       "bs": {
-        "totalAssets": 2710058,
-        "cash": 1710058,
+        "totalAssets": 2704173,
+        "cash": 1704173,
         "totalLiabilities": 1510000,
-        "netAssets": 1200058
+        "netAssets": 1194173
       }
     }
   ]
