@@ -32,7 +32,8 @@ body { font-family: 'Inter', 'SF Pro Display', -apple-system, 'Segoe UI', 'Meiry
 
 /* Navbar */
 .navbar { background: linear-gradient(135deg, #1a1d27 0%, #0f1117 100%); height: 56px; display: flex; align-items: center; padding: 0 32px; gap: 32px; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); }
-.navbar .logo { color: var(--accent); font-size: 16px; font-weight: 800; letter-spacing: 2px; white-space: nowrap; }
+.navbar .logo { color: var(--accent); font-size: 16px; font-weight: 800; letter-spacing: 2px; white-space: nowrap; display: flex; align-items: center; gap: 10px; }
+.navbar .logo img { height: 36px; width: auto; filter: drop-shadow(0 2px 6px rgba(201,162,39,0.3)); }
 .navbar .logo span { color: var(--text-muted); font-weight: 400; font-size: 12px; letter-spacing: 0; margin-left: 8px; }
 .navbar .nav-tabs { display: flex; gap: 4px; height: 100%; overflow-x: auto; }
 .navbar .nav-tab { color: var(--text-muted); padding: 0 16px; height: 100%; display: flex; align-items: center; font-size: 12px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; }
@@ -122,7 +123,7 @@ tr:hover td { background: rgba(255,255,255,0.03); }
 <div id="login-screen" style="display:flex; justify-content:center; align-items:center; height:100vh; background:linear-gradient(135deg, #0f1117 0%, #1a1d27 40%, #0f1117 100%);">
   <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:48px 40px; box-shadow:0 16px 64px rgba(0,0,0,0.5); width:380px; text-align:center;">
     <div style="margin-bottom:32px;">
-      <img src="beyond_logo.png" alt="BEYOND Holdings" style="width:170px; height:auto; margin-bottom:12px; filter:drop-shadow(0 6px 16px rgba(201,162,39,0.3));">
+      <img src="beyond_logo.png" alt="BEYOND Holdings" style="width:230px; height:auto; margin-bottom:16px; filter:drop-shadow(0 8px 20px rgba(201,162,39,0.35));">
       <div style="font-size:28px; font-weight:800; color:var(--accent); letter-spacing:3px;">BEYOND</div>
       <div style="font-size:12px; font-weight:500; color:var(--text-muted); letter-spacing:4px; margin-top:4px;">HOLDINGS</div>
       <div style="font-size:12px; color:var(--text-dim); margin-top:12px;">Executive Dashboard</div>
@@ -173,7 +174,7 @@ if (sessionStorage.getItem('beyond-auth') === '1') {
 <div id="dashboard-main" style="display:none;">
 
 <div class="navbar">
-  <div class="logo" style="cursor:pointer" onclick="document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.nav-tab')[0].classList.add('active');document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById('overview').classList.add('active');">BEYOND<span>HOLDINGS</span></div>
+  <div class="logo" style="cursor:pointer" onclick="document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.nav-tab')[0].classList.add('active');document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById('overview').classList.add('active');"><img src="beyond_logo.png" alt="BEYOND">BEYOND<span>HOLDINGS</span></div>
   <div class="nav-tabs" id="nav-tabs"></div>
   <div class="nav-right" id="nav-fiscal-year"></div>
 </div>
