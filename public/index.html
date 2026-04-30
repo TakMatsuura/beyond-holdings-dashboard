@@ -97,6 +97,16 @@ tr:hover td { background: rgba(255,255,255,0.03); }
 .text-green { color: var(--green); font-weight: 600; }
 .text-red { color: var(--red); font-weight: 600; }
 
+/* Metric toggle */
+.metric-btn { background: var(--bg); border: 1px solid var(--border); color: var(--text-muted); padding: 5px 14px; border-radius: 20px; font-size: 11px; cursor: pointer; font-family: inherit; font-weight: 600; transition: all 0.2s; }
+.metric-btn:hover { color: var(--text); border-color: var(--accent-dim); }
+.metric-btn.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+#table-monthly-matrix th, #table-monthly-matrix td { padding: 8px 10px; font-size: 11px; white-space: nowrap; }
+#table-monthly-matrix th:first-child, #table-monthly-matrix td:first-child { position: sticky; left: 0; background: var(--bg-card); z-index: 1; min-width: 120px; }
+#table-monthly-matrix th:last-child, #table-monthly-matrix td:last-child { background: rgba(201,162,39,0.04); font-weight: 700; }
+#table-monthly-matrix tr.total-row td { background: rgba(201,162,39,0.08); font-weight: 700; border-top: 2px solid var(--accent-dim); }
+#table-monthly-matrix tr.total-row td:first-child, #table-monthly-matrix tr.total-row td:last-child { background: rgba(201,162,39,0.12); }
+
 /* Legend */
 .legend-grid { display: flex; flex-direction: column; gap: 6px; font-size: 12px; flex: 1; }
 .legend-item { display: flex; align-items: center; gap: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-muted); }
@@ -191,6 +201,21 @@ if (sessionStorage.getItem('beyond-auth') === '1') {
       <div class="card"><div class="card-header"><h3>子会社別 営業利益</h3></div><div class="card-body" style="height:320px"><canvas id="chart-ov-op-rank"></canvas></div></div>
       <div class="card"><div class="card-header"><h3>子会社別 EBITDA</h3></div><div class="card-body" style="height:320px"><canvas id="chart-ov-ebitda-rank"></canvas></div></div>
     </div>
+    <!-- 月次サマリ マトリクス -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-header">
+        <h3>月次サマリ マトリクス</h3>
+        <div class="metric-toggle" id="matrix-toggle" style="display:flex;gap:4px">
+          <button class="metric-btn active" data-metric="revenue" onclick="showMatrix('revenue',this)">売上高</button>
+          <button class="metric-btn" data-metric="operatingProfit" onclick="showMatrix('operatingProfit',this)">営業利益</button>
+          <button class="metric-btn" data-metric="ebitda" onclick="showMatrix('ebitda',this)">EBITDA</button>
+        </div>
+      </div>
+      <div class="card-body" style="overflow-x:auto;padding:0">
+        <table id="table-monthly-matrix" style="font-size:11px"><thead></thead><tbody></tbody></table>
+      </div>
+    </div>
+
     <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:16px;margin-bottom:16px">
       <div class="card" style="grid-row:1/3"><div class="card-header"><h3>月次売上推移</h3></div><div class="card-body" style="height:560px;display:flex;flex-direction:column;gap:0;overflow:hidden">
         <div style="flex:1;position:relative"><canvas id="chart-ov-rev-hi"></canvas></div>
@@ -864,6 +889,60 @@ function buildOverview(data) {
       '<td class="text-right ' + (t.ebitda >= 0 ? 'text-green' : 'text-red') + '">' + fmtOku(t.ebitda) + '</td>';
     tbody.appendChild(tr);
   });
+
+  // 月次マトリクス
+  window._matrixData = { companies, months };
+  showMatrix('revenue');
+}
+
+function showMatrix(metric, btn) {
+  if (btn) {
+    document.querySelectorAll('#matrix-toggle .metric-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  const ctx = window._matrixData;
+  if (!ctx) return;
+  const { companies, months } = ctx;
+  const colorize = metric !== 'revenue';
+  const thead = document.querySelector('#table-monthly-matrix thead');
+  const tbody = document.querySelector('#table-monthly-matrix tbody');
+
+  let head = '<tr><th>会社</th>';
+  months.forEach(m => head += '<th class="text-right">' + m.replace('/', '/') + '</th>');
+  head += '<th class="text-right">累計</th></tr>';
+  thead.innerHTML = head;
+
+  const rowSums = new Array(months.length).fill(0);
+  let totalSum = 0;
+  let body = '';
+  companies.forEach((co, idx) => {
+    const map = {}; co.monthlyPL.forEach(r => map[r.month] = r);
+    let coTotal = 0;
+    let row = '<tr><td style="font-weight:600;color:var(--accent)">' + co.displayName + '</td>';
+    months.forEach((m, mi) => {
+      const v = map[m] ? map[m][metric] : null;
+      if (v !== null && v !== undefined) {
+        rowSums[mi] += v;
+        coTotal += v;
+      }
+      const cls = !colorize ? '' : (v > 0 ? 'text-green' : v < 0 ? 'text-red' : '');
+      row += '<td class="text-right ' + cls + '">' + (v === null || v === undefined ? '<span style="color:var(--text-dim)">−</span>' : fmtOku(v)) + '</td>';
+    });
+    totalSum += coTotal;
+    const totalCls = !colorize ? '' : (coTotal > 0 ? 'text-green' : coTotal < 0 ? 'text-red' : '');
+    row += '<td class="text-right ' + totalCls + '">' + fmtOku(coTotal) + '</td></tr>';
+    body += row;
+  });
+  // 合計行
+  let totalRow = '<tr class="total-row"><td>合計</td>';
+  months.forEach((m, mi) => {
+    const v = rowSums[mi];
+    const cls = !colorize ? '' : (v > 0 ? 'text-green' : v < 0 ? 'text-red' : '');
+    totalRow += '<td class="text-right ' + cls + '">' + fmtOku(v) + '</td>';
+  });
+  const totalCls = !colorize ? '' : (totalSum > 0 ? 'text-green' : totalSum < 0 ? 'text-red' : '');
+  totalRow += '<td class="text-right ' + totalCls + '">' + fmtOku(totalSum) + '</td></tr>';
+  tbody.innerHTML = body + totalRow;
 }
 
 function buildSubsidiary(co) {
