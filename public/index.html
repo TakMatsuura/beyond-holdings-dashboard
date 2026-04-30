@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BEYOND Holdings Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <style>
 :root {
   --bg: #0f1117;
@@ -336,6 +337,9 @@ function pct(a, b) { return b !== 0 ? (a / b * 100).toFixed(1) : '0.0'; }
 Chart.defaults.color = '#71717a';
 Chart.defaults.borderColor = '#2a2e3a';
 Chart.defaults.backgroundColor = 'rgba(255,255,255,0.05)';
+// datalabels: デフォルト非表示、必要なグラフだけ有効化
+if (window.ChartDataLabels) Chart.register(window.ChartDataLabels);
+Chart.defaults.set('plugins.datalabels', { display: false });
 
 function showTab(id, el) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -773,17 +777,39 @@ function buildOverview(data) {
   const midMax = pad(tier2.max, 0.15);
   const loMax = pad(tier3Max, 0.15);
 
+  // データラベル: その層の表示範囲内の値だけ表示する
+  const labelOpts = (formatter, lo, hi) => ({
+    display: (ctx) => {
+      const v = ctx.dataset.data[ctx.dataIndex];
+      if (v === null || v === undefined) return false;
+      if (lo !== undefined && v < lo) return false;
+      if (hi !== undefined && v > hi) return false;
+      return true;
+    },
+    color: (ctx) => ctx.dataset.borderColor,
+    anchor: 'end',
+    align: 'top',
+    offset: 4,
+    font: { size: 9, weight: 600 },
+    formatter: (v) => formatter(v)
+  });
+  const withLabels = (opts, formatter, lo, hi) => {
+    opts.plugins = opts.plugins || {};
+    opts.plugins.datalabels = labelOpts(formatter, lo, hi);
+    return opts;
+  };
+
   new Chart(document.getElementById('chart-ov-rev-hi'), {
     type: 'line', data: { labels: months.map(monthLabel), datasets: allDS('revenue') },
-    options: breakOpts(v => fmtOku(v), hiMin, undefined, false, true)
+    options: withLabels(breakOpts(v => fmtOku(v), hiMin, undefined, false, true), fmtOku, hiMin)
   });
   new Chart(document.getElementById('chart-ov-rev-mid'), {
     type: 'line', data: { labels: months.map(monthLabel), datasets: allDS('revenue') },
-    options: breakOpts(v => fmtM(v), midMin, midMax, false, false)
+    options: withLabels(breakOpts(v => fmtM(v), midMin, midMax, false, false), fmtM, midMin, midMax)
   });
   new Chart(document.getElementById('chart-ov-rev-lo'), {
     type: 'line', data: { labels: months.map(monthLabel), datasets: allDS('revenue') },
-    options: breakOpts(v => fmtM(v), 0, loMax, true, false)
+    options: withLabels(breakOpts(v => fmtM(v), 0, loMax, true, false), fmtM, 0, loMax)
   });
 
   // OP & EBITDA: normal single-axis charts
