@@ -209,6 +209,106 @@ if (sessionStorage.getItem('beyond-auth') === '1') {
   </div>
 </div>
 
+<!-- Group Performance Section (FY26 Board Slide 8) -->
+<div id="group-performance" class="section">
+  <div class="page-header"><h2>Group Performance</h2><div class="subtitle">各社PL一覧＋Signal自動判定（最新月: <span id="gp-latest-month"></span>）</div></div>
+  <div class="content">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-header"><h3>業績一覧</h3><div class="badge" id="gp-signal-summary"></div></div>
+      <div class="card-body" style="overflow-x:auto"><table id="table-group-perf"><thead><tr>
+        <th>会社</th>
+        <th class="text-right">売上高(当月)</th>
+        <th class="text-right">前年同月比</th>
+        <th class="text-right">売上高(累計)</th>
+        <th class="text-right">粗利率</th>
+        <th class="text-right">営業利益(当月)</th>
+        <th class="text-right">営業利益(累計)</th>
+        <th class="text-right">営業利益率</th>
+        <th style="text-align:center">Signal</th>
+      </tr></thead><tbody></tbody></table></div>
+    </div>
+    <div class="card"><div class="card-body" style="font-size:11px;color:var(--text-muted);line-height:1.7">
+      ※Signal基準: 緑=スコア70点以上 ｜ 黄=50-69点 ｜ 赤=49点以下 or 3ヶ月連続赤字
+    </div></div>
+  </div>
+</div>
+
+<!-- Group Integrity Section (FY26 Board Slide 9) -->
+<div id="group-integrity" class="section">
+  <div class="page-header"><h2>Group Integrity</h2><div class="subtitle">財務健全性一覧＋Signal自動判定（最新月: <span id="gi-latest-month"></span>）</div></div>
+  <div class="content">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-header"><h3>BS健全性指標</h3></div>
+      <div class="card-body" style="overflow-x:auto"><table id="table-group-int"><thead><tr>
+        <th>会社</th>
+        <th class="text-right">現預金</th>
+        <th class="text-right">現預金月数</th>
+        <th class="text-right">自己資本比率</th>
+        <th class="text-right">DENKO借入残</th>
+        <th class="text-right">DENKO借入比率</th>
+        <th class="text-right">社外借入残</th>
+        <th style="text-align:center">Signal</th>
+      </tr></thead><tbody></tbody></table></div>
+    </div>
+    <div class="card"><div class="card-body" style="font-size:11px;color:var(--text-muted);line-height:1.7">
+      ※現預金月数 = 現預金 ÷ 直近3ヶ月平均販管費 ｜ DENKO借入残 = 借入金系(対DENKO) − 貸付/立替金(対DENKO) ｜ 全勘定科目×取引先で識別<br>
+      ※Signal基準: 緑=Integrityスコア40点以上 ｜ 黄=20-39点 ｜ 赤=19点以下
+    </div></div>
+  </div>
+</div>
+
+<!-- Score Card Section (FY26 Board Slide 12) -->
+<div id="score-card" class="section">
+  <div class="page-header"><h2>Company Score Card</h2><div class="subtitle">Performance(50)＋Integrity(50)=100点満点 ｜ 介入優先順位の決定</div></div>
+  <div class="content">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-header"><h3>各社スコア一覧</h3></div>
+      <div class="card-body" style="overflow-x:auto"><table id="table-scorecard-board"><thead><tr>
+        <th>会社</th>
+        <th class="text-right">Performance</th>
+        <th class="text-right">Integrity</th>
+        <th class="text-right">合計</th>
+        <th class="text-right">前月比</th>
+        <th style="text-align:center">Signal</th>
+        <th>診断</th>
+      </tr></thead><tbody></tbody></table></div>
+    </div>
+    <div class="grid-2">
+      <div class="card"><div class="card-header"><h3>Performance Score 内訳</h3></div><div class="card-body" style="overflow-x:auto;font-size:11px"><table id="table-perf-detail"><thead><tr>
+        <th>会社</th>
+        <th class="text-right">売上成長率<br>(前年同月)</th>
+        <th class="text-right">粗利率</th>
+        <th class="text-right">営業利益率</th>
+        <th class="text-right">予算達成率<br>(累計)</th>
+        <th class="text-right">前年度比<br>(売上)</th>
+        <th class="text-right">合計</th>
+      </tr></thead><tbody></tbody></table></div></div>
+      <div class="card"><div class="card-header"><h3>Integrity Score 内訳</h3></div><div class="card-body" style="overflow-x:auto;font-size:11px"><table id="table-int-detail"><thead><tr>
+        <th>会社</th>
+        <th class="text-right">現預金月数</th>
+        <th class="text-right">自己資本比率</th>
+        <th class="text-right">DENKO借入比率</th>
+        <th class="text-right">合計</th>
+      </tr></thead><tbody></tbody></table></div></div>
+    </div>
+    <div class="card"><div class="card-body" style="font-size:11px;color:var(--text-muted);line-height:1.8">
+      <b>Performance Score (50点満点)</b><br>
+      売上成長率(前年同月比): +10%以上=10 / +5〜10%=7 / 0〜+5%=4 / マイナス=0<br>
+      粗利率: 40%以上=10 / 30〜40%=7 / 20〜30%=4 / 20%未満=0<br>
+      営業利益率: 10%以上=10 / 5〜10%=7 / 0〜5%=4 / 赤字=0<br>
+      予算達成率(累計): 105%以上=10 / 100〜105%=7 / 90〜100%=4 / 90%未満=0<br>
+      前年度比(売上、累計): +10%以上=10 / +5〜10%=7 / 0〜+5%=4 / マイナス=0<br>
+      <br>
+      <b>Integrity Score (50点満点)</b><br>
+      現預金月数: 3ヶ月以上=20 / 2〜3ヶ月=12 / 1〜2ヶ月=5 / 1ヶ月未満=0<br>
+      自己資本比率: 30%以上=20 / 15〜30%=12 / 0〜15%=5 / マイナス=0<br>
+      DENKO借入比率(累計売上比): 借入なし=10 / 売上の10%未満=7 / 10〜30%=4 / 30%超=0<br>
+      <br>
+      <b>Signal判定</b>: 緑=70点以上 ｜ 黄=50-69点 ｜ 赤=49点以下 or 3ヶ月連続赤字
+    </div></div>
+  </div>
+</div>
+
 <!-- Dynamic subsidiary sections -->
 <div id="subsidiary-sections"></div>
 
@@ -282,13 +382,319 @@ function buildAll(data) {
   data.subsidiaries = subsidiaries;
 
   const tabsEl = document.getElementById('nav-tabs');
-  tabsEl.innerHTML = '<div class="nav-tab active" onclick="showTab(\'overview\',this)">BEYOND Holdings Overview</div>';
+  tabsEl.innerHTML = '<div class="nav-tab active" onclick="showTab(\'overview\',this)">BEYOND Holdings Overview</div>'
+    + '<div class="nav-tab" onclick="showTab(\'group-performance\',this)">Group Performance</div>'
+    + '<div class="nav-tab" onclick="showTab(\'group-integrity\',this)">Group Integrity</div>'
+    + '<div class="nav-tab" onclick="showTab(\'score-card\',this)">Score Card</div>';
   subsidiaries.forEach(co => {
     tabsEl.innerHTML += '<div class="nav-tab" onclick="showTab(\'co-' + co.id + '\',this)">' + co.displayName + '</div>';
   });
 
   buildOverview(data);
+  buildGroupPerformance(data);
+  buildGroupIntegrity(data);
+  buildScoreCard(data);
   subsidiaries.forEach(co => buildSubsidiary(co));
+}
+
+// ============== FY26 Board: Group Metrics ==============
+function getLatestClosedMonth(co) {
+  const valid = co.monthlyPL.filter(r => r.revenue !== null && r.revenue !== undefined);
+  if (!valid.length) return null;
+  return valid.map(r => r.month).sort().pop();
+}
+
+function getMonthRow(co, month) { return co.monthlyPL.find(r => r.month === month); }
+
+function getPrevYearMonth(co, currentMonth) {
+  if (!co.prevFYMonthlyPL || !co.prevFYMonthlyPL.length) return null;
+  const [y, m] = currentMonth.split('/');
+  const prevYM = (parseInt(y) - 1) + '/' + m;
+  return co.prevFYMonthlyPL.find(r => r.month === prevYM);
+}
+
+function getCashMonths(co) {
+  const cash = (co.bs && co.bs.cash) || 0;
+  const recent = co.monthlyPL.slice(-3).filter(r => r.revenue > 0 || r.sga > 0);
+  if (!recent.length) return null;
+  const avgSga = recent.reduce((s, r) => s + (r.sga || 0), 0) / recent.length;
+  if (avgSga <= 0) return null;
+  return cash / avgSga;
+}
+
+function getEquityRatio(co) {
+  const ta = (co.bs && co.bs.totalAssets) || 0;
+  const na = (co.bs && co.bs.netAssets) || 0;
+  return ta !== 0 ? (na / ta * 100) : 0;
+}
+
+function getDenkoLoanNet(co) {
+  if (!co.bsExtended || !co.bsExtended.denko) return 0;
+  return co.bsExtended.denko.net || 0;
+}
+
+function getExternalLoanTotal(co) {
+  if (!co.bsExtended || !co.bsExtended.external) return 0;
+  return co.bsExtended.external.total || 0;
+}
+
+function getDenkoLoanRatio(co) {
+  const denko = getDenkoLoanNet(co);
+  const ytdRev = sumField(co.monthlyPL, 'revenue');
+  return ytdRev > 0 ? (denko / ytdRev * 100) : 0;
+}
+
+function getBudgetAchievement(co) {
+  if (!co.budgets || !co.budgets.length) return null;
+  // 予算月のうち、実績がある月までの累計達成率
+  const actualMap = {};
+  co.monthlyPL.forEach(r => actualMap[r.month] = r.revenue);
+  let actualSum = 0, budgetSum = 0;
+  co.budgets.forEach(b => {
+    if (actualMap[b.month] !== undefined) {
+      actualSum += actualMap[b.month];
+      budgetSum += (b.revenueBudget || 0);
+    }
+  });
+  return budgetSum > 0 ? (actualSum / budgetSum * 100) : null;
+}
+
+function computePerformanceScore(co, targetMonth) {
+  const month = targetMonth || getLatestClosedMonth(co);
+  const cur = getMonthRow(co, month);
+  if (!cur) return { total: 0, components: {} };
+  // 売上成長率(前年同月比)
+  const yoy = getPrevYearMonth(co, month);
+  const growth = yoy && yoy.revenue ? ((cur.revenue - yoy.revenue) / yoy.revenue * 100) : null;
+  const growthScore = growth === null ? 0 : (growth >= 10 ? 10 : growth >= 5 ? 7 : growth >= 0 ? 4 : 0);
+  // 粗利率
+  const gpRate = cur.revenue > 0 ? (cur.grossProfit / cur.revenue * 100) : 0;
+  const gpScore = gpRate >= 40 ? 10 : gpRate >= 30 ? 7 : gpRate >= 20 ? 4 : 0;
+  // 営業利益率
+  const opRate = cur.revenue > 0 ? (cur.operatingProfit / cur.revenue * 100) : 0;
+  const opScore = opRate >= 10 ? 10 : opRate >= 5 ? 7 : opRate >= 0 ? 4 : 0;
+  // 予算達成率(累計)
+  const budgetAch = getBudgetAchievement(co);
+  const budgetScore = budgetAch === null ? 0 : (budgetAch >= 105 ? 10 : budgetAch >= 100 ? 7 : budgetAch >= 90 ? 4 : 0);
+  // 前年度比(売上、累計)
+  const ytdRev = sumField(co.monthlyPL, 'revenue');
+  const monthsCount = co.monthlyPL.length;
+  const prevYTD = co.prevFYMonthlyPL ? co.prevFYMonthlyPL.slice(0, monthsCount).reduce((s, r) => s + (r.revenue || 0), 0) : 0;
+  const yearGrowth = prevYTD > 0 ? ((ytdRev - prevYTD) / prevYTD * 100) : null;
+  const yearGrowthScore = yearGrowth === null ? 0 : (yearGrowth >= 10 ? 10 : yearGrowth >= 5 ? 7 : yearGrowth >= 0 ? 4 : 0);
+  return {
+    total: growthScore + gpScore + opScore + budgetScore + yearGrowthScore,
+    components: { growth, growthScore, gpRate, gpScore, opRate, opScore, budgetAch, budgetScore, yearGrowth, yearGrowthScore }
+  };
+}
+
+function computeIntegrityScore(co) {
+  const cashMonths = getCashMonths(co);
+  const cashScore = cashMonths === null ? 0 : (cashMonths >= 3 ? 20 : cashMonths >= 2 ? 12 : cashMonths >= 1 ? 5 : 0);
+  const equity = getEquityRatio(co);
+  const equityScore = equity >= 30 ? 20 : equity >= 15 ? 12 : equity >= 0 ? 5 : 0;
+  const denkoRatio = getDenkoLoanRatio(co);
+  const denkoScore = denkoRatio === 0 ? 10 : denkoRatio < 10 ? 7 : denkoRatio < 30 ? 4 : 0;
+  return {
+    total: cashScore + equityScore + denkoScore,
+    components: { cashMonths, cashScore, equity, equityScore, denkoRatio, denkoScore }
+  };
+}
+
+function computeSignal(co, perfScore, intScore) {
+  const total = perfScore + intScore;
+  const last3 = co.monthlyPL.slice(-3);
+  const consecutiveLoss = last3.length === 3 && last3.every(r => (r.operatingProfit || 0) < 0);
+  if (total < 50 || consecutiveLoss) return { color: 'red', label: '赤', class: 'text-red' };
+  if (total < 70) return { color: 'yellow', label: '黄', class: '' };
+  return { color: 'green', label: '緑', class: 'text-green' };
+}
+
+function signalDot(signal) {
+  const colorMap = { red: 'var(--red)', yellow: '#f59e0b', green: 'var(--green)' };
+  return '<span style="display:inline-flex;align-items:center;gap:6px;font-weight:700"><span style="width:12px;height:12px;border-radius:50%;background:' + colorMap[signal.color] + ';box-shadow:0 0 8px ' + colorMap[signal.color] + '"></span>' + signal.label + '</span>';
+}
+
+function fmtPct(v, opts) {
+  if (v === null || v === undefined || isNaN(v)) return '<span style="color:var(--text-dim)">−</span>';
+  const sign = v < 0 ? '▲' : (opts && opts.plus && v > 0 ? '+' : '');
+  const cls = v < 0 ? 'text-red' : (opts && opts.greenPositive && v > 0 ? 'text-green' : '');
+  return '<span class="' + cls + '">' + sign + Math.abs(v).toFixed(1) + '%</span>';
+}
+
+function fmtMoney(v) {
+  if (v === null || v === undefined || isNaN(v)) return '<span style="color:var(--text-dim)">−</span>';
+  const sign = v < 0 ? '▲' : '';
+  return sign + fmtOku(Math.abs(v));
+}
+
+function buildGroupPerformance(data) {
+  const companies = data.subsidiaries;
+  const tbody = document.querySelector('#table-group-perf tbody');
+  let signalCounts = { red: 0, yellow: 0, green: 0 };
+  let latestMonthGlobal = null;
+  let totalCurRev = 0, totalCurOp = 0, totalYtdRev = 0, totalYtdOp = 0, totalGp = 0;
+
+  companies.forEach(co => {
+    const month = getLatestClosedMonth(co);
+    if (!latestMonthGlobal || month > latestMonthGlobal) latestMonthGlobal = month;
+    const cur = getMonthRow(co, month) || { revenue: 0, grossProfit: 0, operatingProfit: 0 };
+    const yoy = getPrevYearMonth(co, month);
+    const growth = yoy && yoy.revenue ? ((cur.revenue - yoy.revenue) / yoy.revenue * 100) : null;
+    const ytdRev = sumField(co.monthlyPL, 'revenue');
+    const ytdOp = sumField(co.monthlyPL, 'operatingProfit');
+    const ytdGp = sumField(co.monthlyPL, 'grossProfit');
+    const gpRate = ytdRev > 0 ? (ytdGp / ytdRev * 100) : 0;
+    const opRate = ytdRev > 0 ? (ytdOp / ytdRev * 100) : 0;
+    const perf = computePerformanceScore(co, month);
+    const integ = computeIntegrityScore(co);
+    const signal = computeSignal(co, perf.total, integ.total);
+    signalCounts[signal.color]++;
+    totalCurRev += cur.revenue || 0; totalCurOp += cur.operatingProfit || 0;
+    totalYtdRev += ytdRev; totalYtdOp += ytdOp; totalGp += ytdGp;
+
+    tbody.innerHTML += '<tr>' +
+      '<td><b>' + co.displayName + '</b></td>' +
+      '<td class="text-right">' + fmtMoney(cur.revenue) + '</td>' +
+      '<td class="text-right">' + fmtPct(growth, {plus: true, greenPositive: true}) + '</td>' +
+      '<td class="text-right">' + fmtMoney(ytdRev) + '</td>' +
+      '<td class="text-right">' + fmtPct(gpRate) + '</td>' +
+      '<td class="text-right ' + ((cur.operatingProfit || 0) >= 0 ? 'text-green' : 'text-red') + '">' + fmtMoney(cur.operatingProfit) + '</td>' +
+      '<td class="text-right ' + (ytdOp >= 0 ? 'text-green' : 'text-red') + '">' + fmtMoney(ytdOp) + '</td>' +
+      '<td class="text-right">' + fmtPct(opRate) + '</td>' +
+      '<td style="text-align:center">' + signalDot(signal) + '</td>' +
+    '</tr>';
+  });
+
+  // 合計行
+  const totalGpRate = totalYtdRev > 0 ? totalGp / totalYtdRev * 100 : 0;
+  const totalOpRate = totalYtdRev > 0 ? totalYtdOp / totalYtdRev * 100 : 0;
+  tbody.innerHTML += '<tr style="background:rgba(201,162,39,0.05);font-weight:700">' +
+    '<td><b>合計</b></td>' +
+    '<td class="text-right">' + fmtMoney(totalCurRev) + '</td>' +
+    '<td class="text-right">−</td>' +
+    '<td class="text-right">' + fmtMoney(totalYtdRev) + '</td>' +
+    '<td class="text-right">' + fmtPct(totalGpRate) + '</td>' +
+    '<td class="text-right ' + (totalCurOp >= 0 ? 'text-green' : 'text-red') + '">' + fmtMoney(totalCurOp) + '</td>' +
+    '<td class="text-right ' + (totalYtdOp >= 0 ? 'text-green' : 'text-red') + '">' + fmtMoney(totalYtdOp) + '</td>' +
+    '<td class="text-right">' + fmtPct(totalOpRate) + '</td>' +
+    '<td>−</td>' +
+  '</tr>';
+
+  document.getElementById('gp-latest-month').textContent = latestMonthGlobal || '-';
+  document.getElementById('gp-signal-summary').innerHTML = '緑 ' + signalCounts.green + ' / 黄 ' + signalCounts.yellow + ' / 赤 ' + signalCounts.red;
+}
+
+function buildGroupIntegrity(data) {
+  const companies = data.subsidiaries;
+  const tbody = document.querySelector('#table-group-int tbody');
+  let totalCash = 0, totalDenko = 0, totalExternal = 0, totalRev = 0;
+
+  companies.forEach(co => {
+    const cash = (co.bs && co.bs.cash) || 0;
+    const cashMonths = getCashMonths(co);
+    const equity = getEquityRatio(co);
+    const denko = getDenkoLoanNet(co);
+    const denkoRatio = getDenkoLoanRatio(co);
+    const ext = getExternalLoanTotal(co);
+    const integ = computeIntegrityScore(co);
+    const integSignal = integ.total >= 40 ? { color: 'green', label: '緑' } : integ.total >= 20 ? { color: 'yellow', label: '黄' } : { color: 'red', label: '赤' };
+    totalCash += cash; totalDenko += denko; totalExternal += ext;
+    totalRev += sumField(co.monthlyPL, 'revenue');
+
+    const cashMonthDisp = cashMonths === null ? '<span style="color:var(--text-dim)">−</span>' :
+      (cashMonths < 1 ? '<span class="text-red">' : cashMonths < 2 ? '<span style="color:#f59e0b">' : '<span class="text-green">') +
+      cashMonths.toFixed(1) + 'ヶ月</span>';
+
+    tbody.innerHTML += '<tr>' +
+      '<td><b>' + co.displayName + '</b></td>' +
+      '<td class="text-right">' + fmtMoney(cash) + '</td>' +
+      '<td class="text-right">' + cashMonthDisp + '</td>' +
+      '<td class="text-right">' + fmtPct(equity) + '</td>' +
+      '<td class="text-right">' + (denko === 0 ? '<span style="color:var(--text-dim)">なし</span>' : fmtMoney(denko)) + '</td>' +
+      '<td class="text-right">' + fmtPct(denkoRatio) + '</td>' +
+      '<td class="text-right">' + (ext === 0 ? '<span style="color:var(--text-dim)">なし</span>' : fmtMoney(ext)) + '</td>' +
+      '<td style="text-align:center">' + signalDot(integSignal) + '</td>' +
+    '</tr>';
+  });
+
+  const totalDenkoRatio = totalRev > 0 ? totalDenko / totalRev * 100 : 0;
+  tbody.innerHTML += '<tr style="background:rgba(201,162,39,0.05);font-weight:700">' +
+    '<td><b>合計</b></td>' +
+    '<td class="text-right">' + fmtMoney(totalCash) + '</td>' +
+    '<td class="text-right">−</td>' +
+    '<td class="text-right">−</td>' +
+    '<td class="text-right">' + fmtMoney(totalDenko) + '</td>' +
+    '<td class="text-right">' + fmtPct(totalDenkoRatio) + '</td>' +
+    '<td class="text-right">' + fmtMoney(totalExternal) + '</td>' +
+    '<td>−</td>' +
+  '</tr>';
+
+  document.getElementById('gi-latest-month').textContent = getLatestClosedMonth(companies[0]) || '-';
+}
+
+function buildScoreCard(data) {
+  const companies = data.subsidiaries;
+  const tbodyMain = document.querySelector('#table-scorecard-board tbody');
+  const tbodyPerf = document.querySelector('#table-perf-detail tbody');
+  const tbodyInt = document.querySelector('#table-int-detail tbody');
+
+  companies.forEach(co => {
+    const latest = getLatestClosedMonth(co);
+    const months = co.monthlyPL.map(r => r.month).sort();
+    const prevMonth = months.length >= 2 ? months[months.length - 2] : null;
+    const perfNow = computePerformanceScore(co, latest);
+    const integNow = computeIntegrityScore(co);  // BSは現在値のみ
+    const signal = computeSignal(co, perfNow.total, integNow.total);
+    let prevTotal = null;
+    if (prevMonth) {
+      const perfPrev = computePerformanceScore(co, prevMonth);
+      // Integrityは時系列BSがないので、現在値で代用
+      prevTotal = perfPrev.total + integNow.total;
+    }
+    const totalNow = perfNow.total + integNow.total;
+    const delta = prevTotal !== null ? totalNow - prevTotal : null;
+    // 1行診断
+    const c = perfNow.components;
+    const ic = integNow.components;
+    let diag = [];
+    if (signal.color === 'red') diag.push('赤信号');
+    if (c.opRate < 0) diag.push('営業赤字');
+    if (ic.cashMonths !== null && ic.cashMonths < 1) diag.push('現預金1ヶ月未満');
+    if (ic.denkoRatio >= 30) diag.push('DENKO依存度高');
+    if (ic.equity < 0) diag.push('債務超過');
+    if (!diag.length) diag.push('問題なし');
+
+    tbodyMain.innerHTML += '<tr>' +
+      '<td><b>' + co.displayName + '</b></td>' +
+      '<td class="text-right">' + perfNow.total + ' / 50</td>' +
+      '<td class="text-right">' + integNow.total + ' / 50</td>' +
+      '<td class="text-right" style="font-weight:800;font-size:14px">' + totalNow + ' / 100</td>' +
+      '<td class="text-right">' + (delta === null ? '−' : (delta >= 0 ? '<span class="text-green">+' + delta : '<span class="text-red">' + delta) + '</span>') + '</td>' +
+      '<td style="text-align:center">' + signalDot(signal) + '</td>' +
+      '<td style="font-size:11px;color:var(--text-muted)">' + diag.join(' ・ ') + '</td>' +
+    '</tr>';
+
+    // Performance breakdown
+    tbodyPerf.innerHTML += '<tr>' +
+      '<td><b>' + co.displayName + '</b></td>' +
+      '<td class="text-right">' + (c.growth === null ? '−' : fmtPct(c.growth, {plus:true, greenPositive:true})) + ' (' + c.growthScore + ')</td>' +
+      '<td class="text-right">' + fmtPct(c.gpRate) + ' (' + c.gpScore + ')</td>' +
+      '<td class="text-right">' + fmtPct(c.opRate) + ' (' + c.opScore + ')</td>' +
+      '<td class="text-right">' + (c.budgetAch === null ? '−' : fmtPct(c.budgetAch)) + ' (' + c.budgetScore + ')</td>' +
+      '<td class="text-right">' + (c.yearGrowth === null ? '−' : fmtPct(c.yearGrowth, {plus:true, greenPositive:true})) + ' (' + c.yearGrowthScore + ')</td>' +
+      '<td class="text-right" style="font-weight:700">' + perfNow.total + '/50</td>' +
+    '</tr>';
+
+    // Integrity breakdown
+    tbodyInt.innerHTML += '<tr>' +
+      '<td><b>' + co.displayName + '</b></td>' +
+      '<td class="text-right">' + (ic.cashMonths === null ? '−' : ic.cashMonths.toFixed(1) + 'ヶ月') + ' (' + ic.cashScore + ')</td>' +
+      '<td class="text-right">' + fmtPct(ic.equity) + ' (' + ic.equityScore + ')</td>' +
+      '<td class="text-right">' + fmtPct(ic.denkoRatio) + ' (' + ic.denkoScore + ')</td>' +
+      '<td class="text-right" style="font-weight:700">' + integNow.total + '/50</td>' +
+    '</tr>';
+  });
 }
 
 function buildOverview(data) {

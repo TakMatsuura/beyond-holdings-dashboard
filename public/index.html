@@ -209,13 +209,113 @@ if (sessionStorage.getItem('beyond-auth') === '1') {
   </div>
 </div>
 
+<!-- Group Performance Section (FY26 Board Slide 8) -->
+<div id="group-performance" class="section">
+  <div class="page-header"><h2>Group Performance</h2><div class="subtitle">各社PL一覧＋Signal自動判定（最新月: <span id="gp-latest-month"></span>）</div></div>
+  <div class="content">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-header"><h3>業績一覧</h3><div class="badge" id="gp-signal-summary"></div></div>
+      <div class="card-body" style="overflow-x:auto"><table id="table-group-perf"><thead><tr>
+        <th>会社</th>
+        <th class="text-right">売上高(当月)</th>
+        <th class="text-right">前年同月比</th>
+        <th class="text-right">売上高(累計)</th>
+        <th class="text-right">粗利率</th>
+        <th class="text-right">営業利益(当月)</th>
+        <th class="text-right">営業利益(累計)</th>
+        <th class="text-right">営業利益率</th>
+        <th style="text-align:center">Signal</th>
+      </tr></thead><tbody></tbody></table></div>
+    </div>
+    <div class="card"><div class="card-body" style="font-size:11px;color:var(--text-muted);line-height:1.7">
+      ※Signal基準: 緑=スコア70点以上 ｜ 黄=50-69点 ｜ 赤=49点以下 or 3ヶ月連続赤字
+    </div></div>
+  </div>
+</div>
+
+<!-- Group Integrity Section (FY26 Board Slide 9) -->
+<div id="group-integrity" class="section">
+  <div class="page-header"><h2>Group Integrity</h2><div class="subtitle">財務健全性一覧＋Signal自動判定（最新月: <span id="gi-latest-month"></span>）</div></div>
+  <div class="content">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-header"><h3>BS健全性指標</h3></div>
+      <div class="card-body" style="overflow-x:auto"><table id="table-group-int"><thead><tr>
+        <th>会社</th>
+        <th class="text-right">現預金</th>
+        <th class="text-right">現預金月数</th>
+        <th class="text-right">自己資本比率</th>
+        <th class="text-right">DENKO借入残</th>
+        <th class="text-right">DENKO借入比率</th>
+        <th class="text-right">社外借入残</th>
+        <th style="text-align:center">Signal</th>
+      </tr></thead><tbody></tbody></table></div>
+    </div>
+    <div class="card"><div class="card-body" style="font-size:11px;color:var(--text-muted);line-height:1.7">
+      ※現預金月数 = 現預金 ÷ 直近3ヶ月平均販管費 ｜ DENKO借入残 = 借入金系(対DENKO) − 貸付/立替金(対DENKO) ｜ 全勘定科目×取引先で識別<br>
+      ※Signal基準: 緑=Integrityスコア40点以上 ｜ 黄=20-39点 ｜ 赤=19点以下
+    </div></div>
+  </div>
+</div>
+
+<!-- Score Card Section (FY26 Board Slide 12) -->
+<div id="score-card" class="section">
+  <div class="page-header"><h2>Company Score Card</h2><div class="subtitle">Performance(50)＋Integrity(50)=100点満点 ｜ 介入優先順位の決定</div></div>
+  <div class="content">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-header"><h3>各社スコア一覧</h3></div>
+      <div class="card-body" style="overflow-x:auto"><table id="table-scorecard-board"><thead><tr>
+        <th>会社</th>
+        <th class="text-right">Performance</th>
+        <th class="text-right">Integrity</th>
+        <th class="text-right">合計</th>
+        <th class="text-right">前月比</th>
+        <th style="text-align:center">Signal</th>
+        <th>診断</th>
+      </tr></thead><tbody></tbody></table></div>
+    </div>
+    <div class="grid-2">
+      <div class="card"><div class="card-header"><h3>Performance Score 内訳</h3></div><div class="card-body" style="overflow-x:auto;font-size:11px"><table id="table-perf-detail"><thead><tr>
+        <th>会社</th>
+        <th class="text-right">売上成長率<br>(前年同月)</th>
+        <th class="text-right">粗利率</th>
+        <th class="text-right">営業利益率</th>
+        <th class="text-right">予算達成率<br>(累計)</th>
+        <th class="text-right">前年度比<br>(売上)</th>
+        <th class="text-right">合計</th>
+      </tr></thead><tbody></tbody></table></div></div>
+      <div class="card"><div class="card-header"><h3>Integrity Score 内訳</h3></div><div class="card-body" style="overflow-x:auto;font-size:11px"><table id="table-int-detail"><thead><tr>
+        <th>会社</th>
+        <th class="text-right">現預金月数</th>
+        <th class="text-right">自己資本比率</th>
+        <th class="text-right">DENKO借入比率</th>
+        <th class="text-right">合計</th>
+      </tr></thead><tbody></tbody></table></div></div>
+    </div>
+    <div class="card"><div class="card-body" style="font-size:11px;color:var(--text-muted);line-height:1.8">
+      <b>Performance Score (50点満点)</b><br>
+      売上成長率(前年同月比): +10%以上=10 / +5〜10%=7 / 0〜+5%=4 / マイナス=0<br>
+      粗利率: 40%以上=10 / 30〜40%=7 / 20〜30%=4 / 20%未満=0<br>
+      営業利益率: 10%以上=10 / 5〜10%=7 / 0〜5%=4 / 赤字=0<br>
+      予算達成率(累計): 105%以上=10 / 100〜105%=7 / 90〜100%=4 / 90%未満=0<br>
+      前年度比(売上、累計): +10%以上=10 / +5〜10%=7 / 0〜+5%=4 / マイナス=0<br>
+      <br>
+      <b>Integrity Score (50点満点)</b><br>
+      現預金月数: 3ヶ月以上=20 / 2〜3ヶ月=12 / 1〜2ヶ月=5 / 1ヶ月未満=0<br>
+      自己資本比率: 30%以上=20 / 15〜30%=12 / 0〜15%=5 / マイナス=0<br>
+      DENKO借入比率(累計売上比): 借入なし=10 / 売上の10%未満=7 / 10〜30%=4 / 30%超=0<br>
+      <br>
+      <b>Signal判定</b>: 緑=70点以上 ｜ 黄=50-69点 ｜ 赤=49点以下 or 3ヶ月連続赤字
+    </div></div>
+  </div>
+</div>
+
 <!-- Dynamic subsidiary sections -->
 <div id="subsidiary-sections"></div>
 
 </div>
 
 <script>
-const DASHBOARD_DATA = {"fetchedAt":"2026-04-21T08:27:03.369Z","fiscalYear":2025,"fiscalYearLabel":"FY2025 (2025/05 - 2026/04)","cutoffMonth":"2026/03","companies":[{"id":3115888,"name":"デンコー","displayName":"デンコー","monthlyPL":[{"month":"2025/05","revenue":104300703,"cogs":59075449,"grossProfit":45225254,"sga":35961169,"operatingProfit":9264085,"depreciation":524356,"ebitda":9788441},{"month":"2025/06","revenue":80882559,"cogs":37842761,"grossProfit":43039798,"sga":38710225,"operatingProfit":4329573,"depreciation":524356,"ebitda":4853929},{"month":"2025/07","revenue":90738636,"cogs":43763657,"grossProfit":46974979,"sga":39881685,"operatingProfit":7093294,"depreciation":524356,"ebitda":7617650},{"month":"2025/08","revenue":99604747,"cogs":51839081,"grossProfit":47765666,"sga":36658699,"operatingProfit":11106967,"depreciation":524356,"ebitda":11631323},{"month":"2025/09","revenue":89762601,"cogs":39935976,"grossProfit":49826625,"sga":45365030,"operatingProfit":4461595,"depreciation":524356,"ebitda":4985951},{"month":"2025/10","revenue":96787181,"cogs":59441603,"grossProfit":37345578,"sga":40719544,"operatingProfit":-3373966,"depreciation":524356,"ebitda":-2849610},{"month":"2025/11","revenue":92237775,"cogs":53693126,"grossProfit":38544649,"sga":41862061,"operatingProfit":-3317412,"depreciation":524356,"ebitda":-2793056},{"month":"2025/12","revenue":109625260,"cogs":56212459,"grossProfit":53412801,"sga":45390877,"operatingProfit":8021924,"depreciation":524356,"ebitda":8546280},{"month":"2026/01","revenue":101440220,"cogs":51024573,"grossProfit":50415647,"sga":39484870,"operatingProfit":10930777,"depreciation":524356,"ebitda":11455133},{"month":"2026/02","revenue":103584660,"cogs":61467953,"grossProfit":42116707,"sga":38247503,"operatingProfit":3869204,"depreciation":524356,"ebitda":4393560},{"month":"2026/03","revenue":82626052,"cogs":48009047,"grossProfit":34617005,"sga":39554350,"operatingProfit":-4937345,"depreciation":524356,"ebitda":-4412989}],"budgets":[{"month":"2025/05","revenueBudget":94158333,"opBudget":2424288},{"month":"2025/06","revenueBudget":94158333,"opBudget":2424288},{"month":"2025/07","revenueBudget":94158333,"opBudget":2424288},{"month":"2025/08","revenueBudget":94158333,"opBudget":2424288},{"month":"2025/09","revenueBudget":94158333,"opBudget":2424288},{"month":"2025/10","revenueBudget":94158333,"opBudget":2424288},{"month":"2025/11","revenueBudget":94158333,"opBudget":2424288},{"month":"2025/12","revenueBudget":94158333,"opBudget":2424288},{"month":"2026/01","revenueBudget":94158333,"opBudget":2424288},{"month":"2026/02","revenueBudget":94158333,"opBudget":2424288},{"month":"2026/03","revenueBudget":94158333,"opBudget":2424288},{"month":"2026/04","revenueBudget":94158333,"opBudget":2424288}],"topCustomers":[{"revenue":167101872},{"revenue":88523887},{"revenue":74918609},{"revenue":60418530},{"revenue":56010460},{"revenue":48119001},{"revenue":45494106},{"revenue":39342220},{"revenue":38527609},{"revenue":36211180}],"topSuppliers":[],"bs":{"totalAssets":961262583,"cash":5085295,"totalLiabilities":538744787,"netAssets":422517796}},{"id":1980825,"name":"SAFARI","displayName":"SAFARI","monthlyPL":[{"month":"2025/05","revenue":749440,"cogs":470340,"grossProfit":279100,"sga":707028,"operatingProfit":-427928,"depreciation":25000,"ebitda":-402928},{"month":"2025/06","revenue":580645,"cogs":63111,"grossProfit":517534,"sga":826507,"operatingProfit":-308973,"depreciation":25000,"ebitda":-283973},{"month":"2025/07","revenue":1432062,"cogs":673396,"grossProfit":758666,"sga":727509,"operatingProfit":31157,"depreciation":25000,"ebitda":56157},{"month":"2025/08","revenue":608889,"cogs":940125,"grossProfit":-331236,"sga":711853,"operatingProfit":-1043089,"depreciation":25000,"ebitda":-1018089},{"month":"2025/09","revenue":1796353,"cogs":517600,"grossProfit":1278753,"sga":714617,"operatingProfit":564136,"depreciation":25000,"ebitda":589136},{"month":"2025/10","revenue":929243,"cogs":550240,"grossProfit":379003,"sga":907226,"operatingProfit":-528223,"depreciation":25000,"ebitda":-503223},{"month":"2025/11","revenue":3191538,"cogs":1132660,"grossProfit":2058878,"sga":1325328,"operatingProfit":733550,"depreciation":25000,"ebitda":758550},{"month":"2025/12","revenue":1404731,"cogs":433920,"grossProfit":970811,"sga":727897,"operatingProfit":242914,"depreciation":25000,"ebitda":267914},{"month":"2026/01","revenue":866388,"cogs":528073,"grossProfit":338315,"sga":599733,"operatingProfit":-261418,"depreciation":25000,"ebitda":-236418},{"month":"2026/02","revenue":3084456,"cogs":815104,"grossProfit":2269352,"sga":580832,"operatingProfit":1688520,"depreciation":25000,"ebitda":1713520},{"month":"2026/03","revenue":1516248,"cogs":602768,"grossProfit":913480,"sga":729069,"operatingProfit":184411,"depreciation":25000,"ebitda":209411}],"budgets":[{"month":"2025/05","revenueBudget":4180000,"opBudget":-126000},{"month":"2025/06","revenueBudget":1780000,"opBudget":-456000},{"month":"2025/07","revenueBudget":1780000,"opBudget":-481000},{"month":"2025/08","revenueBudget":4180000,"opBudget":-306000},{"month":"2025/09","revenueBudget":1180000,"opBudget":-876000},{"month":"2025/10","revenueBudget":1780000,"opBudget":-1056000},{"month":"2025/11","revenueBudget":1780000,"opBudget":-276000},{"month":"2025/12","revenueBudget":4600000,"opBudget":-106000},{"month":"2026/01","revenueBudget":1600000,"opBudget":-676000},{"month":"2026/02","revenueBudget":2200000,"opBudget":-256000},{"month":"2026/03","revenueBudget":4600000,"opBudget":74000},{"month":"2026/04","revenueBudget":2200000,"opBudget":-856000}],"topCustomers":[{"revenue":6028463},{"revenue":5003100},{"revenue":2660000},{"revenue":873180},{"revenue":720000},{"revenue":397750},{"revenue":222500},{"revenue":150000},{"revenue":105000}],"topSuppliers":[],"bs":{"totalAssets":16383017,"cash":5984128,"totalLiabilities":30173759,"netAssets":13790742}},{"id":10815529,"name":"BEYOND Holdings","displayName":"BEYOND Holdings","monthlyPL":[{"month":"2025/05","revenue":8750000,"cogs":0,"grossProfit":8750000,"sga":7628229,"operatingProfit":1121771,"depreciation":0,"ebitda":1121771},{"month":"2025/06","revenue":8951985,"cogs":0,"grossProfit":8951985,"sga":8689759,"operatingProfit":262226,"depreciation":0,"ebitda":262226},{"month":"2025/07","revenue":8750000,"cogs":0,"grossProfit":8750000,"sga":8098998,"operatingProfit":651002,"depreciation":0,"ebitda":651002},{"month":"2025/08","revenue":8750000,"cogs":0,"grossProfit":8750000,"sga":7256067,"operatingProfit":1493933,"depreciation":0,"ebitda":1493933},{"month":"2025/09","revenue":8750000,"cogs":0,"grossProfit":8750000,"sga":7119905,"operatingProfit":1630095,"depreciation":0,"ebitda":1630095},{"month":"2025/10","revenue":8750000,"cogs":0,"grossProfit":8750000,"sga":7015792,"operatingProfit":1734208,"depreciation":0,"ebitda":1734208},{"month":"2025/11","revenue":8750000,"cogs":0,"grossProfit":8750000,"sga":7386714,"operatingProfit":1363286,"depreciation":0,"ebitda":1363286},{"month":"2025/12","revenue":8750000,"cogs":0,"grossProfit":8750000,"sga":8666215,"operatingProfit":83785,"depreciation":0,"ebitda":83785},{"month":"2026/01","revenue":8750000,"cogs":0,"grossProfit":8750000,"sga":7484165,"operatingProfit":1265835,"depreciation":0,"ebitda":1265835},{"month":"2026/02","revenue":8750000,"cogs":0,"grossProfit":8750000,"sga":7524345,"operatingProfit":1225655,"depreciation":0,"ebitda":1225655},{"month":"2026/03","revenue":7550000,"cogs":0,"grossProfit":7550000,"sga":7734490,"operatingProfit":-184490,"depreciation":0,"ebitda":-184490}],"budgets":[{"month":"2025/05","revenueBudget":8750000,"opBudget":803200},{"month":"2025/06","revenueBudget":8750000,"opBudget":803200},{"month":"2025/07","revenueBudget":8750000,"opBudget":1203200},{"month":"2025/08","revenueBudget":8750000,"opBudget":1203200},{"month":"2025/09","revenueBudget":8750000,"opBudget":1203200},{"month":"2025/10","revenueBudget":8750000,"opBudget":1203200},{"month":"2025/11","revenueBudget":8750000,"opBudget":1203200},{"month":"2025/12","revenueBudget":8750000,"opBudget":1203200},{"month":"2026/01","revenueBudget":8750000,"opBudget":1203200},{"month":"2026/02","revenueBudget":8750000,"opBudget":1203200},{"month":"2026/03","revenueBudget":8750000,"opBudget":1203200},{"month":"2026/04","revenueBudget":8750000,"opBudget":-3296800}],"topCustomers":[{"revenue":77601985},{"revenue":12000000},{"revenue":4800000},{"revenue":4200000},{"revenue":2750000},{"revenue":1100000}],"topSuppliers":[],"bs":{"totalAssets":83770182,"cash":1400,"totalLiabilities":55803865,"netAssets":27966317}},{"id":2619462,"name":"HANABI","displayName":"HANABI","monthlyPL":[{"month":"2025/05","revenue":4170856,"cogs":537016,"grossProfit":3633840,"sga":3573134,"operatingProfit":60706,"depreciation":104392,"ebitda":165098},{"month":"2025/06","revenue":3787129,"cogs":440141,"grossProfit":3346988,"sga":3581719,"operatingProfit":-234731,"depreciation":104392,"ebitda":-130339},{"month":"2025/07","revenue":3641144,"cogs":639184,"grossProfit":3001960,"sga":4061639,"operatingProfit":-1059679,"depreciation":104392,"ebitda":-955287},{"month":"2025/08","revenue":3570693,"cogs":477945,"grossProfit":3092748,"sga":3677804,"operatingProfit":-585056,"depreciation":104392,"ebitda":-480664},{"month":"2025/09","revenue":9515107,"cogs":-709197,"grossProfit":10224304,"sga":8986289,"operatingProfit":1238015,"depreciation":2357914,"ebitda":3595929},{"month":"2025/10","revenue":9409115,"cogs":894692,"grossProfit":8514423,"sga":9300398,"operatingProfit":-785975,"depreciation":1954580,"ebitda":1168605},{"month":"2025/11","revenue":9008659,"cogs":-16816,"grossProfit":9025475,"sga":9307297,"operatingProfit":-281822,"depreciation":1954580,"ebitda":1672758},{"month":"2025/12","revenue":11474125,"cogs":1504799,"grossProfit":9969326,"sga":9612368,"operatingProfit":356958,"depreciation":1954580,"ebitda":2311538},{"month":"2026/01","revenue":8936280,"cogs":1366767,"grossProfit":7569513,"sga":9574886,"operatingProfit":-2005373,"depreciation":1954580,"ebitda":-50793},{"month":"2026/02","revenue":9555308,"cogs":1045017,"grossProfit":8510291,"sga":8418213,"operatingProfit":92078,"depreciation":1954580,"ebitda":2046658},{"month":"2026/03","revenue":10249204,"cogs":1060372,"grossProfit":9188832,"sga":8977846,"operatingProfit":210986,"depreciation":1954580,"ebitda":2165566}],"budgets":[{"month":"2025/05","revenueBudget":4300000,"opBudget":455852},{"month":"2025/06","revenueBudget":4300000,"opBudget":455852},{"month":"2025/07","revenueBudget":4300000,"opBudget":455852},{"month":"2025/08","revenueBudget":4300000,"opBudget":455852},{"month":"2025/09","revenueBudget":10500000,"opBudget":745102},{"month":"2025/10","revenueBudget":10300000,"opBudget":533102},{"month":"2025/11","revenueBudget":10300000,"opBudget":533102},{"month":"2025/12","revenueBudget":10700000,"opBudget":671102},{"month":"2026/01","revenueBudget":10300000,"opBudget":533102},{"month":"2026/02","revenueBudget":10100000,"opBudget":464102},{"month":"2026/03","revenueBudget":10600000,"opBudget":586602},{"month":"2026/04","revenueBudget":10300000,"opBudget":533102}],"topCustomers":[{"revenue":42850145},{"revenue":40402475},{"revenue":65000}],"topSuppliers":[],"bs":{"totalAssets":132399067,"cash":70360,"totalLiabilities":156179667,"netAssets":23780600}},{"id":2619418,"name":"K2","displayName":"K2","monthlyPL":[{"month":"2025/05","revenue":21037459,"cogs":5415625,"grossProfit":15621834,"sga":14661770,"operatingProfit":960064,"depreciation":199295,"ebitda":1159359},{"month":"2025/06","revenue":20631761,"cogs":5266066,"grossProfit":15365695,"sga":14613673,"operatingProfit":752022,"depreciation":199295,"ebitda":951317},{"month":"2025/07","revenue":20905520,"cogs":5540163,"grossProfit":15365357,"sga":15277080,"operatingProfit":88277,"depreciation":199295,"ebitda":287572},{"month":"2025/08","revenue":24553650,"cogs":6359407,"grossProfit":18194243,"sga":16072743,"operatingProfit":2121500,"depreciation":199295,"ebitda":2320795},{"month":"2025/09","revenue":19734747,"cogs":5162406,"grossProfit":14572341,"sga":15111319,"operatingProfit":-538978,"depreciation":199295,"ebitda":-339683},{"month":"2025/10","revenue":21788222,"cogs":5794209,"grossProfit":15994013,"sga":20660484,"operatingProfit":-4666471,"depreciation":199295,"ebitda":-4467176},{"month":"2025/11","revenue":22124786,"cogs":5783507,"grossProfit":16341279,"sga":24097876,"operatingProfit":-7756597,"depreciation":199295,"ebitda":-7557302},{"month":"2025/12","revenue":45158966,"cogs":14512589,"grossProfit":30646377,"sga":24097377,"operatingProfit":6549000,"depreciation":199295,"ebitda":6748295},{"month":"2026/01","revenue":27092982,"cogs":7336052,"grossProfit":19756930,"sga":22793090,"operatingProfit":-3036160,"depreciation":199295,"ebitda":-2836865},{"month":"2026/02","revenue":21851189,"cogs":3997998,"grossProfit":17853191,"sga":22391223,"operatingProfit":-4538032,"depreciation":199295,"ebitda":-4338737},{"month":"2026/03","revenue":28227733,"cogs":8377645,"grossProfit":19850088,"sga":22603544,"operatingProfit":-2753456,"depreciation":199295,"ebitda":-2554161}],"budgets":[{"month":"2025/05","revenueBudget":20300000,"opBudget":1234206},{"month":"2025/06","revenueBudget":21800000,"opBudget":1819206},{"month":"2025/07","revenueBudget":22100000,"opBudget":1936206},{"month":"2025/08","revenueBudget":25300000,"opBudget":3184206},{"month":"2025/09","revenueBudget":20800000,"opBudget":1429206},{"month":"2025/10","revenueBudget":20800000,"opBudget":1429206},{"month":"2025/11","revenueBudget":21300000,"opBudget":1624206},{"month":"2025/12","revenueBudget":35000000,"opBudget":6967206},{"month":"2026/01","revenueBudget":20600000,"opBudget":1351206},{"month":"2026/02","revenueBudget":18300000,"opBudget":454206},{"month":"2026/03","revenueBudget":20800000,"opBudget":1429206},{"month":"2026/04","revenueBudget":21300000,"opBudget":1624206}],"topCustomers":[{"revenue":58842837},{"revenue":57995388},{"revenue":49007293},{"revenue":38203354},{"revenue":37983381},{"revenue":31087307},{"revenue":3637}],"topSuppliers":[],"bs":{"totalAssets":111679092,"cash":100000,"totalLiabilities":155770389,"netAssets":44091297}},{"id":11006999,"name":"ライフプロ","displayName":"ライフプロ","monthlyPL":[{"month":"2025/05","revenue":5287093,"cogs":0,"grossProfit":5287093,"sga":4366935,"operatingProfit":920158,"depreciation":0,"ebitda":920158},{"month":"2025/06","revenue":109984,"cogs":0,"grossProfit":109984,"sga":2664730,"operatingProfit":-2554746,"depreciation":0,"ebitda":-2554746},{"month":"2025/07","revenue":3921585,"cogs":0,"grossProfit":3921585,"sga":3413798,"operatingProfit":507787,"depreciation":0,"ebitda":507787},{"month":"2025/08","revenue":1605026,"cogs":0,"grossProfit":1605026,"sga":2768490,"operatingProfit":-1163464,"depreciation":0,"ebitda":-1163464},{"month":"2025/09","revenue":1965510,"cogs":0,"grossProfit":1965510,"sga":2745412,"operatingProfit":-779902,"depreciation":0,"ebitda":-779902},{"month":"2025/10","revenue":19546,"cogs":0,"grossProfit":19546,"sga":2198978,"operatingProfit":-2179432,"depreciation":0,"ebitda":-2179432},{"month":"2025/11","revenue":1880221,"cogs":0,"grossProfit":1880221,"sga":2597553,"operatingProfit":-717332,"depreciation":0,"ebitda":-717332},{"month":"2025/12","revenue":114092,"cogs":0,"grossProfit":114092,"sga":2085006,"operatingProfit":-1970914,"depreciation":0,"ebitda":-1970914},{"month":"2026/01","revenue":3251987,"cogs":0,"grossProfit":3251987,"sga":3001219,"operatingProfit":250768,"depreciation":0,"ebitda":250768},{"month":"2026/02","revenue":5997206,"cogs":0,"grossProfit":5997206,"sga":3075888,"operatingProfit":2921318,"depreciation":0,"ebitda":2921318},{"month":"2026/03","revenue":1064868,"cogs":0,"grossProfit":1064868,"sga":1985672,"operatingProfit":-920804,"depreciation":0,"ebitda":-920804}],"budgets":[{"month":"2025/05","revenueBudget":3528000,"opBudget":103000},{"month":"2025/06","revenueBudget":3528000,"opBudget":103000},{"month":"2025/07","revenueBudget":4528000,"opBudget":1503000},{"month":"2025/08","revenueBudget":3528000,"opBudget":503000},{"month":"2025/09","revenueBudget":3528000,"opBudget":-497000},{"month":"2025/10","revenueBudget":3528000,"opBudget":503000},{"month":"2025/11","revenueBudget":4528000,"opBudget":1503000},{"month":"2025/12","revenueBudget":27528000,"opBudget":4503000},{"month":"2026/01","revenueBudget":4028000,"opBudget":1003000},{"month":"2026/02","revenueBudget":4028000,"opBudget":1003000},{"month":"2026/03","revenueBudget":5028000,"opBudget":2003000},{"month":"2026/04","revenueBudget":3528000,"opBudget":503000}],"topCustomers":[{"revenue":17071387},{"revenue":1960078},{"revenue":1371552},{"revenue":1303030},{"revenue":1194000},{"revenue":1120958},{"revenue":957892},{"revenue":844571},{"revenue":802529},{"revenue":785455}],"topSuppliers":[],"bs":{"totalAssets":16455273,"cash":111434,"totalLiabilities":68117580,"netAssets":51662307}},{"id":10713894,"name":"M7Logi","displayName":"M7Logi","monthlyPL":[{"month":"2025/05","revenue":4341964,"cogs":1946440,"grossProfit":2395524,"sga":2540161,"operatingProfit":-144637,"depreciation":0,"ebitda":-144637},{"month":"2025/06","revenue":4961088,"cogs":2189254,"grossProfit":2771834,"sga":2265239,"operatingProfit":506595,"depreciation":0,"ebitda":506595},{"month":"2025/07","revenue":9003354,"cogs":3722282,"grossProfit":5281072,"sga":4433329,"operatingProfit":847743,"depreciation":0,"ebitda":847743},{"month":"2025/08","revenue":9105158,"cogs":5240967,"grossProfit":3864191,"sga":3188837,"operatingProfit":675354,"depreciation":0,"ebitda":675354},{"month":"2025/09","revenue":6989408,"cogs":3652416,"grossProfit":3336992,"sga":2805947,"operatingProfit":531045,"depreciation":0,"ebitda":531045},{"month":"2025/10","revenue":8155982,"cogs":4163315,"grossProfit":3992667,"sga":3408693,"operatingProfit":583974,"depreciation":0,"ebitda":583974},{"month":"2025/11","revenue":12013681,"cogs":6011750,"grossProfit":6001931,"sga":3574807,"operatingProfit":2427124,"depreciation":0,"ebitda":2427124},{"month":"2025/12","revenue":9238342,"cogs":4608720,"grossProfit":4629622,"sga":4049552,"operatingProfit":580070,"depreciation":0,"ebitda":580070},{"month":"2026/01","revenue":10385552,"cogs":4724685,"grossProfit":5660867,"sga":6552882,"operatingProfit":-892015,"depreciation":0,"ebitda":-892015},{"month":"2026/02","revenue":9865482,"cogs":4312695,"grossProfit":5552787,"sga":3604145,"operatingProfit":1948642,"depreciation":0,"ebitda":1948642},{"month":"2026/03","revenue":8437974,"cogs":2964690,"grossProfit":5473284,"sga":4077796,"operatingProfit":1395488,"depreciation":38116,"ebitda":1433604}],"budgets":[{"month":"2025/05","revenueBudget":3793333,"opBudget":160345},{"month":"2025/06","revenueBudget":4763333,"opBudget":530345},{"month":"2025/07","revenueBudget":6913333,"opBudget":1047345},{"month":"2025/08","revenueBudget":5628333,"opBudget":662345},{"month":"2025/09","revenueBudget":6628333,"opBudget":862345},{"month":"2025/10","revenueBudget":5328333,"opBudget":602345},{"month":"2025/11","revenueBudget":5113333,"opBudget":327345},{"month":"2025/12","revenueBudget":5613333,"opBudget":767345},{"month":"2026/01","revenueBudget":5213333,"opBudget":367345},{"month":"2026/02","revenueBudget":5213333,"opBudget":367345},{"month":"2026/03","revenueBudget":5213333,"opBudget":367345},{"month":"2026/04","revenueBudget":5213333,"opBudget":323845}],"topCustomers":[{"revenue":97557492}],"topSuppliers":[],"bs":{"totalAssets":12665092,"cash":796129,"totalLiabilities":3383054,"netAssets":9282038}},{"id":12243427,"name":"184","displayName":"184","monthlyPL":[{"month":"2025/11","revenue":0,"cogs":0,"grossProfit":0,"sga":647879,"operatingProfit":-647879,"depreciation":0,"ebitda":-647879},{"month":"2025/12","revenue":0,"cogs":0,"grossProfit":0,"sga":267485,"operatingProfit":-267485,"depreciation":0,"ebitda":-267485},{"month":"2026/01","revenue":132370,"cogs":0,"grossProfit":132370,"sga":893125,"operatingProfit":-760755,"depreciation":0,"ebitda":-760755},{"month":"2026/02","revenue":758780,"cogs":0,"grossProfit":758780,"sga":1288878,"operatingProfit":-530098,"depreciation":0,"ebitda":-530098},{"month":"2026/03","revenue":1059250,"cogs":0,"grossProfit":1059250,"sga":1265450,"operatingProfit":-206200,"depreciation":0,"ebitda":-206200}],"budgets":[],"topCustomers":[{"revenue":2787240}],"topSuppliers":[],"bs":{"totalAssets":2130053,"cash":113095,"totalLiabilities":3051648,"netAssets":921595}},{"id":10713669,"name":"DNK","displayName":"DNK","monthlyPL":[{"month":"2025/05","revenue":669750,"cogs":0,"grossProfit":669750,"sga":5005,"operatingProfit":664745,"depreciation":0,"ebitda":664745},{"month":"2025/06","revenue":95000,"cogs":0,"grossProfit":95000,"sga":16808,"operatingProfit":78192,"depreciation":0,"ebitda":78192},{"month":"2025/07","revenue":123750,"cogs":0,"grossProfit":123750,"sga":5005,"operatingProfit":118745,"depreciation":0,"ebitda":118745},{"month":"2025/08","revenue":4750,"cogs":0,"grossProfit":4750,"sga":4400,"operatingProfit":350,"depreciation":0,"ebitda":350},{"month":"2025/09","revenue":9500,"cogs":0,"grossProfit":9500,"sga":4400,"operatingProfit":5100,"depreciation":0,"ebitda":5100},{"month":"2025/10","revenue":9500,"cogs":0,"grossProfit":9500,"sga":4400,"operatingProfit":5100,"depreciation":0,"ebitda":5100},{"month":"2025/11","revenue":0,"cogs":188270,"grossProfit":-188270,"sga":4400,"operatingProfit":-192670,"depreciation":0,"ebitda":-192670},{"month":"2025/12","revenue":0,"cogs":0,"grossProfit":0,"sga":5885,"operatingProfit":-5885,"depreciation":0,"ebitda":-5885},{"month":"2026/01","revenue":0,"cogs":0,"grossProfit":0,"sga":4400,"operatingProfit":-4400,"depreciation":0,"ebitda":-4400},{"month":"2026/02","revenue":0,"cogs":0,"grossProfit":0,"sga":4400,"operatingProfit":-4400,"depreciation":0,"ebitda":-4400},{"month":"2026/03","revenue":129000,"cogs":62400,"grossProfit":66600,"sga":4400,"operatingProfit":62200,"depreciation":0,"ebitda":62200}],"budgets":[],"topCustomers":[{"revenue":1041250}],"topSuppliers":[],"bs":{"totalAssets":2704173,"cash":1704173,"totalLiabilities":1510000,"netAssets":1194173}}]};
+const DASHBOARD_DATA = {"fetchedAt":"2026-04-30T12:16:47.707Z","fiscalYear":2025,"fiscalYearLabel":"FY2025 (2025/05 - 2026/04)","cutoffMonth":"2026/03","companies":[{"id":3115888,"name":"デンコー","displayName":"デンコー","monthlyPL":[{"month":"2025/05","revenue":104300703,"cogs":59075449,"grossProfit":45225254,"sga":35961169,"operatingProfit":9264085,"depreciation":524356,"ebitda":9788441},{"month":"2025/06","revenue":80882559,"cogs":37842761,"grossProfit":43039798,"sga":38710225,"operatingProfit":4329573,"depreciation":524356,"ebitda":4853929},{"month":"2025/07","revenue":90738636,"cogs":43763657,"grossProfit":46974979,"sga":39881685,"operatingProfit":7093294,"depreciation":524356,"ebitda":7617650},{"month":"2025/08","revenue":99604747,"cogs":51839081,"grossProfit":47765666,"sga":36658699,"operatingProfit":11106967,"depreciation":524356,"ebitda":11631323},{"month":"2025/09","revenue":89762601,"cogs":39935976,"grossProfit":49826625,"sga":45365030,"operatingProfit":4461595,"depreciation":524356,"ebitda":4985951},{"month":"2025/10","revenue":96787181,"cogs":59441603,"grossProfit":37345578,"sga":40719544,"operatingProfit":-3373966,"depreciation":524356,"ebitda":-2849610},{"month":"2025/11","revenue":92237775,"cogs":53693126,"grossProfit":38544649,"sga":41862061,"operatingProfit":-3317412,"depreciation":524356,"ebitda":-2793056},{"month":"2025/12","revenue":109625260,"cogs":56212459,"grossProfit":53412801,"sga":45390877,"operatingProfit":8021924,"depreciation":524356,"ebitda":8546280},{"month":"2026/01","revenue":101440220,"cogs":51024573,"grossProfit":50415647,"sga":39484870,"operatingProfit":10930777,"depreciation":524356,"ebitda":11455133},{"month":"2026/02","revenue":103584660,"cogs":61467953,"grossProfit":42116707,"sga":38247503,"operatingProfit":3869204,"depreciation":524356,"ebitda":4393560},{"month":"2026/03","revenue":82626052,"cogs":48009047,"grossProfit":34617005,"sga":39554350,"operatingProfit":-4937345,"depreciation":524356,"ebitda":-4412989}],"budgets":[{"month":"2025/05","revenueBudget":94158333,"opBudget":2424288},{"month":"2025/06","revenueBudget":94158333,"opBudget":2424288},{"month":"2025/07","revenueBudget":94158333,"opBudget":2424288},{"month":"2025/08","revenueBudget":94158333,"opBudget":2424288},{"month":"2025/09","revenueBudget":94158333,"opBudget":2424288},{"month":"2025/10","revenueBudget":94158333,"opBudget":2424288},{"month":"2025/11","revenueBudget":94158333,"opBudget":2424288},{"month":"2025/12","revenueBudget":94158333,"opBudget":2424288},{"month":"2026/01","revenueBudget":94158333,"opBudget":2424288},{"month":"2026/02","revenueBudget":94158333,"opBudget":2424288},{"month":"2026/03","revenueBudget":94158333,"opBudget":2424288},{"month":"2026/04","revenueBudget":94158333,"opBudget":2424288}],"topCustomers":[{"revenue":167101872},{"revenue":88523887},{"revenue":74918609},{"revenue":60418530},{"revenue":56010460},{"revenue":48119001},{"revenue":45494106},{"revenue":39342220},{"revenue":38527609},{"revenue":36211180}],"topSuppliers":[],"bs":{"totalAssets":1047922018,"cash":48941219,"totalLiabilities":592659705,"netAssets":455262313},"bsExtended":{"denko":{"liability":0,"assetReverse":0,"net":0,"detail":[]},"external":{"shortTerm":103000000,"longTerm":224776000,"officer":0,"total":327776000}},"prevFYMonthlyPL":[{"month":"2024/05","revenue":91494986,"operatingProfit":0},{"month":"2024/06","revenue":90033960,"operatingProfit":0},{"month":"2024/07","revenue":101808807,"operatingProfit":0},{"month":"2024/08","revenue":80876707,"operatingProfit":0},{"month":"2024/09","revenue":56016469,"operatingProfit":0},{"month":"2024/10","revenue":86526785,"operatingProfit":0},{"month":"2024/11","revenue":92095916,"operatingProfit":0},{"month":"2024/12","revenue":91533930,"operatingProfit":0},{"month":"2025/01","revenue":74363071,"operatingProfit":0},{"month":"2025/02","revenue":97376238,"operatingProfit":0},{"month":"2025/03","revenue":93078819,"operatingProfit":0},{"month":"2025/04","revenue":73075460,"operatingProfit":0}]},{"id":1980825,"name":"SAFARI","displayName":"SAFARI","monthlyPL":[{"month":"2025/05","revenue":749440,"cogs":470340,"grossProfit":279100,"sga":707028,"operatingProfit":-427928,"depreciation":25000,"ebitda":-402928},{"month":"2025/06","revenue":580645,"cogs":63111,"grossProfit":517534,"sga":826507,"operatingProfit":-308973,"depreciation":25000,"ebitda":-283973},{"month":"2025/07","revenue":1432062,"cogs":673396,"grossProfit":758666,"sga":727509,"operatingProfit":31157,"depreciation":25000,"ebitda":56157},{"month":"2025/08","revenue":608889,"cogs":940125,"grossProfit":-331236,"sga":711853,"operatingProfit":-1043089,"depreciation":25000,"ebitda":-1018089},{"month":"2025/09","revenue":1796353,"cogs":517600,"grossProfit":1278753,"sga":714617,"operatingProfit":564136,"depreciation":25000,"ebitda":589136},{"month":"2025/10","revenue":929243,"cogs":550240,"grossProfit":379003,"sga":907226,"operatingProfit":-528223,"depreciation":25000,"ebitda":-503223},{"month":"2025/11","revenue":3191538,"cogs":1132660,"grossProfit":2058878,"sga":1325328,"operatingProfit":733550,"depreciation":25000,"ebitda":758550},{"month":"2025/12","revenue":1404731,"cogs":433920,"grossProfit":970811,"sga":727897,"operatingProfit":242914,"depreciation":25000,"ebitda":267914},{"month":"2026/01","revenue":866388,"cogs":528073,"grossProfit":338315,"sga":599733,"operatingProfit":-261418,"depreciation":25000,"ebitda":-236418},{"month":"2026/02","revenue":3084456,"cogs":815104,"grossProfit":2269352,"sga":580832,"operatingProfit":1688520,"depreciation":25000,"ebitda":1713520},{"month":"2026/03","revenue":1516248,"cogs":602768,"grossProfit":913480,"sga":729069,"operatingProfit":184411,"depreciation":25000,"ebitda":209411}],"budgets":[{"month":"2025/05","revenueBudget":4180000,"opBudget":-126000},{"month":"2025/06","revenueBudget":1780000,"opBudget":-456000},{"month":"2025/07","revenueBudget":1780000,"opBudget":-481000},{"month":"2025/08","revenueBudget":4180000,"opBudget":-306000},{"month":"2025/09","revenueBudget":1180000,"opBudget":-876000},{"month":"2025/10","revenueBudget":1780000,"opBudget":-1056000},{"month":"2025/11","revenueBudget":1780000,"opBudget":-276000},{"month":"2025/12","revenueBudget":4600000,"opBudget":-106000},{"month":"2026/01","revenueBudget":1600000,"opBudget":-676000},{"month":"2026/02","revenueBudget":2200000,"opBudget":-256000},{"month":"2026/03","revenueBudget":4600000,"opBudget":74000},{"month":"2026/04","revenueBudget":2200000,"opBudget":-856000}],"topCustomers":[{"revenue":6028463},{"revenue":5003100},{"revenue":2660000},{"revenue":873180},{"revenue":720000},{"revenue":397750},{"revenue":222500},{"revenue":150000},{"revenue":105000}],"topSuppliers":[],"bs":{"totalAssets":18651690,"cash":6000511,"totalLiabilities":29745742,"netAssets":-11094052},"bsExtended":{"denko":{"liability":21641638,"assetReverse":0,"net":21641638,"detail":[{"account":"短期借入金","side":"liability","amount":21641638}]},"external":{"shortTerm":0,"longTerm":6160000,"officer":0,"total":6160000}},"prevFYMonthlyPL":[{"month":"2024/05","revenue":1557748,"operatingProfit":0},{"month":"2024/06","revenue":669389,"operatingProfit":0},{"month":"2024/07","revenue":2293937,"operatingProfit":0},{"month":"2024/08","revenue":750667,"operatingProfit":0},{"month":"2024/09","revenue":1182680,"operatingProfit":0},{"month":"2024/10","revenue":2287420,"operatingProfit":0},{"month":"2024/11","revenue":3310591,"operatingProfit":0},{"month":"2024/12","revenue":6996484,"operatingProfit":0},{"month":"2025/01","revenue":1096380,"operatingProfit":0},{"month":"2025/02","revenue":1584880,"operatingProfit":0},{"month":"2025/03","revenue":1549474,"operatingProfit":0},{"month":"2025/04","revenue":651153,"operatingProfit":0}]},{"id":10815529,"name":"BEYOND Holdings","displayName":"BEYOND Holdings","monthlyPL":[{"month":"2025/05","revenue":8750000,"cogs":0,"grossProfit":8750000,"sga":7628229,"operatingProfit":1121771,"depreciation":0,"ebitda":1121771},{"month":"2025/06","revenue":8951985,"cogs":0,"grossProfit":8951985,"sga":8689759,"operatingProfit":262226,"depreciation":0,"ebitda":262226},{"month":"2025/07","revenue":8750000,"cogs":0,"grossProfit":8750000,"sga":8098998,"operatingProfit":651002,"depreciation":0,"ebitda":651002},{"month":"2025/08","revenue":8750000,"cogs":0,"grossProfit":8750000,"sga":7256067,"operatingProfit":1493933,"depreciation":0,"ebitda":1493933},{"month":"2025/09","revenue":8750000,"cogs":0,"grossProfit":8750000,"sga":7119905,"operatingProfit":1630095,"depreciation":0,"ebitda":1630095},{"month":"2025/10","revenue":8750000,"cogs":0,"grossProfit":8750000,"sga":7015792,"operatingProfit":1734208,"depreciation":0,"ebitda":1734208},{"month":"2025/11","revenue":8750000,"cogs":0,"grossProfit":8750000,"sga":7386714,"operatingProfit":1363286,"depreciation":0,"ebitda":1363286},{"month":"2025/12","revenue":8750000,"cogs":0,"grossProfit":8750000,"sga":8666215,"operatingProfit":83785,"depreciation":0,"ebitda":83785},{"month":"2026/01","revenue":8750000,"cogs":0,"grossProfit":8750000,"sga":7484165,"operatingProfit":1265835,"depreciation":0,"ebitda":1265835},{"month":"2026/02","revenue":8750000,"cogs":0,"grossProfit":8750000,"sga":7524345,"operatingProfit":1225655,"depreciation":0,"ebitda":1225655},{"month":"2026/03","revenue":7550000,"cogs":0,"grossProfit":7550000,"sga":7734490,"operatingProfit":-184490,"depreciation":0,"ebitda":-184490}],"budgets":[{"month":"2025/05","revenueBudget":8750000,"opBudget":803200},{"month":"2025/06","revenueBudget":8750000,"opBudget":803200},{"month":"2025/07","revenueBudget":8750000,"opBudget":1203200},{"month":"2025/08","revenueBudget":8750000,"opBudget":1203200},{"month":"2025/09","revenueBudget":8750000,"opBudget":1203200},{"month":"2025/10","revenueBudget":8750000,"opBudget":1203200},{"month":"2025/11","revenueBudget":8750000,"opBudget":1203200},{"month":"2025/12","revenueBudget":8750000,"opBudget":1203200},{"month":"2026/01","revenueBudget":8750000,"opBudget":1203200},{"month":"2026/02","revenueBudget":8750000,"opBudget":1203200},{"month":"2026/03","revenueBudget":8750000,"opBudget":1203200},{"month":"2026/04","revenueBudget":8750000,"opBudget":-3296800}],"topCustomers":[{"revenue":77601985},{"revenue":12000000},{"revenue":4800000},{"revenue":4200000},{"revenue":2750000},{"revenue":1100000}],"topSuppliers":[],"bs":{"totalAssets":87042558,"cash":13643968,"totalLiabilities":65755896,"netAssets":21286662},"bsExtended":{"denko":{"liability":8000000,"assetReverse":10000000,"net":-2000000,"detail":[{"account":"長期貸付金","side":"asset","amount":10000000},{"account":"長期借入金","side":"liability","amount":8000000}]},"external":{"shortTerm":0,"longTerm":0,"officer":41000000,"total":41000000}},"prevFYMonthlyPL":[{"month":"2024/05","revenue":2600000,"operatingProfit":0},{"month":"2024/06","revenue":2600000,"operatingProfit":0},{"month":"2024/07","revenue":2600000,"operatingProfit":0},{"month":"2024/08","revenue":2600000,"operatingProfit":0},{"month":"2024/09","revenue":2600000,"operatingProfit":0},{"month":"2024/10","revenue":2600000,"operatingProfit":0},{"month":"2024/11","revenue":2600000,"operatingProfit":0},{"month":"2024/12","revenue":2600000,"operatingProfit":0},{"month":"2025/01","revenue":2600000,"operatingProfit":0},{"month":"2025/02","revenue":2600000,"operatingProfit":0},{"month":"2025/03","revenue":2600000,"operatingProfit":0},{"month":"2025/04","revenue":2600000,"operatingProfit":0}]},{"id":2619462,"name":"HANABI","displayName":"HANABI","monthlyPL":[{"month":"2025/05","revenue":4170856,"cogs":537016,"grossProfit":3633840,"sga":3573134,"operatingProfit":60706,"depreciation":104392,"ebitda":165098},{"month":"2025/06","revenue":3787129,"cogs":440141,"grossProfit":3346988,"sga":3581719,"operatingProfit":-234731,"depreciation":104392,"ebitda":-130339},{"month":"2025/07","revenue":3641144,"cogs":639184,"grossProfit":3001960,"sga":4061639,"operatingProfit":-1059679,"depreciation":104392,"ebitda":-955287},{"month":"2025/08","revenue":3570693,"cogs":477945,"grossProfit":3092748,"sga":3677804,"operatingProfit":-585056,"depreciation":104392,"ebitda":-480664},{"month":"2025/09","revenue":9515107,"cogs":-709197,"grossProfit":10224304,"sga":8986289,"operatingProfit":1238015,"depreciation":2357914,"ebitda":3595929},{"month":"2025/10","revenue":9409115,"cogs":894692,"grossProfit":8514423,"sga":9300398,"operatingProfit":-785975,"depreciation":1954580,"ebitda":1168605},{"month":"2025/11","revenue":9008659,"cogs":-16816,"grossProfit":9025475,"sga":9307297,"operatingProfit":-281822,"depreciation":1954580,"ebitda":1672758},{"month":"2025/12","revenue":11474125,"cogs":1504799,"grossProfit":9969326,"sga":9612368,"operatingProfit":356958,"depreciation":1954580,"ebitda":2311538},{"month":"2026/01","revenue":8936280,"cogs":1366767,"grossProfit":7569513,"sga":9574886,"operatingProfit":-2005373,"depreciation":1954580,"ebitda":-50793},{"month":"2026/02","revenue":9555308,"cogs":1045017,"grossProfit":8510291,"sga":8418213,"operatingProfit":92078,"depreciation":1954580,"ebitda":2046658},{"month":"2026/03","revenue":10249204,"cogs":1060372,"grossProfit":9188832,"sga":8977846,"operatingProfit":210986,"depreciation":1954580,"ebitda":2165566}],"budgets":[{"month":"2025/05","revenueBudget":4300000,"opBudget":455852},{"month":"2025/06","revenueBudget":4300000,"opBudget":455852},{"month":"2025/07","revenueBudget":4300000,"opBudget":455852},{"month":"2025/08","revenueBudget":4300000,"opBudget":455852},{"month":"2025/09","revenueBudget":10500000,"opBudget":745102},{"month":"2025/10","revenueBudget":10300000,"opBudget":533102},{"month":"2025/11","revenueBudget":10300000,"opBudget":533102},{"month":"2025/12","revenueBudget":10700000,"opBudget":671102},{"month":"2026/01","revenueBudget":10300000,"opBudget":533102},{"month":"2026/02","revenueBudget":10100000,"opBudget":464102},{"month":"2026/03","revenueBudget":10600000,"opBudget":586602},{"month":"2026/04","revenueBudget":10300000,"opBudget":533102}],"topCustomers":[{"revenue":42850145},{"revenue":40402475},{"revenue":65000}],"topSuppliers":[],"bs":{"totalAssets":137844984,"cash":6565417,"totalLiabilities":156249907,"netAssets":-18404923},"bsExtended":{"denko":{"liability":102734423,"assetReverse":0,"net":102734423,"detail":[{"account":"短期借入金","side":"liability","amount":102734423}]},"external":{"shortTerm":20000000,"longTerm":4228000,"officer":0,"total":24228000}},"prevFYMonthlyPL":[{"month":"2024/05","revenue":3536802,"operatingProfit":0},{"month":"2024/06","revenue":3414564,"operatingProfit":0},{"month":"2024/07","revenue":3419165,"operatingProfit":0},{"month":"2024/08","revenue":3419674,"operatingProfit":0},{"month":"2024/09","revenue":3442988,"operatingProfit":0},{"month":"2024/10","revenue":4259539,"operatingProfit":0},{"month":"2024/11","revenue":3509342,"operatingProfit":0},{"month":"2024/12","revenue":4472301,"operatingProfit":0},{"month":"2025/01","revenue":3543630,"operatingProfit":0},{"month":"2025/02","revenue":3531696,"operatingProfit":0},{"month":"2025/03","revenue":4361356,"operatingProfit":0},{"month":"2025/04","revenue":4142846,"operatingProfit":0}]},{"id":2619418,"name":"K2","displayName":"K2","monthlyPL":[{"month":"2025/05","revenue":21037459,"cogs":5415625,"grossProfit":15621834,"sga":14661770,"operatingProfit":960064,"depreciation":199295,"ebitda":1159359},{"month":"2025/06","revenue":20631761,"cogs":5266066,"grossProfit":15365695,"sga":14613673,"operatingProfit":752022,"depreciation":199295,"ebitda":951317},{"month":"2025/07","revenue":20905520,"cogs":5540163,"grossProfit":15365357,"sga":15277080,"operatingProfit":88277,"depreciation":199295,"ebitda":287572},{"month":"2025/08","revenue":24553650,"cogs":6359407,"grossProfit":18194243,"sga":16072743,"operatingProfit":2121500,"depreciation":199295,"ebitda":2320795},{"month":"2025/09","revenue":19734747,"cogs":5162406,"grossProfit":14572341,"sga":15111319,"operatingProfit":-538978,"depreciation":199295,"ebitda":-339683},{"month":"2025/10","revenue":21788222,"cogs":5794209,"grossProfit":15994013,"sga":20660484,"operatingProfit":-4666471,"depreciation":199295,"ebitda":-4467176},{"month":"2025/11","revenue":22124786,"cogs":5783507,"grossProfit":16341279,"sga":24097876,"operatingProfit":-7756597,"depreciation":199295,"ebitda":-7557302},{"month":"2025/12","revenue":45158966,"cogs":14512589,"grossProfit":30646377,"sga":24097377,"operatingProfit":6549000,"depreciation":199295,"ebitda":6748295},{"month":"2026/01","revenue":27092982,"cogs":7336052,"grossProfit":19756930,"sga":22793090,"operatingProfit":-3036160,"depreciation":199295,"ebitda":-2836865},{"month":"2026/02","revenue":21851189,"cogs":3997998,"grossProfit":17853191,"sga":22391223,"operatingProfit":-4538032,"depreciation":199295,"ebitda":-4338737},{"month":"2026/03","revenue":28227733,"cogs":8377645,"grossProfit":19850088,"sga":22603544,"operatingProfit":-2753456,"depreciation":199295,"ebitda":-2554161}],"budgets":[{"month":"2025/05","revenueBudget":20300000,"opBudget":1234206},{"month":"2025/06","revenueBudget":21800000,"opBudget":1819206},{"month":"2025/07","revenueBudget":22100000,"opBudget":1936206},{"month":"2025/08","revenueBudget":25300000,"opBudget":3184206},{"month":"2025/09","revenueBudget":20800000,"opBudget":1429206},{"month":"2025/10","revenueBudget":20800000,"opBudget":1429206},{"month":"2025/11","revenueBudget":21300000,"opBudget":1624206},{"month":"2025/12","revenueBudget":35000000,"opBudget":6967206},{"month":"2026/01","revenueBudget":20600000,"opBudget":1351206},{"month":"2026/02","revenueBudget":18300000,"opBudget":454206},{"month":"2026/03","revenueBudget":20800000,"opBudget":1429206},{"month":"2026/04","revenueBudget":21300000,"opBudget":1624206}],"topCustomers":[{"revenue":58842837},{"revenue":57995388},{"revenue":49007293},{"revenue":38203354},{"revenue":37983381},{"revenue":31087307},{"revenue":3637}],"topSuppliers":[],"bs":{"totalAssets":118654187,"cash":14941022,"totalLiabilities":147144892,"netAssets":-28490705},"bsExtended":{"denko":{"liability":86745573,"assetReverse":0,"net":86745573,"detail":[{"account":"短期借入金","side":"liability","amount":86745573}]},"external":{"shortTerm":0,"longTerm":0,"officer":353750,"total":353750}},"prevFYMonthlyPL":[{"month":"2024/05","revenue":10888473,"operatingProfit":0},{"month":"2024/06","revenue":12167922,"operatingProfit":0},{"month":"2024/07","revenue":12507175,"operatingProfit":0},{"month":"2024/08","revenue":19150958,"operatingProfit":0},{"month":"2024/09","revenue":15433636,"operatingProfit":0},{"month":"2024/10","revenue":13491173,"operatingProfit":0},{"month":"2024/11","revenue":16314199,"operatingProfit":0},{"month":"2024/12","revenue":30267032,"operatingProfit":0},{"month":"2025/01","revenue":18780927,"operatingProfit":0},{"month":"2025/02","revenue":18443122,"operatingProfit":0},{"month":"2025/03","revenue":26381702,"operatingProfit":0},{"month":"2025/04","revenue":22187512,"operatingProfit":0}]},{"id":11006999,"name":"ライフプロ","displayName":"ライフプロ","monthlyPL":[{"month":"2025/05","revenue":5287093,"cogs":0,"grossProfit":5287093,"sga":4366935,"operatingProfit":920158,"depreciation":0,"ebitda":920158},{"month":"2025/06","revenue":109984,"cogs":0,"grossProfit":109984,"sga":2664730,"operatingProfit":-2554746,"depreciation":0,"ebitda":-2554746},{"month":"2025/07","revenue":3921585,"cogs":0,"grossProfit":3921585,"sga":3413798,"operatingProfit":507787,"depreciation":0,"ebitda":507787},{"month":"2025/08","revenue":1605026,"cogs":0,"grossProfit":1605026,"sga":2768490,"operatingProfit":-1163464,"depreciation":0,"ebitda":-1163464},{"month":"2025/09","revenue":1965510,"cogs":0,"grossProfit":1965510,"sga":2745412,"operatingProfit":-779902,"depreciation":0,"ebitda":-779902},{"month":"2025/10","revenue":19546,"cogs":0,"grossProfit":19546,"sga":2198978,"operatingProfit":-2179432,"depreciation":0,"ebitda":-2179432},{"month":"2025/11","revenue":1880221,"cogs":0,"grossProfit":1880221,"sga":2597553,"operatingProfit":-717332,"depreciation":0,"ebitda":-717332},{"month":"2025/12","revenue":114092,"cogs":0,"grossProfit":114092,"sga":2085006,"operatingProfit":-1970914,"depreciation":0,"ebitda":-1970914},{"month":"2026/01","revenue":3251987,"cogs":0,"grossProfit":3251987,"sga":3001219,"operatingProfit":250768,"depreciation":0,"ebitda":250768},{"month":"2026/02","revenue":5997206,"cogs":0,"grossProfit":5997206,"sga":3075888,"operatingProfit":2921318,"depreciation":0,"ebitda":2921318},{"month":"2026/03","revenue":1064868,"cogs":0,"grossProfit":1064868,"sga":1985672,"operatingProfit":-920804,"depreciation":0,"ebitda":-920804}],"budgets":[{"month":"2025/05","revenueBudget":3528000,"opBudget":103000},{"month":"2025/06","revenueBudget":3528000,"opBudget":103000},{"month":"2025/07","revenueBudget":4528000,"opBudget":1503000},{"month":"2025/08","revenueBudget":3528000,"opBudget":503000},{"month":"2025/09","revenueBudget":3528000,"opBudget":-497000},{"month":"2025/10","revenueBudget":3528000,"opBudget":503000},{"month":"2025/11","revenueBudget":4528000,"opBudget":1503000},{"month":"2025/12","revenueBudget":27528000,"opBudget":4503000},{"month":"2026/01","revenueBudget":4028000,"opBudget":1003000},{"month":"2026/02","revenueBudget":4028000,"opBudget":1003000},{"month":"2026/03","revenueBudget":5028000,"opBudget":2003000},{"month":"2026/04","revenueBudget":3528000,"opBudget":503000}],"topCustomers":[{"revenue":17071387},{"revenue":1960078},{"revenue":1371552},{"revenue":1303030},{"revenue":1194000},{"revenue":1120958},{"revenue":957892},{"revenue":844571},{"revenue":802529},{"revenue":785455}],"topSuppliers":[],"bs":{"totalAssets":15600345,"cash":6915486,"totalLiabilities":70826010,"netAssets":-55225665},"bsExtended":{"denko":{"liability":46747300,"assetReverse":0,"net":46747300,"detail":[{"account":"長期借入金","side":"liability","amount":46747300}]},"external":{"shortTerm":1305660,"longTerm":5774000,"officer":9268596,"total":16348256}},"prevFYMonthlyPL":[{"month":"2024/05","revenue":353047,"operatingProfit":0},{"month":"2024/06","revenue":697548,"operatingProfit":0},{"month":"2024/07","revenue":161957,"operatingProfit":0},{"month":"2024/08","revenue":2455730,"operatingProfit":0},{"month":"2024/09","revenue":4617646,"operatingProfit":0},{"month":"2024/10","revenue":3326683,"operatingProfit":0},{"month":"2024/11","revenue":156183,"operatingProfit":0},{"month":"2024/12","revenue":26557329,"operatingProfit":0},{"month":"2025/01","revenue":2400585,"operatingProfit":0},{"month":"2025/02","revenue":3603957,"operatingProfit":0},{"month":"2025/03","revenue":3448723,"operatingProfit":0},{"month":"2025/04","revenue":270284,"operatingProfit":0}]},{"id":10713894,"name":"M7Logi","displayName":"M7Logi","monthlyPL":[{"month":"2025/05","revenue":4341964,"cogs":1946440,"grossProfit":2395524,"sga":2540161,"operatingProfit":-144637,"depreciation":0,"ebitda":-144637},{"month":"2025/06","revenue":4961088,"cogs":2189254,"grossProfit":2771834,"sga":2265239,"operatingProfit":506595,"depreciation":0,"ebitda":506595},{"month":"2025/07","revenue":9003354,"cogs":3722282,"grossProfit":5281072,"sga":4433329,"operatingProfit":847743,"depreciation":0,"ebitda":847743},{"month":"2025/08","revenue":9105158,"cogs":5240967,"grossProfit":3864191,"sga":3188837,"operatingProfit":675354,"depreciation":0,"ebitda":675354},{"month":"2025/09","revenue":6989408,"cogs":3652416,"grossProfit":3336992,"sga":2805947,"operatingProfit":531045,"depreciation":0,"ebitda":531045},{"month":"2025/10","revenue":8155982,"cogs":4163315,"grossProfit":3992667,"sga":3408693,"operatingProfit":583974,"depreciation":0,"ebitda":583974},{"month":"2025/11","revenue":12013681,"cogs":6011750,"grossProfit":6001931,"sga":3574807,"operatingProfit":2427124,"depreciation":0,"ebitda":2427124},{"month":"2025/12","revenue":9238342,"cogs":4608720,"grossProfit":4629622,"sga":4049552,"operatingProfit":580070,"depreciation":0,"ebitda":580070},{"month":"2026/01","revenue":10385552,"cogs":4724685,"grossProfit":5660867,"sga":6552882,"operatingProfit":-892015,"depreciation":0,"ebitda":-892015},{"month":"2026/02","revenue":9865482,"cogs":4312695,"grossProfit":5552787,"sga":3604145,"operatingProfit":1948642,"depreciation":0,"ebitda":1948642},{"month":"2026/03","revenue":8437974,"cogs":2964690,"grossProfit":5473284,"sga":4077796,"operatingProfit":1395488,"depreciation":38116,"ebitda":1433604}],"budgets":[{"month":"2025/05","revenueBudget":3793333,"opBudget":160345},{"month":"2025/06","revenueBudget":4763333,"opBudget":530345},{"month":"2025/07","revenueBudget":6913333,"opBudget":1047345},{"month":"2025/08","revenueBudget":5628333,"opBudget":662345},{"month":"2025/09","revenueBudget":6628333,"opBudget":862345},{"month":"2025/10","revenueBudget":5328333,"opBudget":602345},{"month":"2025/11","revenueBudget":5113333,"opBudget":327345},{"month":"2025/12","revenueBudget":5613333,"opBudget":767345},{"month":"2026/01","revenueBudget":5213333,"opBudget":367345},{"month":"2026/02","revenueBudget":5213333,"opBudget":367345},{"month":"2026/03","revenueBudget":5213333,"opBudget":367345},{"month":"2026/04","revenueBudget":5213333,"opBudget":323845}],"topCustomers":[{"revenue":97557492}],"topSuppliers":[],"bs":{"totalAssets":20781267,"cash":13445466,"totalLiabilities":12609834,"netAssets":8171433},"bsExtended":{"denko":{"liability":1000000,"assetReverse":0,"net":1000000,"detail":[{"account":"短期借入金","side":"liability","amount":1000000}]},"external":{"shortTerm":0,"longTerm":0,"officer":0,"total":0}},"prevFYMonthlyPL":[{"month":"2024/05","revenue":0,"operatingProfit":0},{"month":"2024/06","revenue":1284858,"operatingProfit":0},{"month":"2024/07","revenue":1390241,"operatingProfit":0},{"month":"2024/08","revenue":2134882,"operatingProfit":0},{"month":"2024/09","revenue":1420773,"operatingProfit":0},{"month":"2024/10","revenue":1283442,"operatingProfit":0},{"month":"2024/11","revenue":2904022,"operatingProfit":0},{"month":"2024/12","revenue":2562692,"operatingProfit":0},{"month":"2025/01","revenue":5295897,"operatingProfit":0},{"month":"2025/02","revenue":3397164,"operatingProfit":0},{"month":"2025/03","revenue":3618607,"operatingProfit":0},{"month":"2025/04","revenue":2834735,"operatingProfit":0}]},{"id":12243427,"name":"184","displayName":"184","monthlyPL":[{"month":"2025/11","revenue":0,"cogs":0,"grossProfit":0,"sga":647879,"operatingProfit":-647879,"depreciation":0,"ebitda":-647879},{"month":"2025/12","revenue":0,"cogs":0,"grossProfit":0,"sga":267485,"operatingProfit":-267485,"depreciation":0,"ebitda":-267485},{"month":"2026/01","revenue":132370,"cogs":0,"grossProfit":132370,"sga":893125,"operatingProfit":-760755,"depreciation":0,"ebitda":-760755},{"month":"2026/02","revenue":758780,"cogs":0,"grossProfit":758780,"sga":1288878,"operatingProfit":-530098,"depreciation":0,"ebitda":-530098},{"month":"2026/03","revenue":1059250,"cogs":0,"grossProfit":1059250,"sga":1265450,"operatingProfit":-206200,"depreciation":0,"ebitda":-206200}],"budgets":[],"topCustomers":[{"revenue":2787240}],"topSuppliers":[],"bs":{"totalAssets":1747646,"cash":617608,"totalLiabilities":3167110,"netAssets":-1419464},"bsExtended":{"denko":{"liability":168000,"assetReverse":0,"net":168000,"detail":[{"account":"短期借入金","side":"liability","amount":168000}]},"external":{"shortTerm":2050000,"longTerm":0,"officer":0,"total":2050000}},"prevFYMonthlyPL":[]},{"id":10713669,"name":"DNK","displayName":"DNK","monthlyPL":[{"month":"2025/05","revenue":669750,"cogs":0,"grossProfit":669750,"sga":5005,"operatingProfit":664745,"depreciation":0,"ebitda":664745},{"month":"2025/06","revenue":95000,"cogs":0,"grossProfit":95000,"sga":16808,"operatingProfit":78192,"depreciation":0,"ebitda":78192},{"month":"2025/07","revenue":123750,"cogs":0,"grossProfit":123750,"sga":5005,"operatingProfit":118745,"depreciation":0,"ebitda":118745},{"month":"2025/08","revenue":4750,"cogs":0,"grossProfit":4750,"sga":4400,"operatingProfit":350,"depreciation":0,"ebitda":350},{"month":"2025/09","revenue":9500,"cogs":0,"grossProfit":9500,"sga":4400,"operatingProfit":5100,"depreciation":0,"ebitda":5100},{"month":"2025/10","revenue":9500,"cogs":0,"grossProfit":9500,"sga":4400,"operatingProfit":5100,"depreciation":0,"ebitda":5100},{"month":"2025/11","revenue":0,"cogs":188270,"grossProfit":-188270,"sga":4400,"operatingProfit":-192670,"depreciation":0,"ebitda":-192670},{"month":"2025/12","revenue":0,"cogs":0,"grossProfit":0,"sga":5885,"operatingProfit":-5885,"depreciation":0,"ebitda":-5885},{"month":"2026/01","revenue":0,"cogs":0,"grossProfit":0,"sga":4400,"operatingProfit":-4400,"depreciation":0,"ebitda":-4400},{"month":"2026/02","revenue":0,"cogs":0,"grossProfit":0,"sga":4400,"operatingProfit":-4400,"depreciation":0,"ebitda":-4400},{"month":"2026/03","revenue":129000,"cogs":62400,"grossProfit":66600,"sga":4400,"operatingProfit":62200,"depreciation":0,"ebitda":62200}],"budgets":[],"topCustomers":[{"revenue":1041250}],"topSuppliers":[],"bs":{"totalAssets":2710058,"cash":1710058,"totalLiabilities":1510000,"netAssets":1200058},"bsExtended":{"denko":{"liability":1000000,"assetReverse":0,"net":1000000,"detail":[{"account":"短期借入金","side":"liability","amount":1000000}]},"external":{"shortTerm":510000,"longTerm":0,"officer":0,"total":510000}},"prevFYMonthlyPL":[{"month":"2024/05","revenue":0,"operatingProfit":0},{"month":"2024/06","revenue":0,"operatingProfit":0},{"month":"2024/07","revenue":0,"operatingProfit":0},{"month":"2024/08","revenue":0,"operatingProfit":0},{"month":"2024/09","revenue":0,"operatingProfit":0},{"month":"2024/10","revenue":0,"operatingProfit":0},{"month":"2024/11","revenue":0,"operatingProfit":0},{"month":"2024/12","revenue":280250,"operatingProfit":0},{"month":"2025/01","revenue":147250,"operatingProfit":0},{"month":"2025/02","revenue":9500,"operatingProfit":0},{"month":"2025/03","revenue":4750,"operatingProfit":0},{"month":"2025/04","revenue":0,"operatingProfit":0}]}]};
 </script>
 
 
@@ -284,13 +384,319 @@ function buildAll(data) {
   data.subsidiaries = subsidiaries;
 
   const tabsEl = document.getElementById('nav-tabs');
-  tabsEl.innerHTML = '<div class="nav-tab active" onclick="showTab(\'overview\',this)">BEYOND Holdings Overview</div>';
+  tabsEl.innerHTML = '<div class="nav-tab active" onclick="showTab(\'overview\',this)">BEYOND Holdings Overview</div>'
+    + '<div class="nav-tab" onclick="showTab(\'group-performance\',this)">Group Performance</div>'
+    + '<div class="nav-tab" onclick="showTab(\'group-integrity\',this)">Group Integrity</div>'
+    + '<div class="nav-tab" onclick="showTab(\'score-card\',this)">Score Card</div>';
   subsidiaries.forEach(co => {
     tabsEl.innerHTML += '<div class="nav-tab" onclick="showTab(\'co-' + co.id + '\',this)">' + co.displayName + '</div>';
   });
 
   buildOverview(data);
+  buildGroupPerformance(data);
+  buildGroupIntegrity(data);
+  buildScoreCard(data);
   subsidiaries.forEach(co => buildSubsidiary(co));
+}
+
+// ============== FY26 Board: Group Metrics ==============
+function getLatestClosedMonth(co) {
+  const valid = co.monthlyPL.filter(r => r.revenue !== null && r.revenue !== undefined);
+  if (!valid.length) return null;
+  return valid.map(r => r.month).sort().pop();
+}
+
+function getMonthRow(co, month) { return co.monthlyPL.find(r => r.month === month); }
+
+function getPrevYearMonth(co, currentMonth) {
+  if (!co.prevFYMonthlyPL || !co.prevFYMonthlyPL.length) return null;
+  const [y, m] = currentMonth.split('/');
+  const prevYM = (parseInt(y) - 1) + '/' + m;
+  return co.prevFYMonthlyPL.find(r => r.month === prevYM);
+}
+
+function getCashMonths(co) {
+  const cash = (co.bs && co.bs.cash) || 0;
+  const recent = co.monthlyPL.slice(-3).filter(r => r.revenue > 0 || r.sga > 0);
+  if (!recent.length) return null;
+  const avgSga = recent.reduce((s, r) => s + (r.sga || 0), 0) / recent.length;
+  if (avgSga <= 0) return null;
+  return cash / avgSga;
+}
+
+function getEquityRatio(co) {
+  const ta = (co.bs && co.bs.totalAssets) || 0;
+  const na = (co.bs && co.bs.netAssets) || 0;
+  return ta !== 0 ? (na / ta * 100) : 0;
+}
+
+function getDenkoLoanNet(co) {
+  if (!co.bsExtended || !co.bsExtended.denko) return 0;
+  return co.bsExtended.denko.net || 0;
+}
+
+function getExternalLoanTotal(co) {
+  if (!co.bsExtended || !co.bsExtended.external) return 0;
+  return co.bsExtended.external.total || 0;
+}
+
+function getDenkoLoanRatio(co) {
+  const denko = getDenkoLoanNet(co);
+  const ytdRev = sumField(co.monthlyPL, 'revenue');
+  return ytdRev > 0 ? (denko / ytdRev * 100) : 0;
+}
+
+function getBudgetAchievement(co) {
+  if (!co.budgets || !co.budgets.length) return null;
+  // 予算月のうち、実績がある月までの累計達成率
+  const actualMap = {};
+  co.monthlyPL.forEach(r => actualMap[r.month] = r.revenue);
+  let actualSum = 0, budgetSum = 0;
+  co.budgets.forEach(b => {
+    if (actualMap[b.month] !== undefined) {
+      actualSum += actualMap[b.month];
+      budgetSum += (b.revenueBudget || 0);
+    }
+  });
+  return budgetSum > 0 ? (actualSum / budgetSum * 100) : null;
+}
+
+function computePerformanceScore(co, targetMonth) {
+  const month = targetMonth || getLatestClosedMonth(co);
+  const cur = getMonthRow(co, month);
+  if (!cur) return { total: 0, components: {} };
+  // 売上成長率(前年同月比)
+  const yoy = getPrevYearMonth(co, month);
+  const growth = yoy && yoy.revenue ? ((cur.revenue - yoy.revenue) / yoy.revenue * 100) : null;
+  const growthScore = growth === null ? 0 : (growth >= 10 ? 10 : growth >= 5 ? 7 : growth >= 0 ? 4 : 0);
+  // 粗利率
+  const gpRate = cur.revenue > 0 ? (cur.grossProfit / cur.revenue * 100) : 0;
+  const gpScore = gpRate >= 40 ? 10 : gpRate >= 30 ? 7 : gpRate >= 20 ? 4 : 0;
+  // 営業利益率
+  const opRate = cur.revenue > 0 ? (cur.operatingProfit / cur.revenue * 100) : 0;
+  const opScore = opRate >= 10 ? 10 : opRate >= 5 ? 7 : opRate >= 0 ? 4 : 0;
+  // 予算達成率(累計)
+  const budgetAch = getBudgetAchievement(co);
+  const budgetScore = budgetAch === null ? 0 : (budgetAch >= 105 ? 10 : budgetAch >= 100 ? 7 : budgetAch >= 90 ? 4 : 0);
+  // 前年度比(売上、累計)
+  const ytdRev = sumField(co.monthlyPL, 'revenue');
+  const monthsCount = co.monthlyPL.length;
+  const prevYTD = co.prevFYMonthlyPL ? co.prevFYMonthlyPL.slice(0, monthsCount).reduce((s, r) => s + (r.revenue || 0), 0) : 0;
+  const yearGrowth = prevYTD > 0 ? ((ytdRev - prevYTD) / prevYTD * 100) : null;
+  const yearGrowthScore = yearGrowth === null ? 0 : (yearGrowth >= 10 ? 10 : yearGrowth >= 5 ? 7 : yearGrowth >= 0 ? 4 : 0);
+  return {
+    total: growthScore + gpScore + opScore + budgetScore + yearGrowthScore,
+    components: { growth, growthScore, gpRate, gpScore, opRate, opScore, budgetAch, budgetScore, yearGrowth, yearGrowthScore }
+  };
+}
+
+function computeIntegrityScore(co) {
+  const cashMonths = getCashMonths(co);
+  const cashScore = cashMonths === null ? 0 : (cashMonths >= 3 ? 20 : cashMonths >= 2 ? 12 : cashMonths >= 1 ? 5 : 0);
+  const equity = getEquityRatio(co);
+  const equityScore = equity >= 30 ? 20 : equity >= 15 ? 12 : equity >= 0 ? 5 : 0;
+  const denkoRatio = getDenkoLoanRatio(co);
+  const denkoScore = denkoRatio === 0 ? 10 : denkoRatio < 10 ? 7 : denkoRatio < 30 ? 4 : 0;
+  return {
+    total: cashScore + equityScore + denkoScore,
+    components: { cashMonths, cashScore, equity, equityScore, denkoRatio, denkoScore }
+  };
+}
+
+function computeSignal(co, perfScore, intScore) {
+  const total = perfScore + intScore;
+  const last3 = co.monthlyPL.slice(-3);
+  const consecutiveLoss = last3.length === 3 && last3.every(r => (r.operatingProfit || 0) < 0);
+  if (total < 50 || consecutiveLoss) return { color: 'red', label: '赤', class: 'text-red' };
+  if (total < 70) return { color: 'yellow', label: '黄', class: '' };
+  return { color: 'green', label: '緑', class: 'text-green' };
+}
+
+function signalDot(signal) {
+  const colorMap = { red: 'var(--red)', yellow: '#f59e0b', green: 'var(--green)' };
+  return '<span style="display:inline-flex;align-items:center;gap:6px;font-weight:700"><span style="width:12px;height:12px;border-radius:50%;background:' + colorMap[signal.color] + ';box-shadow:0 0 8px ' + colorMap[signal.color] + '"></span>' + signal.label + '</span>';
+}
+
+function fmtPct(v, opts) {
+  if (v === null || v === undefined || isNaN(v)) return '<span style="color:var(--text-dim)">−</span>';
+  const sign = v < 0 ? '▲' : (opts && opts.plus && v > 0 ? '+' : '');
+  const cls = v < 0 ? 'text-red' : (opts && opts.greenPositive && v > 0 ? 'text-green' : '');
+  return '<span class="' + cls + '">' + sign + Math.abs(v).toFixed(1) + '%</span>';
+}
+
+function fmtMoney(v) {
+  if (v === null || v === undefined || isNaN(v)) return '<span style="color:var(--text-dim)">−</span>';
+  const sign = v < 0 ? '▲' : '';
+  return sign + fmtOku(Math.abs(v));
+}
+
+function buildGroupPerformance(data) {
+  const companies = data.subsidiaries;
+  const tbody = document.querySelector('#table-group-perf tbody');
+  let signalCounts = { red: 0, yellow: 0, green: 0 };
+  let latestMonthGlobal = null;
+  let totalCurRev = 0, totalCurOp = 0, totalYtdRev = 0, totalYtdOp = 0, totalGp = 0;
+
+  companies.forEach(co => {
+    const month = getLatestClosedMonth(co);
+    if (!latestMonthGlobal || month > latestMonthGlobal) latestMonthGlobal = month;
+    const cur = getMonthRow(co, month) || { revenue: 0, grossProfit: 0, operatingProfit: 0 };
+    const yoy = getPrevYearMonth(co, month);
+    const growth = yoy && yoy.revenue ? ((cur.revenue - yoy.revenue) / yoy.revenue * 100) : null;
+    const ytdRev = sumField(co.monthlyPL, 'revenue');
+    const ytdOp = sumField(co.monthlyPL, 'operatingProfit');
+    const ytdGp = sumField(co.monthlyPL, 'grossProfit');
+    const gpRate = ytdRev > 0 ? (ytdGp / ytdRev * 100) : 0;
+    const opRate = ytdRev > 0 ? (ytdOp / ytdRev * 100) : 0;
+    const perf = computePerformanceScore(co, month);
+    const integ = computeIntegrityScore(co);
+    const signal = computeSignal(co, perf.total, integ.total);
+    signalCounts[signal.color]++;
+    totalCurRev += cur.revenue || 0; totalCurOp += cur.operatingProfit || 0;
+    totalYtdRev += ytdRev; totalYtdOp += ytdOp; totalGp += ytdGp;
+
+    tbody.innerHTML += '<tr>' +
+      '<td><b>' + co.displayName + '</b></td>' +
+      '<td class="text-right">' + fmtMoney(cur.revenue) + '</td>' +
+      '<td class="text-right">' + fmtPct(growth, {plus: true, greenPositive: true}) + '</td>' +
+      '<td class="text-right">' + fmtMoney(ytdRev) + '</td>' +
+      '<td class="text-right">' + fmtPct(gpRate) + '</td>' +
+      '<td class="text-right ' + ((cur.operatingProfit || 0) >= 0 ? 'text-green' : 'text-red') + '">' + fmtMoney(cur.operatingProfit) + '</td>' +
+      '<td class="text-right ' + (ytdOp >= 0 ? 'text-green' : 'text-red') + '">' + fmtMoney(ytdOp) + '</td>' +
+      '<td class="text-right">' + fmtPct(opRate) + '</td>' +
+      '<td style="text-align:center">' + signalDot(signal) + '</td>' +
+    '</tr>';
+  });
+
+  // 合計行
+  const totalGpRate = totalYtdRev > 0 ? totalGp / totalYtdRev * 100 : 0;
+  const totalOpRate = totalYtdRev > 0 ? totalYtdOp / totalYtdRev * 100 : 0;
+  tbody.innerHTML += '<tr style="background:rgba(201,162,39,0.05);font-weight:700">' +
+    '<td><b>合計</b></td>' +
+    '<td class="text-right">' + fmtMoney(totalCurRev) + '</td>' +
+    '<td class="text-right">−</td>' +
+    '<td class="text-right">' + fmtMoney(totalYtdRev) + '</td>' +
+    '<td class="text-right">' + fmtPct(totalGpRate) + '</td>' +
+    '<td class="text-right ' + (totalCurOp >= 0 ? 'text-green' : 'text-red') + '">' + fmtMoney(totalCurOp) + '</td>' +
+    '<td class="text-right ' + (totalYtdOp >= 0 ? 'text-green' : 'text-red') + '">' + fmtMoney(totalYtdOp) + '</td>' +
+    '<td class="text-right">' + fmtPct(totalOpRate) + '</td>' +
+    '<td>−</td>' +
+  '</tr>';
+
+  document.getElementById('gp-latest-month').textContent = latestMonthGlobal || '-';
+  document.getElementById('gp-signal-summary').innerHTML = '緑 ' + signalCounts.green + ' / 黄 ' + signalCounts.yellow + ' / 赤 ' + signalCounts.red;
+}
+
+function buildGroupIntegrity(data) {
+  const companies = data.subsidiaries;
+  const tbody = document.querySelector('#table-group-int tbody');
+  let totalCash = 0, totalDenko = 0, totalExternal = 0, totalRev = 0;
+
+  companies.forEach(co => {
+    const cash = (co.bs && co.bs.cash) || 0;
+    const cashMonths = getCashMonths(co);
+    const equity = getEquityRatio(co);
+    const denko = getDenkoLoanNet(co);
+    const denkoRatio = getDenkoLoanRatio(co);
+    const ext = getExternalLoanTotal(co);
+    const integ = computeIntegrityScore(co);
+    const integSignal = integ.total >= 40 ? { color: 'green', label: '緑' } : integ.total >= 20 ? { color: 'yellow', label: '黄' } : { color: 'red', label: '赤' };
+    totalCash += cash; totalDenko += denko; totalExternal += ext;
+    totalRev += sumField(co.monthlyPL, 'revenue');
+
+    const cashMonthDisp = cashMonths === null ? '<span style="color:var(--text-dim)">−</span>' :
+      (cashMonths < 1 ? '<span class="text-red">' : cashMonths < 2 ? '<span style="color:#f59e0b">' : '<span class="text-green">') +
+      cashMonths.toFixed(1) + 'ヶ月</span>';
+
+    tbody.innerHTML += '<tr>' +
+      '<td><b>' + co.displayName + '</b></td>' +
+      '<td class="text-right">' + fmtMoney(cash) + '</td>' +
+      '<td class="text-right">' + cashMonthDisp + '</td>' +
+      '<td class="text-right">' + fmtPct(equity) + '</td>' +
+      '<td class="text-right">' + (denko === 0 ? '<span style="color:var(--text-dim)">なし</span>' : fmtMoney(denko)) + '</td>' +
+      '<td class="text-right">' + fmtPct(denkoRatio) + '</td>' +
+      '<td class="text-right">' + (ext === 0 ? '<span style="color:var(--text-dim)">なし</span>' : fmtMoney(ext)) + '</td>' +
+      '<td style="text-align:center">' + signalDot(integSignal) + '</td>' +
+    '</tr>';
+  });
+
+  const totalDenkoRatio = totalRev > 0 ? totalDenko / totalRev * 100 : 0;
+  tbody.innerHTML += '<tr style="background:rgba(201,162,39,0.05);font-weight:700">' +
+    '<td><b>合計</b></td>' +
+    '<td class="text-right">' + fmtMoney(totalCash) + '</td>' +
+    '<td class="text-right">−</td>' +
+    '<td class="text-right">−</td>' +
+    '<td class="text-right">' + fmtMoney(totalDenko) + '</td>' +
+    '<td class="text-right">' + fmtPct(totalDenkoRatio) + '</td>' +
+    '<td class="text-right">' + fmtMoney(totalExternal) + '</td>' +
+    '<td>−</td>' +
+  '</tr>';
+
+  document.getElementById('gi-latest-month').textContent = getLatestClosedMonth(companies[0]) || '-';
+}
+
+function buildScoreCard(data) {
+  const companies = data.subsidiaries;
+  const tbodyMain = document.querySelector('#table-scorecard-board tbody');
+  const tbodyPerf = document.querySelector('#table-perf-detail tbody');
+  const tbodyInt = document.querySelector('#table-int-detail tbody');
+
+  companies.forEach(co => {
+    const latest = getLatestClosedMonth(co);
+    const months = co.monthlyPL.map(r => r.month).sort();
+    const prevMonth = months.length >= 2 ? months[months.length - 2] : null;
+    const perfNow = computePerformanceScore(co, latest);
+    const integNow = computeIntegrityScore(co);  // BSは現在値のみ
+    const signal = computeSignal(co, perfNow.total, integNow.total);
+    let prevTotal = null;
+    if (prevMonth) {
+      const perfPrev = computePerformanceScore(co, prevMonth);
+      // Integrityは時系列BSがないので、現在値で代用
+      prevTotal = perfPrev.total + integNow.total;
+    }
+    const totalNow = perfNow.total + integNow.total;
+    const delta = prevTotal !== null ? totalNow - prevTotal : null;
+    // 1行診断
+    const c = perfNow.components;
+    const ic = integNow.components;
+    let diag = [];
+    if (signal.color === 'red') diag.push('赤信号');
+    if (c.opRate < 0) diag.push('営業赤字');
+    if (ic.cashMonths !== null && ic.cashMonths < 1) diag.push('現預金1ヶ月未満');
+    if (ic.denkoRatio >= 30) diag.push('DENKO依存度高');
+    if (ic.equity < 0) diag.push('債務超過');
+    if (!diag.length) diag.push('問題なし');
+
+    tbodyMain.innerHTML += '<tr>' +
+      '<td><b>' + co.displayName + '</b></td>' +
+      '<td class="text-right">' + perfNow.total + ' / 50</td>' +
+      '<td class="text-right">' + integNow.total + ' / 50</td>' +
+      '<td class="text-right" style="font-weight:800;font-size:14px">' + totalNow + ' / 100</td>' +
+      '<td class="text-right">' + (delta === null ? '−' : (delta >= 0 ? '<span class="text-green">+' + delta : '<span class="text-red">' + delta) + '</span>') + '</td>' +
+      '<td style="text-align:center">' + signalDot(signal) + '</td>' +
+      '<td style="font-size:11px;color:var(--text-muted)">' + diag.join(' ・ ') + '</td>' +
+    '</tr>';
+
+    // Performance breakdown
+    tbodyPerf.innerHTML += '<tr>' +
+      '<td><b>' + co.displayName + '</b></td>' +
+      '<td class="text-right">' + (c.growth === null ? '−' : fmtPct(c.growth, {plus:true, greenPositive:true})) + ' (' + c.growthScore + ')</td>' +
+      '<td class="text-right">' + fmtPct(c.gpRate) + ' (' + c.gpScore + ')</td>' +
+      '<td class="text-right">' + fmtPct(c.opRate) + ' (' + c.opScore + ')</td>' +
+      '<td class="text-right">' + (c.budgetAch === null ? '−' : fmtPct(c.budgetAch)) + ' (' + c.budgetScore + ')</td>' +
+      '<td class="text-right">' + (c.yearGrowth === null ? '−' : fmtPct(c.yearGrowth, {plus:true, greenPositive:true})) + ' (' + c.yearGrowthScore + ')</td>' +
+      '<td class="text-right" style="font-weight:700">' + perfNow.total + '/50</td>' +
+    '</tr>';
+
+    // Integrity breakdown
+    tbodyInt.innerHTML += '<tr>' +
+      '<td><b>' + co.displayName + '</b></td>' +
+      '<td class="text-right">' + (ic.cashMonths === null ? '−' : ic.cashMonths.toFixed(1) + 'ヶ月') + ' (' + ic.cashScore + ')</td>' +
+      '<td class="text-right">' + fmtPct(ic.equity) + ' (' + ic.equityScore + ')</td>' +
+      '<td class="text-right">' + fmtPct(ic.denkoRatio) + ' (' + ic.denkoScore + ')</td>' +
+      '<td class="text-right" style="font-weight:700">' + integNow.total + '/50</td>' +
+    '</tr>';
+  });
 }
 
 function buildOverview(data) {

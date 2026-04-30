@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-04-21T08:27:03.369Z",
+  "fetchedAt": "2026-04-30T12:16:47.707Z",
   "fiscalYear": 2025,
   "fiscalYearLabel": "FY2025 (2025/05 - 2026/04)",
   "cutoffMonth": "2026/03",
@@ -155,11 +155,87 @@
       ],
       "topSuppliers": [],
       "bs": {
-        "totalAssets": 961262583,
-        "cash": 5085295,
-        "totalLiabilities": 538744787,
-        "netAssets": 422517796
-      }
+        "totalAssets": 1047922018,
+        "cash": 48941219,
+        "totalLiabilities": 592659705,
+        "netAssets": 455262313
+      },
+      "bsExtended": {
+        "denko": {
+          "liability": 0,
+          "assetReverse": 0,
+          "net": 0,
+          "detail": []
+        },
+        "external": {
+          "shortTerm": 103000000,
+          "longTerm": 224776000,
+          "officer": 0,
+          "total": 327776000
+        }
+      },
+      "prevFYMonthlyPL": [
+        {
+          "month": "2024/05",
+          "revenue": 91494986,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/06",
+          "revenue": 90033960,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/07",
+          "revenue": 101808807,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/08",
+          "revenue": 80876707,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/09",
+          "revenue": 56016469,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/10",
+          "revenue": 86526785,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/11",
+          "revenue": 92095916,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/12",
+          "revenue": 91533930,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/01",
+          "revenue": 74363071,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/02",
+          "revenue": 97376238,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/03",
+          "revenue": 93078819,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/04",
+          "revenue": 73075460,
+          "operatingProfit": 0
+        }
+      ]
     },
     {
       "id": 1980825,
@@ -309,11 +385,93 @@
       ],
       "topSuppliers": [],
       "bs": {
-        "totalAssets": 16383017,
-        "cash": 5984128,
-        "totalLiabilities": 30173759,
-        "netAssets": 13790742
-      }
+        "totalAssets": 18651690,
+        "cash": 6000511,
+        "totalLiabilities": 29745742,
+        "netAssets": -11094052
+      },
+      "bsExtended": {
+        "denko": {
+          "liability": 21641638,
+          "assetReverse": 0,
+          "net": 21641638,
+          "detail": [
+            {
+              "account": "短期借入金",
+              "side": "liability",
+              "amount": 21641638
+            }
+          ]
+        },
+        "external": {
+          "shortTerm": 0,
+          "longTerm": 6160000,
+          "officer": 0,
+          "total": 6160000
+        }
+      },
+      "prevFYMonthlyPL": [
+        {
+          "month": "2024/05",
+          "revenue": 1557748,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/06",
+          "revenue": 669389,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/07",
+          "revenue": 2293937,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/08",
+          "revenue": 750667,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/09",
+          "revenue": 1182680,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/10",
+          "revenue": 2287420,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/11",
+          "revenue": 3310591,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/12",
+          "revenue": 6996484,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/01",
+          "revenue": 1096380,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/02",
+          "revenue": 1584880,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/03",
+          "revenue": 1549474,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/04",
+          "revenue": 651153,
+          "operatingProfit": 0
+        }
+      ]
     },
     {
       "id": 10815529,
@@ -454,11 +612,98 @@
       ],
       "topSuppliers": [],
       "bs": {
-        "totalAssets": 83770182,
-        "cash": 1400,
-        "totalLiabilities": 55803865,
-        "netAssets": 27966317
-      }
+        "totalAssets": 87042558,
+        "cash": 13643968,
+        "totalLiabilities": 65755896,
+        "netAssets": 21286662
+      },
+      "bsExtended": {
+        "denko": {
+          "liability": 8000000,
+          "assetReverse": 10000000,
+          "net": -2000000,
+          "detail": [
+            {
+              "account": "長期貸付金",
+              "side": "asset",
+              "amount": 10000000
+            },
+            {
+              "account": "長期借入金",
+              "side": "liability",
+              "amount": 8000000
+            }
+          ]
+        },
+        "external": {
+          "shortTerm": 0,
+          "longTerm": 0,
+          "officer": 41000000,
+          "total": 41000000
+        }
+      },
+      "prevFYMonthlyPL": [
+        {
+          "month": "2024/05",
+          "revenue": 2600000,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/06",
+          "revenue": 2600000,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/07",
+          "revenue": 2600000,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/08",
+          "revenue": 2600000,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/09",
+          "revenue": 2600000,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/10",
+          "revenue": 2600000,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/11",
+          "revenue": 2600000,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/12",
+          "revenue": 2600000,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/01",
+          "revenue": 2600000,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/02",
+          "revenue": 2600000,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/03",
+          "revenue": 2600000,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/04",
+          "revenue": 2600000,
+          "operatingProfit": 0
+        }
+      ]
     },
     {
       "id": 2619462,
@@ -590,11 +835,93 @@
       ],
       "topSuppliers": [],
       "bs": {
-        "totalAssets": 132399067,
-        "cash": 70360,
-        "totalLiabilities": 156179667,
-        "netAssets": 23780600
-      }
+        "totalAssets": 137844984,
+        "cash": 6565417,
+        "totalLiabilities": 156249907,
+        "netAssets": -18404923
+      },
+      "bsExtended": {
+        "denko": {
+          "liability": 102734423,
+          "assetReverse": 0,
+          "net": 102734423,
+          "detail": [
+            {
+              "account": "短期借入金",
+              "side": "liability",
+              "amount": 102734423
+            }
+          ]
+        },
+        "external": {
+          "shortTerm": 20000000,
+          "longTerm": 4228000,
+          "officer": 0,
+          "total": 24228000
+        }
+      },
+      "prevFYMonthlyPL": [
+        {
+          "month": "2024/05",
+          "revenue": 3536802,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/06",
+          "revenue": 3414564,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/07",
+          "revenue": 3419165,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/08",
+          "revenue": 3419674,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/09",
+          "revenue": 3442988,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/10",
+          "revenue": 4259539,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/11",
+          "revenue": 3509342,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/12",
+          "revenue": 4472301,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/01",
+          "revenue": 3543630,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/02",
+          "revenue": 3531696,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/03",
+          "revenue": 4361356,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/04",
+          "revenue": 4142846,
+          "operatingProfit": 0
+        }
+      ]
     },
     {
       "id": 2619418,
@@ -738,11 +1065,93 @@
       ],
       "topSuppliers": [],
       "bs": {
-        "totalAssets": 111679092,
-        "cash": 100000,
-        "totalLiabilities": 155770389,
-        "netAssets": 44091297
-      }
+        "totalAssets": 118654187,
+        "cash": 14941022,
+        "totalLiabilities": 147144892,
+        "netAssets": -28490705
+      },
+      "bsExtended": {
+        "denko": {
+          "liability": 86745573,
+          "assetReverse": 0,
+          "net": 86745573,
+          "detail": [
+            {
+              "account": "短期借入金",
+              "side": "liability",
+              "amount": 86745573
+            }
+          ]
+        },
+        "external": {
+          "shortTerm": 0,
+          "longTerm": 0,
+          "officer": 353750,
+          "total": 353750
+        }
+      },
+      "prevFYMonthlyPL": [
+        {
+          "month": "2024/05",
+          "revenue": 10888473,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/06",
+          "revenue": 12167922,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/07",
+          "revenue": 12507175,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/08",
+          "revenue": 19150958,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/09",
+          "revenue": 15433636,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/10",
+          "revenue": 13491173,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/11",
+          "revenue": 16314199,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/12",
+          "revenue": 30267032,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/01",
+          "revenue": 18780927,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/02",
+          "revenue": 18443122,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/03",
+          "revenue": 26381702,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/04",
+          "revenue": 22187512,
+          "operatingProfit": 0
+        }
+      ]
     },
     {
       "id": 11006999,
@@ -895,11 +1304,93 @@
       ],
       "topSuppliers": [],
       "bs": {
-        "totalAssets": 16455273,
-        "cash": 111434,
-        "totalLiabilities": 68117580,
-        "netAssets": 51662307
-      }
+        "totalAssets": 15600345,
+        "cash": 6915486,
+        "totalLiabilities": 70826010,
+        "netAssets": -55225665
+      },
+      "bsExtended": {
+        "denko": {
+          "liability": 46747300,
+          "assetReverse": 0,
+          "net": 46747300,
+          "detail": [
+            {
+              "account": "長期借入金",
+              "side": "liability",
+              "amount": 46747300
+            }
+          ]
+        },
+        "external": {
+          "shortTerm": 1305660,
+          "longTerm": 5774000,
+          "officer": 9268596,
+          "total": 16348256
+        }
+      },
+      "prevFYMonthlyPL": [
+        {
+          "month": "2024/05",
+          "revenue": 353047,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/06",
+          "revenue": 697548,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/07",
+          "revenue": 161957,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/08",
+          "revenue": 2455730,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/09",
+          "revenue": 4617646,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/10",
+          "revenue": 3326683,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/11",
+          "revenue": 156183,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/12",
+          "revenue": 26557329,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/01",
+          "revenue": 2400585,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/02",
+          "revenue": 3603957,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/03",
+          "revenue": 3448723,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/04",
+          "revenue": 270284,
+          "operatingProfit": 0
+        }
+      ]
     },
     {
       "id": 10713894,
@@ -1025,11 +1516,93 @@
       ],
       "topSuppliers": [],
       "bs": {
-        "totalAssets": 12665092,
-        "cash": 796129,
-        "totalLiabilities": 3383054,
-        "netAssets": 9282038
-      }
+        "totalAssets": 20781267,
+        "cash": 13445466,
+        "totalLiabilities": 12609834,
+        "netAssets": 8171433
+      },
+      "bsExtended": {
+        "denko": {
+          "liability": 1000000,
+          "assetReverse": 0,
+          "net": 1000000,
+          "detail": [
+            {
+              "account": "短期借入金",
+              "side": "liability",
+              "amount": 1000000
+            }
+          ]
+        },
+        "external": {
+          "shortTerm": 0,
+          "longTerm": 0,
+          "officer": 0,
+          "total": 0
+        }
+      },
+      "prevFYMonthlyPL": [
+        {
+          "month": "2024/05",
+          "revenue": 0,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/06",
+          "revenue": 1284858,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/07",
+          "revenue": 1390241,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/08",
+          "revenue": 2134882,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/09",
+          "revenue": 1420773,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/10",
+          "revenue": 1283442,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/11",
+          "revenue": 2904022,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/12",
+          "revenue": 2562692,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/01",
+          "revenue": 5295897,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/02",
+          "revenue": 3397164,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/03",
+          "revenue": 3618607,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/04",
+          "revenue": 2834735,
+          "operatingProfit": 0
+        }
+      ]
     },
     {
       "id": 12243427,
@@ -1095,11 +1668,32 @@
       ],
       "topSuppliers": [],
       "bs": {
-        "totalAssets": 2130053,
-        "cash": 113095,
-        "totalLiabilities": 3051648,
-        "netAssets": 921595
-      }
+        "totalAssets": 1747646,
+        "cash": 617608,
+        "totalLiabilities": 3167110,
+        "netAssets": -1419464
+      },
+      "bsExtended": {
+        "denko": {
+          "liability": 168000,
+          "assetReverse": 0,
+          "net": 168000,
+          "detail": [
+            {
+              "account": "短期借入金",
+              "side": "liability",
+              "amount": 168000
+            }
+          ]
+        },
+        "external": {
+          "shortTerm": 2050000,
+          "longTerm": 0,
+          "officer": 0,
+          "total": 2050000
+        }
+      },
+      "prevFYMonthlyPL": []
     },
     {
       "id": 10713669,
@@ -1225,11 +1819,93 @@
       ],
       "topSuppliers": [],
       "bs": {
-        "totalAssets": 2704173,
-        "cash": 1704173,
+        "totalAssets": 2710058,
+        "cash": 1710058,
         "totalLiabilities": 1510000,
-        "netAssets": 1194173
-      }
+        "netAssets": 1200058
+      },
+      "bsExtended": {
+        "denko": {
+          "liability": 1000000,
+          "assetReverse": 0,
+          "net": 1000000,
+          "detail": [
+            {
+              "account": "短期借入金",
+              "side": "liability",
+              "amount": 1000000
+            }
+          ]
+        },
+        "external": {
+          "shortTerm": 510000,
+          "longTerm": 0,
+          "officer": 0,
+          "total": 510000
+        }
+      },
+      "prevFYMonthlyPL": [
+        {
+          "month": "2024/05",
+          "revenue": 0,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/06",
+          "revenue": 0,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/07",
+          "revenue": 0,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/08",
+          "revenue": 0,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/09",
+          "revenue": 0,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/10",
+          "revenue": 0,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/11",
+          "revenue": 0,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2024/12",
+          "revenue": 280250,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/01",
+          "revenue": 147250,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/02",
+          "revenue": 9500,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/03",
+          "revenue": 4750,
+          "operatingProfit": 0
+        },
+        {
+          "month": "2025/04",
+          "revenue": 0,
+          "operatingProfit": 0
+        }
+      ]
     }
   ]
 }
