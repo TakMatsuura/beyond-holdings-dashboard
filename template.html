@@ -196,11 +196,6 @@ if (sessionStorage.getItem('beyond-auth') === '1') {
   <div class="content">
     <div class="kpi-row" id="kpi-overview"></div>
     <div class="card" style="margin-bottom:16px"><div class="card-header"><h3>Subsidiary Scorecard</h3><div class="badge" id="ov-company-count"></div></div><div class="card-body" style="overflow-x:auto"><table id="table-scorecard"><thead><tr><th>子会社</th><th class="text-right">売上高</th><th class="text-right">売上原価</th><th class="text-right">売上総利益</th><th class="text-right">粗利率</th><th class="text-right">販管費</th><th class="text-right">営業利益</th><th class="text-right">営業利益率</th><th class="text-right">EBITDA</th></tr></thead><tbody></tbody></table></div></div>
-    <div class="grid-3">
-      <div class="card"><div class="card-header"><h3>子会社別 売上高</h3></div><div class="card-body" style="height:320px"><canvas id="chart-ov-revenue-rank"></canvas></div></div>
-      <div class="card"><div class="card-header"><h3>子会社別 営業利益</h3></div><div class="card-body" style="height:320px"><canvas id="chart-ov-op-rank"></canvas></div></div>
-      <div class="card"><div class="card-header"><h3>子会社別 EBITDA</h3></div><div class="card-body" style="height:320px"><canvas id="chart-ov-ebitda-rank"></canvas></div></div>
-    </div>
     <!-- 月次サマリ マトリクス -->
     <div class="card" style="margin-bottom:16px">
       <div class="card-header">
@@ -214,6 +209,12 @@ if (sessionStorage.getItem('beyond-auth') === '1') {
       <div class="card-body" style="overflow-x:auto;padding:0">
         <table id="table-monthly-matrix" style="font-size:11px"><thead></thead><tbody></tbody></table>
       </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card"><div class="card-header"><h3>子会社別 売上高</h3></div><div class="card-body" style="height:320px"><canvas id="chart-ov-revenue-rank"></canvas></div></div>
+      <div class="card"><div class="card-header"><h3>子会社別 営業利益</h3></div><div class="card-body" style="height:320px"><canvas id="chart-ov-op-rank"></canvas></div></div>
+      <div class="card"><div class="card-header"><h3>子会社別 EBITDA</h3></div><div class="card-body" style="height:320px"><canvas id="chart-ov-ebitda-rank"></canvas></div></div>
     </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:16px;margin-bottom:16px">
