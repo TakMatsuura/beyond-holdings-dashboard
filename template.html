@@ -414,29 +414,41 @@ function drawGauge(canvasId, centerId, footerId, value, target, unit) {
 
 function buildAll(data) {
   const companies = data.companies;
-  // 年度プルダウン: FY2025 = 2025/05 - 2026/04
+  // 年度プルダウン: 多年度データから動的生成
   const fySelect = document.getElementById('fy-select');
-  if (fySelect && !fySelect.options.length) {
+  if (fySelect && !fySelect.options.length && typeof DASHBOARD_MULTI_YEAR !== 'undefined') {
     const currentFY = data.fiscalYear || 2025;
-    // 利用可能年度: 過去に遡れるよう数年用意（実データはcurrentFYのみ）
-    const availableYears = [
-      { value: 2025, label: 'FY2025 (2025/05 - 2026/04)', enabled: true },
-      { value: 2024, label: 'FY2024 (2024/05 - 2025/04)', enabled: false },
-      { value: 2023, label: 'FY2023 (2023/05 - 2024/04)', enabled: false },
-    ];
-    availableYears.forEach(y => {
+    const availableFYs = Object.keys(DASHBOARD_MULTI_YEAR.fiscalYears).map(Number).sort((a, b) => b - a);
+    availableFYs.forEach(fy => {
       const opt = document.createElement('option');
-      opt.value = y.value;
-      opt.textContent = y.label + (y.enabled ? '' : ' (準備中)');
-      opt.disabled = !y.enabled;
-      if (y.value === currentFY) opt.selected = true;
+      opt.value = fy;
+      opt.textContent = `FY${fy} (${fy}/05 - ${fy+1}/04)`;
+      if (fy === currentFY) opt.selected = true;
       fySelect.appendChild(opt);
     });
     fySelect.addEventListener('change', function() {
-      if (parseInt(this.value) !== currentFY) {
-        alert('FY' + this.value + ' のデータは現在準備中です。実装後に切替可能になります。');
-        this.value = currentFY;
-      }
+      const newFY = parseInt(this.value);
+      const newData = DASHBOARD_MULTI_YEAR.fiscalYears[newFY];
+      if (!newData) { alert('FY' + newFY + ' のデータが見つかりません'); return; }
+      // Reset: clear dynamically generated content
+      document.getElementById('subsidiary-sections').innerHTML = '';
+      document.getElementById('nav-tabs').innerHTML = '';
+      ['kpi-overview', 'gp-signal-summary'].forEach(id => { const e = document.getElementById(id); if (e) e.innerHTML = ''; });
+      ['table-scorecard', 'table-group-perf', 'table-group-int', 'table-scorecard-board', 'table-perf-detail', 'table-int-detail', 'table-monthly-matrix'].forEach(id => {
+        const tbody = document.querySelector('#' + id + ' tbody'); if (tbody) tbody.innerHTML = '';
+        const thead = document.querySelector('#' + id + ' thead'); if (thead && id === 'table-monthly-matrix') thead.innerHTML = '';
+      });
+      // Destroy all Chart.js instances
+      Object.values(Chart.instances || {}).forEach(c => { try { c.destroy(); } catch(e){} });
+      // Re-build with new year's data
+      buildAll(newData);
+      // Show overview tab
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      const ovSection = document.getElementById('overview');
+      if (ovSection) ovSection.classList.add('active');
+      const firstTab = document.querySelector('.nav-tab');
+      if (firstTab) firstTab.classList.add('active');
     });
   }
   document.getElementById('overview-subtitle').textContent = 'BEYOND Holdings Group Summary';

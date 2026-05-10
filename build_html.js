@@ -30,7 +30,7 @@ const dashboardData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 console.log(`  Companies: ${dashboardData.companies.length}`);
 console.log(`  Fiscal Year: ${dashboardData.fiscalYear}`);
 
-// Merge budget data if available
+// Merge budget data if available (current FY only)
 const BUDGET_FILE = path.join(SCRIPT_DIR, 'budget_data.json');
 if (fs.existsSync(BUDGET_FILE)) {
   const budgetData = JSON.parse(fs.readFileSync(BUDGET_FILE, 'utf8'));
@@ -46,13 +46,32 @@ if (fs.existsSync(BUDGET_FILE)) {
   console.log('  No budget data found (budget_data.json)');
 }
 
+// Load historical FY data (FY2024, FY2023, etc.)
+const historicalYears = {};
+const historicalFiles = fs.readdirSync(SCRIPT_DIR).filter(f => /^freee_data_FY\d{4}\.json$/.test(f));
+for (const f of historicalFiles) {
+  const fy = parseInt(f.match(/FY(\d{4})/)[1]);
+  const histData = JSON.parse(fs.readFileSync(path.join(SCRIPT_DIR, f), 'utf8'));
+  historicalYears[fy] = histData;
+  console.log(`  Historical: FY${fy} loaded (${histData.companies.length} companies)`);
+}
+
+// Wrap into multi-year structure
+const multiYearData = {
+  defaultFiscalYear: dashboardData.fiscalYear,
+  fiscalYears: {
+    [dashboardData.fiscalYear]: dashboardData,
+    ...historicalYears
+  }
+};
+
 // Read template
 let template = fs.readFileSync(TEMPLATE, 'utf8');
 template = template.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
 
 // Build data block - sanitize to prevent XSS
-const jsonStr = JSON.stringify(dashboardData).replace(/<\/script>/gi, '<\\/script>');
-const dataBlock = '<script>\nconst DASHBOARD_DATA = ' + jsonStr + ';\n</script>\n';
+const jsonStr = JSON.stringify(multiYearData).replace(/<\/script>/gi, '<\\/script>');
+const dataBlock = '<script>\nconst DASHBOARD_MULTI_YEAR = ' + jsonStr + ';\nconst DASHBOARD_DATA = DASHBOARD_MULTI_YEAR.fiscalYears[DASHBOARD_MULTI_YEAR.defaultFiscalYear];\n</script>\n';
 
 // Replace placeholder
 const placeholder = '// DASHBOARD_DATA_PLACEHOLDER';

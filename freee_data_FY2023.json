@@ -1,0 +1,339 @@
+{
+  "fetchedAt": "2026-05-10T05:47:01.137Z",
+  "fiscalYear": 2023,
+  "fiscalYearLabel": "FY2023 (2023/05 - 2024/04)",
+  "cutoffMonth": "2026/03",
+  "companies": [
+    {
+      "id": 3115888,
+      "name": "デンコー",
+      "displayName": "デンコー",
+      "monthlyPL": [
+        {
+          "month": "2023/05",
+          "revenue": 55706487,
+          "cogs": 35494133,
+          "grossProfit": 20212354,
+          "sga": 24849918,
+          "operatingProfit": -4637564,
+          "depreciation": 686303,
+          "ebitda": -3951261
+        },
+        {
+          "month": "2023/06",
+          "revenue": 94204527,
+          "cogs": 57129442,
+          "grossProfit": 37075085,
+          "sga": 23888397,
+          "operatingProfit": 13186688,
+          "depreciation": 686303,
+          "ebitda": 13872991
+        },
+        {
+          "month": "2023/07",
+          "revenue": 61808613,
+          "cogs": 32488532,
+          "grossProfit": 29320081,
+          "sga": 22778967,
+          "operatingProfit": 6541114,
+          "depreciation": 686303,
+          "ebitda": 7227417
+        },
+        {
+          "month": "2023/08",
+          "revenue": 92991753,
+          "cogs": 52386288,
+          "grossProfit": 40605465,
+          "sga": 25306019,
+          "operatingProfit": 15299446,
+          "depreciation": 705801,
+          "ebitda": 16005247
+        },
+        {
+          "month": "2023/09",
+          "revenue": 87761468,
+          "cogs": 58072437,
+          "grossProfit": 29689031,
+          "sga": 22424577,
+          "operatingProfit": 7264454,
+          "depreciation": 738184,
+          "ebitda": 8002638
+        },
+        {
+          "month": "2023/10",
+          "revenue": 67294954,
+          "cogs": 38681274,
+          "grossProfit": 28613680,
+          "sga": 27953038,
+          "operatingProfit": 660642,
+          "depreciation": 738188,
+          "ebitda": 1398830
+        },
+        {
+          "month": "2023/11",
+          "revenue": 66459253,
+          "cogs": 36527881,
+          "grossProfit": 29931372,
+          "sga": 27173633,
+          "operatingProfit": 2757739,
+          "depreciation": 757764,
+          "ebitda": 3515503
+        },
+        {
+          "month": "2023/12",
+          "revenue": 60226162,
+          "cogs": 36797567,
+          "grossProfit": 23428595,
+          "sga": 30400760,
+          "operatingProfit": -6972165,
+          "depreciation": 757764,
+          "ebitda": -6214401
+        },
+        {
+          "month": "2024/01",
+          "revenue": 52500745,
+          "cogs": 35411526,
+          "grossProfit": 17089219,
+          "sga": 25064485,
+          "operatingProfit": -7975266,
+          "depreciation": 757766,
+          "ebitda": -7217500
+        },
+        {
+          "month": "2024/02",
+          "revenue": 84507837,
+          "cogs": 46681451,
+          "grossProfit": 37826386,
+          "sga": 28413940,
+          "operatingProfit": 9412446,
+          "depreciation": 730057,
+          "ebitda": 10142503
+        },
+        {
+          "month": "2024/03",
+          "revenue": 69268177,
+          "cogs": 37654123,
+          "grossProfit": 31614054,
+          "sga": 27431906,
+          "operatingProfit": 4182148,
+          "depreciation": 730067,
+          "ebitda": 4912215
+        },
+        {
+          "month": "2024/04",
+          "revenue": 41759736,
+          "cogs": 53550825,
+          "grossProfit": -11791089,
+          "sga": 50163908,
+          "operatingProfit": -61954997,
+          "depreciation": 720868,
+          "ebitda": -61234129
+        }
+      ],
+      "budgets": [],
+      "topCustomers": [],
+      "topSuppliers": [],
+      "bs": {
+        "totalAssets": 812820828,
+        "cash": 113260967,
+        "totalLiabilities": 424521266,
+        "netAssets": 388299562
+      },
+      "bsExtended": {
+        "denko": {
+          "liability": 0,
+          "assetReverse": 0,
+          "net": 0,
+          "detail": []
+        },
+        "external": {
+          "shortTerm": 0,
+          "longTerm": 209244000,
+          "officer": 0,
+          "total": 209244000
+        }
+      }
+    },
+    {
+      "id": 1980825,
+      "name": "SAFARI",
+      "displayName": "SAFARI",
+      "monthlyPL": [
+        {
+          "month": "2023/05",
+          "revenue": 27480390,
+          "cogs": 9728139,
+          "grossProfit": 17752251,
+          "sga": 6973023,
+          "operatingProfit": 10779228,
+          "depreciation": 0,
+          "ebitda": 10779228
+        },
+        {
+          "month": "2023/06",
+          "revenue": 1317584,
+          "cogs": 649976,
+          "grossProfit": 667608,
+          "sga": 10816931,
+          "operatingProfit": -10149323,
+          "depreciation": 0,
+          "ebitda": -10149323
+        },
+        {
+          "month": "2023/07",
+          "revenue": 1000708,
+          "cogs": 928010,
+          "grossProfit": 72698,
+          "sga": 1227677,
+          "operatingProfit": -1154979,
+          "depreciation": 0,
+          "ebitda": -1154979
+        },
+        {
+          "month": "2023/08",
+          "revenue": 1783404,
+          "cogs": 770280,
+          "grossProfit": 1013124,
+          "sga": 879086,
+          "operatingProfit": 134038,
+          "depreciation": 0,
+          "ebitda": 134038
+        },
+        {
+          "month": "2023/09",
+          "revenue": 1155468,
+          "cogs": 644100,
+          "grossProfit": 511368,
+          "sga": 801893,
+          "operatingProfit": -290525,
+          "depreciation": 0,
+          "ebitda": -290525
+        }
+      ],
+      "budgets": [],
+      "topCustomers": [],
+      "topSuppliers": [],
+      "bs": {
+        "totalAssets": 0,
+        "cash": 0,
+        "totalLiabilities": 0,
+        "netAssets": 0
+      },
+      "bsExtended": null
+    },
+    {
+      "id": 2619462,
+      "name": "HANABI",
+      "displayName": "HANABI",
+      "monthlyPL": [
+        {
+          "month": "2023/05",
+          "revenue": 23433722,
+          "cogs": 2613310,
+          "grossProfit": 20820412,
+          "sga": 23231165,
+          "operatingProfit": -2410753,
+          "depreciation": 1198863,
+          "ebitda": -1211890
+        },
+        {
+          "month": "2023/06",
+          "revenue": 2721020,
+          "cogs": 373981,
+          "grossProfit": 2347039,
+          "sga": 2885131,
+          "operatingProfit": -538092,
+          "depreciation": 133207,
+          "ebitda": -404885
+        },
+        {
+          "month": "2023/07",
+          "revenue": 2974010,
+          "cogs": 325372,
+          "grossProfit": 2648638,
+          "sga": 2765692,
+          "operatingProfit": -117054,
+          "depreciation": 133207,
+          "ebitda": 16153
+        },
+        {
+          "month": "2023/08",
+          "revenue": 3193110,
+          "cogs": 457144,
+          "grossProfit": 2735966,
+          "sga": 3001322,
+          "operatingProfit": -265356,
+          "depreciation": 133235,
+          "ebitda": -132121
+        }
+      ],
+      "budgets": [],
+      "topCustomers": [],
+      "topSuppliers": [],
+      "bs": {
+        "totalAssets": 0,
+        "cash": 0,
+        "totalLiabilities": 0,
+        "netAssets": 0
+      },
+      "bsExtended": null
+    },
+    {
+      "id": 2619418,
+      "name": "K2",
+      "displayName": "K2",
+      "monthlyPL": [
+        {
+          "month": "2023/05",
+          "revenue": 38273251,
+          "cogs": 9762218,
+          "grossProfit": 28511033,
+          "sga": 27638423,
+          "operatingProfit": 872610,
+          "depreciation": 0,
+          "ebitda": 872610
+        },
+        {
+          "month": "2023/06",
+          "revenue": 4648416,
+          "cogs": 1162811,
+          "grossProfit": 3485605,
+          "sga": 3777684,
+          "operatingProfit": -292079,
+          "depreciation": 0,
+          "ebitda": -292079
+        },
+        {
+          "month": "2023/07",
+          "revenue": 7404602,
+          "cogs": 2648848,
+          "grossProfit": 4755754,
+          "sga": 6128083,
+          "operatingProfit": -1372329,
+          "depreciation": 24566,
+          "ebitda": -1347763
+        },
+        {
+          "month": "2023/08",
+          "revenue": 10639706,
+          "cogs": 1920041,
+          "grossProfit": 8719665,
+          "sga": 6204535,
+          "operatingProfit": 2515130,
+          "depreciation": 24567,
+          "ebitda": 2539697
+        }
+      ],
+      "budgets": [],
+      "topCustomers": [],
+      "topSuppliers": [],
+      "bs": {
+        "totalAssets": 0,
+        "cash": 0,
+        "totalLiabilities": 0,
+        "netAssets": 0
+      },
+      "bsExtended": null
+    }
+  ]
+}
