@@ -151,6 +151,26 @@ tr:hover td { background: rgba(255,255,255,0.03); }
 .detail-matrix tr:hover td { background: rgba(255,255,255,0.04); }
 .detail-matrix td.col-signal { text-align: center; vertical-align: middle; min-width: 70px; }
 
+/* Signal Health Cards */
+.signal-cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.signal-card { background: var(--bg); border: 1px solid var(--border); border-left-width: 4px; border-radius: 10px; padding: 14px 16px; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
+.signal-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+.signal-card.sig-green { border-left-color: var(--green); background: linear-gradient(135deg, rgba(34,197,94,0.06), var(--bg)); }
+.signal-card.sig-yellow { border-left-color: #f59e0b; background: linear-gradient(135deg, rgba(245,158,11,0.06), var(--bg)); }
+.signal-card.sig-red { border-left-color: var(--red); background: linear-gradient(135deg, rgba(239,68,68,0.08), var(--bg)); }
+.signal-card .sc-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.signal-card .sc-name { font-size: 15px; font-weight: 700; color: var(--accent); }
+.signal-card .sc-score { font-size: 13px; font-weight: 700; padding: 2px 10px; border-radius: 12px; }
+.signal-card.sig-green .sc-score { background: rgba(34,197,94,0.18); color: var(--green); }
+.signal-card.sig-yellow .sc-score { background: rgba(245,158,11,0.2); color: #f59e0b; }
+.signal-card.sig-red .sc-score { background: rgba(239,68,68,0.2); color: var(--red); }
+.signal-card .sc-issues { display: flex; flex-direction: column; gap: 4px; }
+.signal-card .sc-issue { font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
+.signal-card .sc-issue.issue-bad::before { content: '●'; color: var(--red); font-size: 10px; }
+.signal-card .sc-issue.issue-warn::before { content: '●'; color: #f59e0b; font-size: 10px; }
+.signal-card .sc-issue.issue-good::before { content: '●'; color: var(--green); font-size: 10px; }
+.signal-card .sc-link { font-size: 11px; color: var(--accent); margin-top: 8px; display: block; opacity: 0.7; }
+
 /* Legend */
 .legend-grid { display: flex; flex-direction: column; gap: 6px; font-size: 12px; flex: 1; }
 .legend-item { display: flex; align-items: center; gap: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-muted); }
@@ -245,9 +265,9 @@ if (sessionStorage.getItem('beyond-auth') === '1') {
     <!-- Signal Health Summary -->
     <div class="card" style="margin-bottom:16px">
       <div class="card-header"><h3>グループSignal Health</h3><div class="badge" id="ov-company-count"></div></div>
-      <div class="card-body" id="signal-health-body" style="display:flex;flex-direction:column;gap:12px">
+      <div class="card-body" id="signal-health-body" style="display:flex;flex-direction:column;gap:16px">
         <div id="signal-health-summary" style="display:flex;gap:16px"></div>
-        <div id="signal-health-companies" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+        <div id="signal-health-cards" class="signal-cards-grid"></div>
       </div>
     </div>
 
@@ -326,12 +346,51 @@ if (sessionStorage.getItem('beyond-auth') === '1') {
   </div>
 </div>
 
-<!-- Group Integrity Section (FY26 Board Slide 9) -->
+<!-- Group Integrity Section (BS特化) -->
 <div id="group-integrity" class="section">
-  <div class="page-header"><h2>Group Integrity</h2><div class="subtitle">財務健全性一覧＋Signal自動判定（最新月: <span id="gi-latest-month"></span>）</div></div>
+  <div class="page-header"><h2>Group Integrity</h2><div class="subtitle">グループBS深掘り｜健全性ヒートマップ・Scorecard・ランキング（最新月: <span id="gi-latest-month"></span>）</div></div>
   <div class="content">
+    <!-- 統合ヒートマップ -->
     <div class="card" style="margin-bottom:16px">
-      <div class="card-header"><h3>BS健全性指標</h3></div>
+      <div class="card-header"><h3>財務健全性ヒートマップ（指標別）</h3><div class="badge">緑=健全 ｜ 黄=要注意 ｜ 赤=要対処</div></div>
+      <div class="card-body" style="overflow-x:auto;padding:0">
+        <table id="table-gi-heatmap" class="heatmap-table"><thead></thead><tbody></tbody></table>
+      </div>
+    </div>
+
+    <!-- BS Scorecard -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-header"><h3>Subsidiary BS Scorecard</h3><div class="badge" id="gi-scorecard-count"></div></div>
+      <div class="card-body" style="overflow-x:auto"><table id="table-gi-scorecard"><thead><tr>
+        <th>子会社</th>
+        <th class="text-right">総資産</th>
+        <th class="text-right">現預金</th>
+        <th class="text-right">負債</th>
+        <th class="text-right">純資産</th>
+        <th class="text-right">DENKO借入</th>
+        <th class="text-right">外部借入</th>
+        <th class="text-right">現預金月数</th>
+        <th class="text-right">自己資本比率</th>
+        <th class="text-right">負債比率</th>
+      </tr></thead><tbody></tbody></table></div>
+    </div>
+
+    <!-- 子会社別ランキング -->
+    <div class="grid-3">
+      <div class="card"><div class="card-header"><h3>子会社別 総資産</h3></div><div class="card-body" style="height:320px"><canvas id="chart-gi-asset-rank"></canvas></div></div>
+      <div class="card"><div class="card-header"><h3>子会社別 現預金</h3></div><div class="card-body" style="height:320px"><canvas id="chart-gi-cash-rank"></canvas></div></div>
+      <div class="card"><div class="card-header"><h3>子会社別 自己資本比率</h3></div><div class="card-body" style="height:320px"><canvas id="chart-gi-equity-rank"></canvas></div></div>
+    </div>
+
+    <!-- BS構造比較 -->
+    <div class="grid-2">
+      <div class="card"><div class="card-header"><h3>負債/純資産 構造比較</h3></div><div class="card-body" style="height:340px"><canvas id="chart-gi-bs-structure"></canvas></div></div>
+      <div class="card"><div class="card-header"><h3>借入構成（DENKO vs 外部）</h3></div><div class="card-body" style="height:340px"><canvas id="chart-gi-loan-structure"></canvas></div></div>
+    </div>
+
+    <!-- 既存テーブル: 元のサマリ -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-header"><h3>BS健全性詳細＋Signal</h3></div>
       <div class="card-body" style="overflow-x:auto"><table id="table-group-int"><thead><tr>
         <th>会社</th>
         <th class="text-right">現預金</th>
@@ -343,8 +402,10 @@ if (sessionStorage.getItem('beyond-auth') === '1') {
         <th style="text-align:center">Signal</th>
       </tr></thead><tbody></tbody></table></div>
     </div>
+
     <div class="card"><div class="card-body" style="font-size:11px;color:var(--text-muted);line-height:1.7">
-      ※現預金月数 = 現預金 ÷ 直近3ヶ月平均販管費 ｜ DENKO借入残 = 借入金系(対DENKO) − 貸付/立替金(対DENKO) ｜ 全勘定科目×取引先で識別<br>
+      ※現預金月数 = 現預金 ÷ 直近3ヶ月平均販管費 ｜ 自己資本比率 = 純資産 ÷ 総資産 ｜ 負債比率 = 総負債 ÷ 総資産<br>
+      ※DENKO借入残 = 借入金系(対DENKO) − 貸付/立替金(対DENKO) ｜ 全勘定科目×取引先で識別<br>
       ※Signal基準: 緑=Integrityスコア40点以上 ｜ 黄=20-39点 ｜ 赤=19点以下
     </div></div>
   </div>
@@ -497,8 +558,8 @@ function buildAll(data) {
       // Reset: clear dynamically generated content
       document.getElementById('subsidiary-sections').innerHTML = '';
       document.getElementById('nav-tabs').innerHTML = '';
-      ['kpi-overview', 'gp-signal-summary'].forEach(id => { const e = document.getElementById(id); if (e) e.innerHTML = ''; });
-      ['table-scorecard', 'table-group-int', 'table-scorecard-board', 'table-perf-detail', 'table-int-detail', 'table-monthly-matrix', 'table-gp-heatmap-combined', 'table-gp-detail'].forEach(id => {
+      ['kpi-overview', 'gp-signal-summary', 'signal-health-summary', 'signal-health-cards'].forEach(id => { const e = document.getElementById(id); if (e) e.innerHTML = ''; });
+      ['table-scorecard', 'table-group-int', 'table-scorecard-board', 'table-perf-detail', 'table-int-detail', 'table-monthly-matrix', 'table-gp-heatmap-combined', 'table-gp-detail', 'table-gi-heatmap', 'table-gi-scorecard'].forEach(id => {
         const tbody = document.querySelector('#' + id + ' tbody'); if (tbody) tbody.innerHTML = '';
         const thead = document.querySelector('#' + id + ' thead'); if (thead) thead.innerHTML = '';
       });
@@ -929,6 +990,180 @@ function buildGroupIntegrity(data) {
   '</tr>';
 
   document.getElementById('gi-latest-month').textContent = getLatestClosedMonth(companies[0]) || '-';
+
+  // 健全性ヒートマップ (会社×指標)
+  const heatTable = document.getElementById('table-gi-heatmap');
+  if (heatTable) {
+    const indicators = [
+      { key: 'cashMonths', label: '現預金月数', unit: 'ヶ月', tiers: [3, 2, 1, 0] }, // >=3 deep-green, >=2 green, >=1 mid, >=0 yellow, else red
+      { key: 'equity', label: '自己資本比率', unit: '%', tiers: [30, 15, 0, -15] },
+      { key: 'denkoRatio', label: 'DENKO借入比率', unit: '%', tiers: [0, 10, 30, 50], reverse: true }, // lower better
+      { key: 'extRatio', label: '外部借入比率', unit: '%', tiers: [0, 20, 50, 100], reverse: true },
+      { key: 'liabRatio', label: '負債比率', unit: '%', tiers: [50, 70, 100, 150], reverse: true }
+    ];
+    const head = '<tr><th>会社</th>' + indicators.map(i => '<th>' + i.label + '</th>').join('') + '</tr>';
+    heatTable.querySelector('thead').innerHTML = head;
+    let body = '';
+    companies.forEach(co => {
+      const cash = (co.bs && co.bs.cash) || 0;
+      const cashMonths = getCashMonths(co);
+      const equity = getEquityRatio(co);
+      const denkoRatio = getDenkoLoanRatio(co);
+      const ytdRev = sumField(co.monthlyPL, 'revenue');
+      const ext = getExternalLoanTotal(co);
+      const extRatio = ytdRev > 0 ? ext / ytdRev * 100 : 0;
+      const liab = (co.bs && co.bs.totalLiabilities) || 0;
+      const ta = (co.bs && co.bs.totalAssets) || 0;
+      const liabRatio = ta > 0 ? liab / ta * 100 : 0;
+      const vals = { cashMonths, equity, denkoRatio, extRatio, liabRatio };
+
+      let row = '<tr><td style="cursor:pointer" onclick="goToCo(' + co.id + ')">' + co.displayName + ' →</td>';
+      indicators.forEach(ind => {
+        const v = vals[ind.key];
+        let cls = 'heat-empty';
+        if (v !== null && v !== undefined) {
+          if (ind.reverse) {
+            // lower is better
+            if (v <= ind.tiers[0]) cls = 'heat-deep-green';
+            else if (v <= ind.tiers[1]) cls = 'heat-green';
+            else if (v <= ind.tiers[2]) cls = 'heat-yellow';
+            else if (v <= ind.tiers[3]) cls = 'heat-orange';
+            else cls = 'heat-deep-red';
+          } else {
+            // higher is better
+            if (v >= ind.tiers[0]) cls = 'heat-deep-green';
+            else if (v >= ind.tiers[1]) cls = 'heat-green';
+            else if (v >= ind.tiers[2]) cls = 'heat-yellow';
+            else if (v >= ind.tiers[3]) cls = 'heat-orange';
+            else cls = 'heat-deep-red';
+          }
+        }
+        const txt = v === null || v === undefined ? '−' : (ind.key === 'cashMonths' ? v.toFixed(1) + 'ヶ月' : (v < 0 ? '▲' : '') + Math.abs(v).toFixed(1) + '%');
+        row += '<td class="' + cls + '">' + txt + '</td>';
+      });
+      row += '</tr>';
+      body += row;
+    });
+    heatTable.querySelector('tbody').innerHTML = body;
+  }
+
+  // BS Scorecard
+  const scTbody = document.querySelector('#table-gi-scorecard tbody');
+  const scCount = document.getElementById('gi-scorecard-count');
+  if (scTbody) {
+    let scTotal = { ta: 0, cash: 0, liab: 0, na: 0, denko: 0, ext: 0 };
+    let body = '';
+    companies.forEach(co => {
+      const ta = (co.bs && co.bs.totalAssets) || 0;
+      const cash = (co.bs && co.bs.cash) || 0;
+      const liab = (co.bs && co.bs.totalLiabilities) || 0;
+      const na = (co.bs && co.bs.netAssets) || 0;
+      const denko = getDenkoLoanNet(co);
+      const ext = getExternalLoanTotal(co);
+      const cashM = getCashMonths(co);
+      const equity = getEquityRatio(co);
+      const liabRatio = ta > 0 ? liab / ta * 100 : 0;
+      scTotal.ta += ta; scTotal.cash += cash; scTotal.liab += liab; scTotal.na += na; scTotal.denko += denko; scTotal.ext += ext;
+      const cashMDisp = cashM === null ? '−' : (cashM < 1 ? '<span class="text-red">' : cashM < 2 ? '<span style="color:#f59e0b">' : '<span class="text-green">') + cashM.toFixed(1) + 'ヶ月</span>';
+      body += '<tr style="cursor:pointer" onclick="goToCo(' + co.id + ')">' +
+        '<td style="font-weight:600;color:var(--accent)">' + co.displayName + '</td>' +
+        '<td class="text-right">' + fmtOku(ta) + '</td>' +
+        '<td class="text-right">' + fmtOku(cash) + '</td>' +
+        '<td class="text-right">' + fmtOku(liab) + '</td>' +
+        '<td class="text-right ' + (na >= 0 ? 'text-green' : 'text-red') + '">' + (na < 0 ? '▲' : '') + fmtOku(Math.abs(na)) + '</td>' +
+        '<td class="text-right">' + (denko === 0 ? '<span style="color:var(--text-dim)">なし</span>' : fmtOku(denko)) + '</td>' +
+        '<td class="text-right">' + (ext === 0 ? '<span style="color:var(--text-dim)">なし</span>' : fmtOku(ext)) + '</td>' +
+        '<td class="text-right">' + cashMDisp + '</td>' +
+        '<td class="text-right ' + (equity >= 30 ? 'text-green' : equity < 0 ? 'text-red' : '') + '">' + (equity < 0 ? '▲' : '') + Math.abs(equity).toFixed(1) + '%</td>' +
+        '<td class="text-right">' + liabRatio.toFixed(1) + '%</td>' +
+      '</tr>';
+    });
+    body += '<tr style="background:rgba(201,162,39,0.05);font-weight:700">' +
+      '<td>合計</td>' +
+      '<td class="text-right">' + fmtOku(scTotal.ta) + '</td>' +
+      '<td class="text-right">' + fmtOku(scTotal.cash) + '</td>' +
+      '<td class="text-right">' + fmtOku(scTotal.liab) + '</td>' +
+      '<td class="text-right ' + (scTotal.na >= 0 ? 'text-green' : 'text-red') + '">' + (scTotal.na < 0 ? '▲' : '') + fmtOku(Math.abs(scTotal.na)) + '</td>' +
+      '<td class="text-right">' + fmtOku(scTotal.denko) + '</td>' +
+      '<td class="text-right">' + fmtOku(scTotal.ext) + '</td>' +
+      '<td class="text-right">−</td>' +
+      '<td class="text-right">−</td>' +
+      '<td class="text-right">' + (scTotal.ta > 0 ? (scTotal.liab / scTotal.ta * 100).toFixed(1) : 0) + '%</td>' +
+    '</tr>';
+    scTbody.innerHTML = body;
+    if (scCount) scCount.textContent = companies.length + ' subsidiaries';
+  }
+
+  // 子会社別ランキング (3 charts)
+  const sortedByAsset = [...companies].sort((a, b) => ((b.bs && b.bs.totalAssets) || 0) - ((a.bs && a.bs.totalAssets) || 0));
+  const sortedByCash = [...companies].sort((a, b) => ((b.bs && b.bs.cash) || 0) - ((a.bs && a.bs.cash) || 0));
+  const sortedByEquity = [...companies].sort((a, b) => getEquityRatio(b) - getEquityRatio(a));
+  const barChart = (canvasId, sorted, getValue, fmtFn, title) => {
+    const ctx = document.getElementById(canvasId);
+    if (!ctx) return;
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: sorted.map(c => c.displayName),
+        datasets: [{
+          data: sorted.map(co => getValue(co)),
+          backgroundColor: sorted.map(co => {
+            const v = getValue(co);
+            return v < 0 ? 'rgba(239,68,68,0.7)' : 'rgba(34,197,94,0.7)';
+          }),
+          borderRadius: 4
+        }]
+      },
+      options: {
+        indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, datalabels: { display: false } },
+        scales: { x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => fmtFn(v) } }, y: { grid: { display: false } } }
+      }
+    });
+  };
+  barChart('chart-gi-asset-rank', sortedByAsset, co => (co.bs && co.bs.totalAssets) || 0, fmtOku);
+  barChart('chart-gi-cash-rank', sortedByCash, co => (co.bs && co.bs.cash) || 0, fmtOku);
+  barChart('chart-gi-equity-rank', sortedByEquity, co => getEquityRatio(co), v => v.toFixed(0) + '%');
+
+  // BS構造比較 (stacked bar)
+  const bsStructureCtx = document.getElementById('chart-gi-bs-structure');
+  if (bsStructureCtx) {
+    new Chart(bsStructureCtx, {
+      type: 'bar',
+      data: {
+        labels: companies.map(c => c.displayName),
+        datasets: [
+          { label: '純資産', data: companies.map(c => (c.bs && c.bs.netAssets) || 0), backgroundColor: 'rgba(34,197,94,0.7)' },
+          { label: '負債', data: companies.map(c => (c.bs && c.bs.totalLiabilities) || 0), backgroundColor: 'rgba(239,68,68,0.7)' }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'top', labels: { color: '#a1a1aa' } }, datalabels: { display: false } },
+        scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => fmtOku(v) } } }
+      }
+    });
+  }
+
+  // 借入構成 (DENKO vs 外部)
+  const loanCtx = document.getElementById('chart-gi-loan-structure');
+  if (loanCtx) {
+    new Chart(loanCtx, {
+      type: 'bar',
+      data: {
+        labels: companies.map(c => c.displayName),
+        datasets: [
+          { label: 'DENKO借入', data: companies.map(co => Math.max(0, getDenkoLoanNet(co))), backgroundColor: 'rgba(201,162,39,0.7)' },
+          { label: '外部借入', data: companies.map(co => getExternalLoanTotal(co)), backgroundColor: 'rgba(99,102,241,0.7)' }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'top', labels: { color: '#a1a1aa' } }, datalabels: { display: false } },
+        scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => fmtOku(v) } } }
+      }
+    });
+  }
 }
 
 function buildScoreCard(data) {
@@ -1039,21 +1274,71 @@ function buildOverview(data) {
       '<div style="flex:1;display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(245,158,11,0.1);border-radius:8px;border-left:3px solid #f59e0b"><span style="width:14px;height:14px;border-radius:50%;background:#f59e0b;box-shadow:0 0 10px #f59e0b"></span><span style="font-size:13px;color:var(--text-muted)">黄 (要注意)</span><span style="font-size:24px;font-weight:800;margin-left:auto">' + sigCounts.yellow + ' 社</span></div>' +
       '<div style="flex:1;display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(239,68,68,0.1);border-radius:8px;border-left:3px solid var(--red)"><span style="width:14px;height:14px;border-radius:50%;background:var(--red);box-shadow:0 0 10px var(--red)"></span><span style="font-size:13px;color:var(--text-muted)">赤 (要対処)</span><span style="font-size:24px;font-weight:800;margin-left:auto">' + sigCounts.red + ' 社</span></div>';
   }
-  const sigCoEl = document.getElementById('signal-health-companies');
+  const sigCoEl = document.getElementById('signal-health-cards');
   if (sigCoEl) {
+    // 各社の主要因を診断
+    const diagnose = (co) => {
+      const issues = [];
+      const goods = [];
+      const latestM = getLatestClosedMonth(co);
+      const cur = getMonthRow(co, latestM) || {};
+      const last3 = co.monthlyPL.slice(-3);
+      const consec = last3.length === 3 && last3.every(r => r.operatingProfit < 0);
+      const cashM = getCashMonths(co);
+      const equity = getEquityRatio(co);
+      const denkoR = getDenkoLoanRatio(co);
+      const ytdRev = sumField(co.monthlyPL, 'revenue');
+      const ytdOp = sumField(co.monthlyPL, 'operatingProfit');
+      const ytdOpRate = ytdRev > 0 ? ytdOp / ytdRev * 100 : 0;
+      const ytdGp = sumField(co.monthlyPL, 'grossProfit');
+      const ytdGpRate = ytdRev > 0 ? ytdGp / ytdRev * 100 : 0;
+      const budgetAch = getBudgetAchievement(co);
+
+      // 赤系
+      if (consec) issues.push({ kind: 'bad', text: '営業利益 3ヶ月連続赤字' });
+      else if (cur.operatingProfit !== undefined && cur.operatingProfit < 0) issues.push({ kind: 'bad', text: '当月営業赤字 (' + fmtOku(Math.abs(cur.operatingProfit)) + ')' });
+      if (equity < 0) issues.push({ kind: 'bad', text: '債務超過 (自己資本比率 ▲' + Math.abs(equity).toFixed(1) + '%)' });
+      else if (equity < 15) issues.push({ kind: 'warn', text: '自己資本比率低 ' + equity.toFixed(1) + '%' });
+      if (cashM !== null && cashM < 1) issues.push({ kind: 'bad', text: '現預金1ヶ月未満 (' + cashM.toFixed(1) + 'ヶ月)' });
+      else if (cashM !== null && cashM < 2) issues.push({ kind: 'warn', text: '現預金2ヶ月未満 (' + cashM.toFixed(1) + 'ヶ月)' });
+      if (denkoR >= 30) issues.push({ kind: 'bad', text: 'DENKO借入比率高 ' + denkoR.toFixed(1) + '%' });
+      else if (denkoR >= 10) issues.push({ kind: 'warn', text: 'DENKO借入比率中 ' + denkoR.toFixed(1) + '%' });
+      if (ytdOpRate < -5) issues.push({ kind: 'bad', text: '累計営業利益率 ▲' + Math.abs(ytdOpRate).toFixed(1) + '%' });
+      else if (ytdOpRate < 0) issues.push({ kind: 'warn', text: '累計営業赤字 ' + ytdOpRate.toFixed(1) + '%' });
+      if (budgetAch !== null && budgetAch < 80) issues.push({ kind: 'warn', text: '予算達成率 ' + budgetAch.toFixed(0) + '% (大幅未達)' });
+      else if (budgetAch !== null && budgetAch < 90) issues.push({ kind: 'warn', text: '予算達成率 ' + budgetAch.toFixed(0) + '%' });
+      if (ytdGpRate > 0 && ytdGpRate < 20) issues.push({ kind: 'warn', text: '粗利率低 ' + ytdGpRate.toFixed(1) + '%' });
+
+      // 緑系（好調要因）
+      if (ytdOpRate >= 10) goods.push({ kind: 'good', text: '営業利益率 ' + ytdOpRate.toFixed(1) + '% (高水準)' });
+      else if (ytdOpRate >= 5) goods.push({ kind: 'good', text: '営業利益率 ' + ytdOpRate.toFixed(1) + '%' });
+      if (budgetAch !== null && budgetAch >= 105) goods.push({ kind: 'good', text: '予算達成 ' + budgetAch.toFixed(0) + '%' });
+      if (cashM !== null && cashM >= 3) goods.push({ kind: 'good', text: '現預金 ' + cashM.toFixed(1) + 'ヶ月確保' });
+      if (equity >= 30) goods.push({ kind: 'good', text: '自己資本比率 ' + equity.toFixed(1) + '%' });
+      if (denkoR === 0) goods.push({ kind: 'good', text: 'DENKO借入なし' });
+
+      // 表示用: 問題があれば優先、なければ良好項目
+      let result = issues.slice(0, 4);
+      if (result.length === 0) result = goods.slice(0, 3);
+      if (result.length === 0) result = [{ kind: 'good', text: '特記事項なし' }];
+      return result;
+    };
+
     coSigList.sort((a, b) => {
       const order = { red: 0, yellow: 1, green: 2 };
-      return order[a.sig.color] - order[b.sig.color] || b.score - a.score;
+      return order[a.sig.color] - order[b.sig.color] || a.score - b.score;
     });
-    const colorBg = { red: 'rgba(239,68,68,0.15)', yellow: 'rgba(245,158,11,0.15)', green: 'rgba(34,197,94,0.15)' };
-    const colorBorder = { red: 'var(--red)', yellow: '#f59e0b', green: 'var(--green)' };
-    sigCoEl.innerHTML = coSigList.map(item =>
-      '<div style="cursor:pointer;display:flex;align-items:center;gap:8px;padding:8px 14px;background:' + colorBg[item.sig.color] + ';border-radius:20px;border:1px solid ' + colorBorder[item.sig.color] + ';font-size:12px;font-weight:600;transition:transform 0.15s" onclick="goToCo(' + item.co.id + ')" onmouseover="this.style.transform=\'scale(1.05)\'" onmouseout="this.style.transform=\'scale(1)\'">' +
-      '<span style="width:10px;height:10px;border-radius:50%;background:' + colorBorder[item.sig.color] + '"></span>' +
-      '<span>' + item.co.displayName + '</span>' +
-      '<span style="color:var(--text-muted);font-weight:500;font-size:11px">' + item.score + '点</span>' +
-      '</div>'
-    ).join('');
+    const colorClass = { red: 'sig-red', yellow: 'sig-yellow', green: 'sig-green' };
+    const labelMap = { red: '🔴 赤', yellow: '🟡 黄', green: '🟢 緑' };
+    sigCoEl.innerHTML = coSigList.map(item => {
+      const issues = diagnose(item.co);
+      const issuesHtml = issues.map(i => '<div class="sc-issue issue-' + i.kind + '">' + i.text + '</div>').join('');
+      return '<div class="signal-card ' + colorClass[item.sig.color] + '" onclick="goToCo(' + item.co.id + ')">' +
+        '<div class="sc-head"><div class="sc-name">' + item.co.displayName + '</div><div class="sc-score">' + labelMap[item.sig.color] + ' ' + item.score + '/100</div></div>' +
+        '<div class="sc-issues">' + issuesHtml + '</div>' +
+        '<div class="sc-link">→ 詳細を見る</div>' +
+      '</div>';
+    }).join('');
   }
 
   const chartOpts = (axis) => ({ indexAxis: axis, responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: axis === 'y' ? { x: { ticks: { callback: v => fmtOku(v) }, grid: { color: 'rgba(255,255,255,0.04)' } }, y: { grid: { display: false } } } : {} });
