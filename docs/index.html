@@ -101,9 +101,11 @@ tr:hover td { background: rgba(255,255,255,0.03); }
 .subsidiary-header { display: flex; align-items: center; gap: 20px; padding: 24px 32px 16px; }
 .subsidiary-header h2 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
 .subsidiary-header .subtitle { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
-.subsidiary-logo-box { display: flex; align-items: center; justify-content: center; width: 96px; height: 80px; background: rgba(255,255,255,0.95); border-radius: 12px; padding: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); flex-shrink: 0; }
+.subsidiary-logo-box { display: flex; align-items: center; justify-content: center; width: 96px; height: 80px; background: rgba(255,255,255,0.95); border-radius: 12px; padding: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); flex-shrink: 0; overflow: hidden; }
 .subsidiary-logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
 .subsidiary-logo-box.dark-logo { background: var(--bg-card); }
+.subsidiary-logo-box.zoom-img { padding: 4px; }
+.subsidiary-logo-box.zoom-img img { transform: scale(1.7); }
 
 /* Metric toggle */
 .metric-btn { background: var(--bg); border: 1px solid var(--border); color: var(--text-muted); padding: 5px 14px; border-radius: 20px; font-size: 11px; cursor: pointer; font-family: inherit; font-weight: 600; transition: all 0.2s; }
@@ -1012,9 +1014,14 @@ function buildSubsidiary(co) {
   section.className = 'section';
   const logoMap = { 'デンコー': 'denko', 'SAFARI': 'safari', 'HANABI': 'hanabi', 'K2': 'k2', 'ライフプロ': 'lifepro', 'M7Logi': 'm7logi', '184': '184', 'DNK': 'dnk' };
   const logoFile = logoMap[co.displayName];
-  const darkLogoCompanies = ['m7logi', '184', 'safari'];
-  const logoBoxClass = darkLogoCompanies.includes(logoFile) ? 'subsidiary-logo-box dark-logo' : 'subsidiary-logo-box';
-  const logoHtml = logoFile ? '<div class="' + logoBoxClass + '"><img src="logos/' + logoFile + '.png" alt="' + co.displayName + '"></div>' : '';
+  // 白色ロゴ（暗背景必要）
+  const darkBgLogos = ['m7logi', 'safari'];
+  // ロゴ内容が小さく拡大表示したいもの
+  const zoomLogos = ['m7logi'];
+  let boxCls = 'subsidiary-logo-box';
+  if (darkBgLogos.includes(logoFile)) boxCls += ' dark-logo';
+  if (zoomLogos.includes(logoFile)) boxCls += ' zoom-img';
+  const logoHtml = logoFile ? '<div class="' + boxCls + '"><img src="logos/' + logoFile + '.png" alt="' + co.displayName + '"></div>' : '';
   section.innerHTML =
     '<div class="subsidiary-header">' + logoHtml + '<div><h2>' + co.displayName + '</h2><div class="subtitle">Financial Detail</div></div></div>' +
     '<div class="content">' +
