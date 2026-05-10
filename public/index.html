@@ -97,6 +97,14 @@ tr:hover td { background: rgba(255,255,255,0.03); }
 .text-green { color: var(--green); font-weight: 600; }
 .text-red { color: var(--red); font-weight: 600; }
 
+/* Subsidiary header with logo */
+.subsidiary-header { display: flex; align-items: center; gap: 20px; padding: 24px 32px 16px; }
+.subsidiary-header h2 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
+.subsidiary-header .subtitle { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+.subsidiary-logo-box { display: flex; align-items: center; justify-content: center; width: 96px; height: 80px; background: rgba(255,255,255,0.95); border-radius: 12px; padding: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); flex-shrink: 0; }
+.subsidiary-logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.subsidiary-logo-box.dark-logo { background: var(--bg-card); }
+
 /* Metric toggle */
 .metric-btn { background: var(--bg); border: 1px solid var(--border); color: var(--text-muted); padding: 5px 14px; border-radius: 20px; font-size: 11px; cursor: pointer; font-family: inherit; font-weight: 600; transition: all 0.2s; }
 .metric-btn:hover { color: var(--text); border-color: var(--accent-dim); }
@@ -187,7 +195,9 @@ if (sessionStorage.getItem('beyond-auth') === '1') {
 <div class="navbar">
   <div class="logo" style="cursor:pointer" onclick="document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.nav-tab')[0].classList.add('active');document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById('overview').classList.add('active');"><img src="beyond_logo.png" alt="BEYOND">BEYOND<span>HOLDINGS</span></div>
   <div class="nav-tabs" id="nav-tabs"></div>
-  <div class="nav-right" id="nav-fiscal-year"></div>
+  <div style="margin-left:auto;display:flex;align-items:center;gap:8px">
+    <select id="fy-select" class="nav-right" style="cursor:pointer;background:var(--accent-dim);border:1px solid var(--accent);color:var(--accent);padding:5px 28px 5px 14px;border-radius:20px;font-size:12px;font-weight:600;font-family:inherit;outline:none;appearance:none;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%226%22 viewBox=%220 0 10 6%22><path fill=%22%23c9a227%22 d=%22M0 0l5 6 5-6z%22/></svg>');background-repeat:no-repeat;background-position:right 10px center"></select>
+  </div>
 </div>
 
 <!-- Overview Section -->
@@ -406,7 +416,31 @@ function drawGauge(canvasId, centerId, footerId, value, target, unit) {
 
 function buildAll(data) {
   const companies = data.companies;
-  document.getElementById('nav-fiscal-year').textContent = data.fiscalYearLabel || 'FY' + data.fiscalYear;
+  // 年度プルダウン: FY2025 = 2025/05 - 2026/04
+  const fySelect = document.getElementById('fy-select');
+  if (fySelect && !fySelect.options.length) {
+    const currentFY = data.fiscalYear || 2025;
+    // 利用可能年度: 過去に遡れるよう数年用意（実データはcurrentFYのみ）
+    const availableYears = [
+      { value: 2025, label: 'FY2025 (2025/05 - 2026/04)', enabled: true },
+      { value: 2024, label: 'FY2024 (2024/05 - 2025/04)', enabled: false },
+      { value: 2023, label: 'FY2023 (2023/05 - 2024/04)', enabled: false },
+    ];
+    availableYears.forEach(y => {
+      const opt = document.createElement('option');
+      opt.value = y.value;
+      opt.textContent = y.label + (y.enabled ? '' : ' (準備中)');
+      opt.disabled = !y.enabled;
+      if (y.value === currentFY) opt.selected = true;
+      fySelect.appendChild(opt);
+    });
+    fySelect.addEventListener('change', function() {
+      if (parseInt(this.value) !== currentFY) {
+        alert('FY' + this.value + ' のデータは現在準備中です。実装後に切替可能になります。');
+        this.value = currentFY;
+      }
+    });
+  }
   document.getElementById('overview-subtitle').textContent = 'BEYOND Holdings Group Summary';
 
   const bhId = companies.findIndex(co => co.displayName === 'BEYOND Holdings');
@@ -963,8 +997,13 @@ function buildSubsidiary(co) {
   const section = document.createElement('div');
   section.id = prefix;
   section.className = 'section';
+  const logoMap = { 'デンコー': 'denko', 'SAFARI': 'safari', 'HANABI': 'hanabi', 'K2': 'k2', 'ライフプロ': 'lifepro', 'M7Logi': 'm7logi', '184': '184', 'DNK': 'dnk' };
+  const logoFile = logoMap[co.displayName];
+  const darkLogoCompanies = ['m7logi', '184', 'safari'];
+  const logoBoxClass = darkLogoCompanies.includes(logoFile) ? 'subsidiary-logo-box dark-logo' : 'subsidiary-logo-box';
+  const logoHtml = logoFile ? '<div class="' + logoBoxClass + '"><img src="logos/' + logoFile + '.png" alt="' + co.displayName + '"></div>' : '';
   section.innerHTML =
-    '<div class="page-header"><h2>' + co.displayName + '</h2><div class="subtitle">Financial Detail</div></div>' +
+    '<div class="subsidiary-header">' + logoHtml + '<div><h2>' + co.displayName + '</h2><div class="subtitle">Financial Detail</div></div></div>' +
     '<div class="content">' +
       '<div class="kpi-row" id="' + prefix + '-kpi"></div>' +
       '<div class="grid-3">' +
