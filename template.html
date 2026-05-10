@@ -117,6 +117,34 @@ tr:hover td { background: rgba(255,255,255,0.03); }
 #table-monthly-matrix tr.total-row td { background: rgba(201,162,39,0.08); font-weight: 700; border-top: 2px solid var(--accent-dim); }
 #table-monthly-matrix tr.total-row td:first-child, #table-monthly-matrix tr.total-row td:last-child { background: rgba(201,162,39,0.12); }
 
+/* Heatmap table */
+.heatmap-table { width: 100%; border-collapse: collapse; }
+.heatmap-table th, .heatmap-table td { padding: 6px 8px; font-size: 11px; text-align: center; white-space: nowrap; border: 1px solid var(--bg); }
+.heatmap-table th { color: var(--text-muted); font-weight: 600; background: rgba(0,0,0,0.2); }
+.heatmap-table td:first-child { text-align: left; font-weight: 600; color: var(--accent); position: sticky; left: 0; background: var(--bg-card); z-index: 1; min-width: 100px; }
+.heat-deep-green { background: rgba(34,197,94,0.55); color: #fff; font-weight: 700; }
+.heat-green { background: rgba(34,197,94,0.30); color: #fff; }
+.heat-mid { background: rgba(132,204,22,0.20); color: var(--text); }
+.heat-yellow { background: rgba(245,158,11,0.40); color: #fff; }
+.heat-orange { background: rgba(249,115,22,0.50); color: #fff; font-weight: 600; }
+.heat-red { background: rgba(239,68,68,0.55); color: #fff; font-weight: 700; }
+.heat-deep-red { background: rgba(220,38,38,0.75); color: #fff; font-weight: 800; }
+.heat-empty { color: var(--text-dim); }
+
+/* Detail matrix per company */
+.detail-matrix { width: 100%; border-collapse: collapse; }
+.detail-matrix th, .detail-matrix td { padding: 6px 8px; font-size: 11px; white-space: nowrap; border-bottom: 1px solid var(--border); }
+.detail-matrix th { color: var(--text-muted); font-weight: 600; background: rgba(0,0,0,0.2); text-align: center; }
+.detail-matrix th:first-child, .detail-matrix th:nth-child(2) { text-align: left; }
+.detail-matrix td.col-co { font-weight: 700; color: var(--accent); position: sticky; left: 0; background: var(--bg-card); z-index: 2; min-width: 90px; vertical-align: middle; }
+.detail-matrix td.col-metric { color: var(--text-muted); font-size: 10px; position: sticky; left: 90px; background: var(--bg-card); z-index: 1; min-width: 84px; }
+.detail-matrix td.cell-stack { text-align: right; vertical-align: middle; line-height: 1.3; }
+.detail-matrix td.cell-stack .v { font-weight: 600; }
+.detail-matrix td.cell-stack .yoy { font-size: 10px; opacity: 0.85; }
+.detail-matrix tr.co-first td { border-top: 2px solid var(--accent-dim); }
+.detail-matrix tr:hover td { background: rgba(255,255,255,0.04); }
+.detail-matrix td.col-signal { text-align: center; vertical-align: middle; min-width: 70px; }
+
 /* Legend */
 .legend-grid { display: flex; flex-direction: column; gap: 6px; font-size: 12px; flex: 1; }
 .legend-item { display: flex; align-items: center; gap: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-muted); }
@@ -250,41 +278,34 @@ if (sessionStorage.getItem('beyond-auth') === '1') {
 
 <!-- Group Performance Section (FY26 Board Slide 8) -->
 <div id="group-performance" class="section">
-  <div class="page-header"><h2>Group Performance</h2><div class="subtitle">各社PL一覧＋Signal自動判定（最新月: <span id="gp-latest-month"></span>）</div></div>
+  <div class="page-header"><h2>Group Performance</h2><div class="subtitle">グループ全体の業績ヒートマップ＋詳細マトリクス（<span id="gp-fy-label"></span>）</div></div>
   <div class="content">
+    <!-- 売上達成率ヒートマップ -->
     <div class="card" style="margin-bottom:16px">
-      <div class="card-header"><h3>業績一覧</h3><div class="badge" id="gp-signal-summary"></div></div>
-      <div class="card-body" style="overflow-x:auto"><table id="table-group-perf"><thead><tr>
-        <th>会社</th>
-        <th class="text-right">売上高(当月)</th>
-        <th class="text-right">前年同月比</th>
-        <th class="text-right">売上高(累計)</th>
-        <th class="text-right">粗利率</th>
-        <th class="text-right">営業利益(当月)</th>
-        <th class="text-right">営業利益(累計)</th>
-        <th class="text-right">営業利益率</th>
-        <th style="text-align:center">Signal</th>
-      </tr></thead><tbody></tbody></table></div>
-    </div>
-
-    <!-- 月次マトリクス: 売上 -->
-    <div class="card" style="margin-bottom:16px">
-      <div class="card-header"><h3>各社月次 売上高</h3><div class="badge" id="gp-rev-fy-label"></div></div>
+      <div class="card-header"><h3>売上達成率 ヒートマップ</h3><div class="badge">予算比 / 緑=好調・黄=未達・赤=要対処</div></div>
       <div class="card-body" style="overflow-x:auto;padding:0">
-        <table id="table-gp-rev-matrix" style="font-size:11px"><thead></thead><tbody></tbody></table>
+        <table id="table-gp-heatmap-rev" class="heatmap-table"><thead></thead><tbody></tbody></table>
       </div>
     </div>
 
-    <!-- 月次マトリクス: 営業利益 -->
+    <!-- 営業利益ヒートマップ -->
     <div class="card" style="margin-bottom:16px">
-      <div class="card-header"><h3>各社月次 営業利益</h3><div class="badge" id="gp-op-fy-label"></div></div>
+      <div class="card-header"><h3>営業利益 ヒートマップ</h3><div class="badge">黒字＝緑、赤字＝赤、強度=金額</div></div>
       <div class="card-body" style="overflow-x:auto;padding:0">
-        <table id="table-gp-op-matrix" style="font-size:11px"><thead></thead><tbody></tbody></table>
+        <table id="table-gp-heatmap-op" class="heatmap-table"><thead></thead><tbody></tbody></table>
+      </div>
+    </div>
+
+    <!-- 詳細マトリクス -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-header"><h3>業績詳細マトリクス</h3><div class="badge" id="gp-signal-summary"></div></div>
+      <div class="card-body" style="overflow-x:auto;padding:0">
+        <table id="table-gp-detail" class="detail-matrix"><thead></thead><tbody></tbody></table>
       </div>
     </div>
 
     <div class="card"><div class="card-body" style="font-size:11px;color:var(--text-muted);line-height:1.7">
-      ※Signal基準: 緑=スコア70点以上 ｜ 黄=50-69点 ｜ 赤=49点以下 or 3ヶ月連続赤字
+      ※各セル上段=当月実績、下段=前年同月比 ｜ Signal判定: 緑=スコア70点以上 / 黄=50-69点 / 赤=49点以下 or 3ヶ月連続赤字
     </div></div>
   </div>
 </div>
@@ -453,9 +474,9 @@ function buildAll(data) {
       document.getElementById('subsidiary-sections').innerHTML = '';
       document.getElementById('nav-tabs').innerHTML = '';
       ['kpi-overview', 'gp-signal-summary'].forEach(id => { const e = document.getElementById(id); if (e) e.innerHTML = ''; });
-      ['table-scorecard', 'table-group-perf', 'table-group-int', 'table-scorecard-board', 'table-perf-detail', 'table-int-detail', 'table-monthly-matrix', 'table-gp-rev-matrix', 'table-gp-op-matrix'].forEach(id => {
+      ['table-scorecard', 'table-group-int', 'table-scorecard-board', 'table-perf-detail', 'table-int-detail', 'table-monthly-matrix', 'table-gp-heatmap-rev', 'table-gp-heatmap-op', 'table-gp-detail'].forEach(id => {
         const tbody = document.querySelector('#' + id + ' tbody'); if (tbody) tbody.innerHTML = '';
-        const thead = document.querySelector('#' + id + ' thead'); if (thead && (id === 'table-monthly-matrix' || id === 'table-gp-rev-matrix' || id === 'table-gp-op-matrix')) thead.innerHTML = '';
+        const thead = document.querySelector('#' + id + ' thead'); if (thead) thead.innerHTML = '';
       });
       // Destroy all Chart.js instances
       Object.values(Chart.instances || {}).forEach(c => { try { c.destroy(); } catch(e){} });
@@ -625,108 +646,192 @@ function fmtMoney(v) {
 
 function buildGroupPerformance(data) {
   const companies = data.subsidiaries;
-  const tbody = document.querySelector('#table-group-perf tbody');
-  let signalCounts = { red: 0, yellow: 0, green: 0 };
-  let latestMonthGlobal = null;
-  let totalCurRev = 0, totalCurOp = 0, totalYtdRev = 0, totalYtdOp = 0, totalGp = 0;
 
-  companies.forEach(co => {
-    const month = getLatestClosedMonth(co);
-    if (!latestMonthGlobal || month > latestMonthGlobal) latestMonthGlobal = month;
-    const cur = getMonthRow(co, month) || { revenue: 0, grossProfit: 0, operatingProfit: 0 };
-    const yoy = getPrevYearMonth(co, month);
-    const growth = yoy && yoy.revenue ? ((cur.revenue - yoy.revenue) / yoy.revenue * 100) : null;
-    const ytdRev = sumField(co.monthlyPL, 'revenue');
-    const ytdOp = sumField(co.monthlyPL, 'operatingProfit');
-    const ytdGp = sumField(co.monthlyPL, 'grossProfit');
-    const gpRate = ytdRev > 0 ? (ytdGp / ytdRev * 100) : 0;
-    const opRate = ytdRev > 0 ? (ytdOp / ytdRev * 100) : 0;
-    const perf = computePerformanceScore(co, month);
-    const integ = computeIntegrityScore(co);
-    const signal = computeSignal(co, perf.total, integ.total);
-    signalCounts[signal.color]++;
-    totalCurRev += cur.revenue || 0; totalCurOp += cur.operatingProfit || 0;
-    totalYtdRev += ytdRev; totalYtdOp += ytdOp; totalGp += ytdGp;
+  // 全社の月リストを集約 (5月開始順)
+  const allMonths = new Set();
+  companies.forEach(co => co.monthlyPL.forEach(r => allMonths.add(r.month)));
+  const months = [...allMonths].sort();
+  const monthLabel = (m) => { const [y, mm] = m.split('/'); return parseInt(mm) + '月'; };
 
-    tbody.innerHTML += '<tr>' +
-      '<td><b>' + co.displayName + '</b></td>' +
-      '<td class="text-right">' + fmtMoney(cur.revenue) + '</td>' +
-      '<td class="text-right">' + fmtPct(growth, {plus: true, greenPositive: true}) + '</td>' +
-      '<td class="text-right">' + fmtMoney(ytdRev) + '</td>' +
-      '<td class="text-right">' + fmtPct(gpRate) + '</td>' +
-      '<td class="text-right ' + ((cur.operatingProfit || 0) >= 0 ? 'text-green' : 'text-red') + '">' + fmtMoney(cur.operatingProfit) + '</td>' +
-      '<td class="text-right ' + (ytdOp >= 0 ? 'text-green' : 'text-red') + '">' + fmtMoney(ytdOp) + '</td>' +
-      '<td class="text-right">' + fmtPct(opRate) + '</td>' +
-      '<td style="text-align:center">' + signalDot(signal) + '</td>' +
-    '</tr>';
-  });
+  // ヘッダ生成共通
+  const buildHead = (firstColLabel, extraCol) => {
+    let h = '<tr><th>' + firstColLabel + '</th>';
+    months.forEach(m => h += '<th>' + monthLabel(m) + '</th>');
+    if (extraCol) h += '<th>' + extraCol + '</th>';
+    return h + '</tr>';
+  };
 
-  // 合計行
-  const totalGpRate = totalYtdRev > 0 ? totalGp / totalYtdRev * 100 : 0;
-  const totalOpRate = totalYtdRev > 0 ? totalYtdOp / totalYtdRev * 100 : 0;
-  tbody.innerHTML += '<tr style="background:rgba(201,162,39,0.05);font-weight:700">' +
-    '<td><b>合計</b></td>' +
-    '<td class="text-right">' + fmtMoney(totalCurRev) + '</td>' +
-    '<td class="text-right">−</td>' +
-    '<td class="text-right">' + fmtMoney(totalYtdRev) + '</td>' +
-    '<td class="text-right">' + fmtPct(totalGpRate) + '</td>' +
-    '<td class="text-right ' + (totalCurOp >= 0 ? 'text-green' : 'text-red') + '">' + fmtMoney(totalCurOp) + '</td>' +
-    '<td class="text-right ' + (totalYtdOp >= 0 ? 'text-green' : 'text-red') + '">' + fmtMoney(totalYtdOp) + '</td>' +
-    '<td class="text-right">' + fmtPct(totalOpRate) + '</td>' +
-    '<td>−</td>' +
-  '</tr>';
+  // 売上達成率を取得（予算データから）
+  const getRevenueAchievement = (co, month) => {
+    if (!co.budgets || !co.budgets.length) return null;
+    const b = co.budgets.find(x => x.month === month);
+    if (!b || !b.revenueBudget) return null;
+    const r = co.monthlyPL.find(x => x.month === month);
+    if (!r) return null;
+    return r.revenue / b.revenueBudget * 100;
+  };
 
-  document.getElementById('gp-latest-month').textContent = latestMonthGlobal || '-';
-  document.getElementById('gp-signal-summary').innerHTML = '緑 ' + signalCounts.green + ' / 黄 ' + signalCounts.yellow + ' / 赤 ' + signalCounts.red;
+  // 達成率→色クラス
+  const achievToClass = (a) => {
+    if (a === null) return 'heat-empty';
+    if (a >= 110) return 'heat-deep-green';
+    if (a >= 100) return 'heat-green';
+    if (a >= 90) return 'heat-mid';
+    if (a >= 80) return 'heat-yellow';
+    if (a >= 70) return 'heat-orange';
+    return 'heat-red';
+  };
 
-  // 月次マトリクス: 売上 + 営業利益
-  // FYの12ヶ月分のラベルを生成 (5月〜翌4月、184は11月開始)
-  const buildMatrix = (tableId, metric, colorize) => {
-    const thead = document.querySelector('#' + tableId + ' thead');
-    const tbody = document.querySelector('#' + tableId + ' tbody');
-    if (!thead || !tbody) return;
-    // 全社のmonthsを集約
-    const allMonths = new Set();
-    companies.forEach(co => co.monthlyPL.forEach(r => allMonths.add(r.month)));
-    const months = [...allMonths].sort();
-    let head = '<tr><th>会社</th>';
-    months.forEach(m => head += '<th class="text-right">' + m + '</th>');
-    head += '<th class="text-right">累計</th></tr>';
-    thead.innerHTML = head;
-    const rowSums = new Array(months.length).fill(0);
-    let totalSum = 0;
+  // 営業利益→色クラス（金額の絶対値で強度）
+  const opToClass = (op, ref) => {
+    if (op === null || op === undefined) return 'heat-empty';
+    const ratio = ref > 0 ? Math.abs(op) / ref : 0;
+    if (op > 0) {
+      if (ratio >= 0.10) return 'heat-deep-green';
+      if (ratio >= 0.05) return 'heat-green';
+      return 'heat-mid';
+    } else if (op < 0) {
+      if (ratio >= 0.10) return 'heat-deep-red';
+      if (ratio >= 0.05) return 'heat-red';
+      return 'heat-orange';
+    }
+    return 'heat-mid';
+  };
+
+  // ① 売上達成率ヒートマップ
+  const tableRev = document.getElementById('table-gp-heatmap-rev');
+  if (tableRev) {
+    tableRev.querySelector('thead').innerHTML = buildHead('会社', '累計達成率');
     let body = '';
     companies.forEach(co => {
-      const map = {}; co.monthlyPL.forEach(r => map[r.month] = r);
-      let coTotal = 0;
-      let row = '<tr><td style="font-weight:600;color:var(--accent)">' + co.displayName + '</td>';
-      months.forEach((m, mi) => {
-        const v = map[m] ? map[m][metric] : null;
-        if (v !== null && v !== undefined) { rowSums[mi] += v; coTotal += v; }
-        const cls = !colorize ? '' : (v > 0 ? 'text-green' : v < 0 ? 'text-red' : '');
-        row += '<td class="text-right ' + cls + '">' + (v === null || v === undefined ? '<span style="color:var(--text-dim)">−</span>' : fmtOku(v)) + '</td>';
+      let row = '<tr><td>' + co.displayName + '</td>';
+      months.forEach(m => {
+        const a = getRevenueAchievement(co, m);
+        const cls = achievToClass(a);
+        const txt = a === null ? '−' : Math.round(a) + '%';
+        row += '<td class="' + cls + '" title="' + co.displayName + ' ' + m + ': ' + txt + '">' + txt + '</td>';
       });
-      totalSum += coTotal;
-      const tCls = !colorize ? '' : (coTotal > 0 ? 'text-green' : coTotal < 0 ? 'text-red' : '');
-      row += '<td class="text-right ' + tCls + '">' + fmtOku(coTotal) + '</td></tr>';
+      // 累計達成率
+      const ytdAch = getBudgetAchievement(co);
+      const ytdCls = achievToClass(ytdAch);
+      row += '<td class="' + ytdCls + '">' + (ytdAch === null ? '−' : Math.round(ytdAch) + '%') + '</td></tr>';
       body += row;
     });
-    let totalRow = '<tr class="total-row"><td>合計</td>';
-    months.forEach((m, mi) => {
-      const v = rowSums[mi];
-      const cls = !colorize ? '' : (v > 0 ? 'text-green' : v < 0 ? 'text-red' : '');
-      totalRow += '<td class="text-right ' + cls + '">' + fmtOku(v) + '</td>';
+    tableRev.querySelector('tbody').innerHTML = body;
+  }
+
+  // ② 営業利益ヒートマップ（基準: 各社の月平均売上）
+  const tableOp = document.getElementById('table-gp-heatmap-op');
+  if (tableOp) {
+    tableOp.querySelector('thead').innerHTML = buildHead('会社', '累計');
+    let body = '';
+    companies.forEach(co => {
+      const avgRev = co.monthlyPL.length ? sumField(co.monthlyPL, 'revenue') / co.monthlyPL.length : 0;
+      let row = '<tr><td>' + co.displayName + '</td>';
+      months.forEach(m => {
+        const r = co.monthlyPL.find(x => x.month === m);
+        const op = r ? r.operatingProfit : null;
+        const cls = opToClass(op, avgRev);
+        const txt = op === null ? '−' : (op === 0 ? '0' : (op < 0 ? '▲' : '') + fmtOku(Math.abs(op)));
+        row += '<td class="' + cls + '" title="' + co.displayName + ' ' + m + ': ' + txt + '">' + txt + '</td>';
+      });
+      const ytdOp = sumField(co.monthlyPL, 'operatingProfit');
+      const ytdCls = opToClass(ytdOp, avgRev);
+      row += '<td class="' + ytdCls + '">' + (ytdOp < 0 ? '▲' : '') + fmtOku(Math.abs(ytdOp)) + '</td></tr>';
+      body += row;
     });
-    const totalCls = !colorize ? '' : (totalSum > 0 ? 'text-green' : totalSum < 0 ? 'text-red' : '');
-    totalRow += '<td class="text-right ' + totalCls + '">' + fmtOku(totalSum) + '</td></tr>';
-    tbody.innerHTML = body + totalRow;
-  };
-  buildMatrix('table-gp-rev-matrix', 'revenue', false);
-  buildMatrix('table-gp-op-matrix', 'operatingProfit', true);
-  // FY label badges
+    tableOp.querySelector('tbody').innerHTML = body;
+  }
+
+  // ③ 詳細マトリクス
+  const tableDetail = document.getElementById('table-gp-detail');
+  if (tableDetail) {
+    let h = '<tr><th>会社</th><th>指標</th>';
+    months.forEach(m => h += '<th>' + monthLabel(m) + '</th>');
+    h += '<th>累計/通年</th><th>Signal</th></tr>';
+    tableDetail.querySelector('thead').innerHTML = h;
+
+    let body = '';
+    let signalCounts = { red: 0, yellow: 0, green: 0 };
+
+    companies.forEach(co => {
+      const latestMonth = getLatestClosedMonth(co);
+      const perf = computePerformanceScore(co, latestMonth);
+      const integ = computeIntegrityScore(co);
+      const signal = computeSignal(co, perf.total, integ.total);
+      signalCounts[signal.color]++;
+
+      const map = {}; co.monthlyPL.forEach(r => map[r.month] = r);
+      const ytdRev = sumField(co.monthlyPL, 'revenue');
+      const ytdOp = sumField(co.monthlyPL, 'operatingProfit');
+      const ytdOpRate = ytdRev > 0 ? ytdOp / ytdRev * 100 : 0;
+
+      // 売上行
+      let rowRev = '<tr class="co-first"><td class="col-co" rowspan="3">' + co.displayName + '</td><td class="col-metric">売上高</td>';
+      months.forEach(m => {
+        const r = map[m];
+        const yoy = getPrevYearMonth(co, m);
+        if (!r) { rowRev += '<td class="cell-stack"><span class="text-dim">−</span></td>'; return; }
+        const v = r.revenue;
+        const yp = yoy && yoy.revenue ? ((v - yoy.revenue) / yoy.revenue * 100) : null;
+        const ypHtml = yp === null ? '<span class="text-dim">−</span>' : (yp >= 0 ? '<span class="text-green">+' + yp.toFixed(0) + '%</span>' : '<span class="text-red">' + yp.toFixed(0) + '%</span>');
+        rowRev += '<td class="cell-stack"><div class="v">' + fmtOku(v) + '</div><div class="yoy">' + ypHtml + '</div></td>';
+      });
+      // YTD with prev FY full revenue
+      const prevYTDRev = co.prevFYMonthlyPL ? sumField(co.prevFYMonthlyPL.slice(0, co.monthlyPL.length), 'revenue') : 0;
+      const ytdRevYoY = prevYTDRev > 0 ? (ytdRev - prevYTDRev) / prevYTDRev * 100 : null;
+      const ytdRevYoYHtml = ytdRevYoY === null ? '<span class="text-dim">−</span>' : (ytdRevYoY >= 0 ? '<span class="text-green">+' + ytdRevYoY.toFixed(0) + '%</span>' : '<span class="text-red">' + ytdRevYoY.toFixed(0) + '%</span>');
+      rowRev += '<td class="cell-stack"><div class="v">' + fmtOku(ytdRev) + '</div><div class="yoy">' + ytdRevYoYHtml + '</div></td>';
+      rowRev += '<td class="col-signal" rowspan="3">' + signalDot(signal) + '</td></tr>';
+      body += rowRev;
+
+      // 営業利益行
+      let rowOp = '<tr><td class="col-metric">営業利益</td>';
+      months.forEach(m => {
+        const r = map[m];
+        const yoy = getPrevYearMonth(co, m);
+        if (!r) { rowOp += '<td class="cell-stack"><span class="text-dim">−</span></td>'; return; }
+        const v = r.operatingProfit;
+        const yp = yoy && Math.abs(yoy.operatingProfit) > 0 ? ((v - yoy.operatingProfit) / Math.abs(yoy.operatingProfit) * 100) : null;
+        const cls = v > 0 ? 'text-green' : v < 0 ? 'text-red' : '';
+        const ypHtml = yp === null ? '<span class="text-dim">−</span>' : (yp >= 0 ? '<span class="text-green">+' + yp.toFixed(0) + '%</span>' : '<span class="text-red">' + yp.toFixed(0) + '%</span>');
+        rowOp += '<td class="cell-stack"><div class="v ' + cls + '">' + (v < 0 ? '▲' : '') + fmtOku(Math.abs(v)) + '</div><div class="yoy">' + ypHtml + '</div></td>';
+      });
+      const prevYTDOp = co.prevFYMonthlyPL ? sumField(co.prevFYMonthlyPL.slice(0, co.monthlyPL.length), 'operatingProfit') : 0;
+      const ytdOpYoY = Math.abs(prevYTDOp) > 0 ? (ytdOp - prevYTDOp) / Math.abs(prevYTDOp) * 100 : null;
+      const ytdOpYoYHtml = ytdOpYoY === null ? '<span class="text-dim">−</span>' : (ytdOpYoY >= 0 ? '<span class="text-green">+' + ytdOpYoY.toFixed(0) + '%</span>' : '<span class="text-red">' + ytdOpYoY.toFixed(0) + '%</span>');
+      const ytdOpCls = ytdOp >= 0 ? 'text-green' : 'text-red';
+      rowOp += '<td class="cell-stack"><div class="v ' + ytdOpCls + '">' + (ytdOp < 0 ? '▲' : '') + fmtOku(Math.abs(ytdOp)) + '</div><div class="yoy">' + ytdOpYoYHtml + '</div></td></tr>';
+      body += rowOp;
+
+      // 営業利益率行
+      let rowRate = '<tr><td class="col-metric">営業利益率</td>';
+      months.forEach(m => {
+        const r = map[m];
+        const yoy = getPrevYearMonth(co, m);
+        if (!r || !r.revenue) { rowRate += '<td class="cell-stack"><span class="text-dim">−</span></td>'; return; }
+        const cur = r.operatingProfit / r.revenue * 100;
+        const prevRate = yoy && yoy.revenue ? yoy.operatingProfit / yoy.revenue * 100 : null;
+        const yp = prevRate !== null ? (cur - prevRate) : null;
+        const cls = cur >= 0 ? 'text-green' : 'text-red';
+        const ypHtml = yp === null ? '<span class="text-dim">−</span>' : (yp >= 0 ? '<span class="text-green">+' + yp.toFixed(1) + 'pt</span>' : '<span class="text-red">' + yp.toFixed(1) + 'pt</span>');
+        rowRate += '<td class="cell-stack"><div class="v ' + cls + '">' + cur.toFixed(1) + '%</div><div class="yoy">' + ypHtml + '</div></td>';
+      });
+      const prevYTDRate = prevYTDRev > 0 ? prevYTDOp / prevYTDRev * 100 : null;
+      const ytdRateYoY = prevYTDRate !== null ? ytdOpRate - prevYTDRate : null;
+      const ytdRateCls = ytdOpRate >= 0 ? 'text-green' : 'text-red';
+      const ytdRateYoYHtml = ytdRateYoY === null ? '<span class="text-dim">−</span>' : (ytdRateYoY >= 0 ? '<span class="text-green">+' + ytdRateYoY.toFixed(1) + 'pt</span>' : '<span class="text-red">' + ytdRateYoY.toFixed(1) + 'pt</span>');
+      rowRate += '<td class="cell-stack"><div class="v ' + ytdRateCls + '">' + ytdOpRate.toFixed(1) + '%</div><div class="yoy">' + ytdRateYoYHtml + '</div></td></tr>';
+      body += rowRate;
+    });
+    tableDetail.querySelector('tbody').innerHTML = body;
+
+    document.getElementById('gp-signal-summary').innerHTML = '🟢 ' + signalCounts.green + ' / 🟡 ' + signalCounts.yellow + ' / 🔴 ' + signalCounts.red;
+  }
+
+  // FY label
   const fyLabel = data.fiscalYearLabel || ('FY' + (data.fiscalYear || ''));
-  const lblRev = document.getElementById('gp-rev-fy-label'); if (lblRev) lblRev.textContent = fyLabel;
-  const lblOp = document.getElementById('gp-op-fy-label'); if (lblOp) lblOp.textContent = fyLabel;
+  const lbl = document.getElementById('gp-fy-label'); if (lbl) lbl.textContent = fyLabel;
 }
 
 function buildGroupIntegrity(data) {
