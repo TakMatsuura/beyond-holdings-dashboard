@@ -238,11 +238,46 @@ if (sessionStorage.getItem('beyond-auth') === '1') {
 
 <!-- Overview Section -->
 <div id="overview" class="section active">
-  <div class="page-header"><h2>Performance Overview</h2><div class="subtitle" id="overview-subtitle"></div></div>
+  <div class="page-header"><h2>Group Overview</h2><div class="subtitle" id="overview-subtitle"></div></div>
   <div class="content">
     <div class="kpi-row" id="kpi-overview"></div>
-    <div class="card" style="margin-bottom:16px"><div class="card-header"><h3>Subsidiary Scorecard</h3><div class="badge" id="ov-company-count"></div></div><div class="card-body" style="overflow-x:auto"><table id="table-scorecard"><thead><tr><th>子会社</th><th class="text-right">売上高</th><th class="text-right">売上原価</th><th class="text-right">売上総利益</th><th class="text-right">粗利率</th><th class="text-right">販管費</th><th class="text-right">営業利益</th><th class="text-right">営業利益率</th><th class="text-right">EBITDA</th></tr></thead><tbody></tbody></table></div></div>
-    <!-- 月次サマリ マトリクス -->
+
+    <!-- Signal Health Summary -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-header"><h3>グループSignal Health</h3><div class="badge" id="ov-company-count"></div></div>
+      <div class="card-body" id="signal-health-body" style="display:flex;flex-direction:column;gap:12px">
+        <div id="signal-health-summary" style="display:flex;gap:16px"></div>
+        <div id="signal-health-companies" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card"><div class="card-header"><h3>売上構成比</h3></div><div class="card-body" style="height:300px;display:flex;align-items:center;gap:16px"><div style="flex:0 0 180px;max-height:240px"><canvas id="chart-ov-revenue-pie"></canvas></div><div id="legend-ov-revenue" class="legend-grid"></div></div></div>
+      <div class="card"><div class="card-header"><h3>営業利益率 比較</h3></div><div class="card-body" style="height:300px"><canvas id="chart-ov-margin-bar"></canvas></div></div>
+      <div class="card"><div class="card-header"><h3>総資産 / 純資産</h3></div><div class="card-body" style="height:300px"><canvas id="chart-ov-bs-bar"></canvas></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Group Performance Section (PL特化) -->
+<div id="group-performance" class="section">
+  <div class="page-header"><h2>Group Performance</h2><div class="subtitle">グループPL深掘り｜ヒートマップ・詳細マトリクス・トレンド分析（<span id="gp-fy-label"></span>）</div></div>
+  <div class="content">
+    <!-- 統合ヒートマップ -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-header"><h3>業績ヒートマップ（売上達成率 × 営業利益）</h3><div class="badge">上段=達成率% ｜ 下段=営業利益 ｜ 背景色=総合健全度</div></div>
+      <div class="card-body" style="overflow-x:auto;padding:0">
+        <table id="table-gp-heatmap-combined" class="heatmap-table heatmap-combined"><thead></thead><tbody></tbody></table>
+      </div>
+    </div>
+
+    <!-- Subsidiary Scorecard (Overviewから移動) -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-header"><h3>Subsidiary Scorecard（累計）</h3><div class="badge" id="gp-scorecard-count"></div></div>
+      <div class="card-body" style="overflow-x:auto"><table id="table-scorecard"><thead><tr><th>子会社</th><th class="text-right">売上高</th><th class="text-right">売上原価</th><th class="text-right">売上総利益</th><th class="text-right">粗利率</th><th class="text-right">販管費</th><th class="text-right">営業利益</th><th class="text-right">営業利益率</th><th class="text-right">EBITDA</th></tr></thead><tbody></tbody></table></div>
+    </div>
+
+    <!-- 月次サマリ マトリクス (Overviewから移動) -->
     <div class="card" style="margin-bottom:16px">
       <div class="card-header">
         <h3>月次サマリ マトリクス</h3>
@@ -257,12 +292,14 @@ if (sessionStorage.getItem('beyond-auth') === '1') {
       </div>
     </div>
 
+    <!-- 子会社別ランキング (Overviewから移動) -->
     <div class="grid-3">
       <div class="card"><div class="card-header"><h3>子会社別 売上高</h3></div><div class="card-body" style="height:320px"><canvas id="chart-ov-revenue-rank"></canvas></div></div>
       <div class="card"><div class="card-header"><h3>子会社別 営業利益</h3></div><div class="card-body" style="height:320px"><canvas id="chart-ov-op-rank"></canvas></div></div>
       <div class="card"><div class="card-header"><h3>子会社別 EBITDA</h3></div><div class="card-body" style="height:320px"><canvas id="chart-ov-ebitda-rank"></canvas></div></div>
     </div>
 
+    <!-- 月次推移グラフ (Overviewから移動) -->
     <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:16px;margin-bottom:16px">
       <div class="card" style="grid-row:1/3"><div class="card-header"><h3>月次売上推移</h3></div><div class="card-body" style="height:560px;display:flex;flex-direction:column;gap:0;overflow:hidden">
         <div style="flex:1;position:relative"><canvas id="chart-ov-rev-hi"></canvas></div>
@@ -273,25 +310,6 @@ if (sessionStorage.getItem('beyond-auth') === '1') {
       </div></div>
       <div class="card"><div class="card-header"><h3>月次営業利益推移</h3></div><div class="card-body" style="height:260px"><canvas id="chart-ov-monthly-op"></canvas></div></div>
       <div class="card"><div class="card-header"><h3>月次EBITDA推移</h3></div><div class="card-body" style="height:260px"><canvas id="chart-ov-monthly-ebitda"></canvas></div></div>
-    </div>
-    <div class="grid-3">
-      <div class="card"><div class="card-header"><h3>売上構成比</h3></div><div class="card-body" style="height:300px;display:flex;align-items:center;gap:16px"><div style="flex:0 0 180px;max-height:240px"><canvas id="chart-ov-revenue-pie"></canvas></div><div id="legend-ov-revenue" class="legend-grid"></div></div></div>
-      <div class="card"><div class="card-header"><h3>営業利益率 比較</h3></div><div class="card-body" style="height:300px"><canvas id="chart-ov-margin-bar"></canvas></div></div>
-      <div class="card"><div class="card-header"><h3>総資産 / 純資産</h3></div><div class="card-body" style="height:300px"><canvas id="chart-ov-bs-bar"></canvas></div></div>
-    </div>
-  </div>
-</div>
-
-<!-- Group Performance Section (FY26 Board Slide 8) -->
-<div id="group-performance" class="section">
-  <div class="page-header"><h2>Group Performance</h2><div class="subtitle">グループ全体の業績ヒートマップ＋詳細マトリクス（<span id="gp-fy-label"></span>）</div></div>
-  <div class="content">
-    <!-- 統合ヒートマップ -->
-    <div class="card" style="margin-bottom:16px">
-      <div class="card-header"><h3>業績ヒートマップ（売上達成率 × 営業利益）</h3><div class="badge">上段=達成率% ｜ 下段=営業利益 ｜ 背景色=総合健全度</div></div>
-      <div class="card-body" style="overflow-x:auto;padding:0">
-        <table id="table-gp-heatmap-combined" class="heatmap-table heatmap-combined"><thead></thead><tbody></tbody></table>
-      </div>
     </div>
 
     <!-- 詳細マトリクス -->
@@ -418,6 +436,11 @@ function showTab(id, el) {
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   if (el) el.classList.add('active');
+  window.scrollTo(0, 0);
+}
+function goToCo(id) {
+  const tab = document.querySelector('.nav-tab[onclick*="co-' + id + '"]');
+  if (tab) tab.click();
 }
 
 function sumField(arr, field) { return arr.reduce((s, r) => s + (r[field] || 0), 0); }
@@ -735,7 +758,7 @@ function buildGroupPerformance(data) {
     tableCombined.querySelector('thead').innerHTML = buildHead('会社', '累計/通年');
     let body = '';
     companies.forEach(co => {
-      let row = '<tr><td>' + co.displayName + '</td>';
+      let row = '<tr><td style="cursor:pointer" onclick="goToCo(' + co.id + ')" title="' + co.displayName + ' の詳細タブへ">' + co.displayName + ' →</td>';
       months.forEach(m => {
         const r = co.monthlyPL.find(x => x.month === m);
         const ach = getRevenueAchievement(co, m);
@@ -748,7 +771,7 @@ function buildGroupPerformance(data) {
         const opSign = op === null ? '' : (op < 0 ? '▲' : '+');
         const opTxt = op === null ? '' : opSign + fmtOku(Math.abs(op));
         const tooltip = co.displayName + ' ' + m + ': 達成率=' + achTxt + ', 営業利益=' + opTxt + ', スコア=' + score;
-        row += '<td class="cell ' + cls + '" title="' + tooltip + '"><span class="ach">' + achTxt + '</span><span class="op">' + opTxt + '</span></td>';
+        row += '<td class="cell ' + cls + '" title="' + tooltip + '" style="cursor:pointer" onclick="goToCo(' + co.id + ')"><span class="ach">' + achTxt + '</span><span class="op">' + opTxt + '</span></td>';
       });
       // 累計
       const ytdAch = getBudgetAchievement(co);
@@ -790,7 +813,7 @@ function buildGroupPerformance(data) {
       const ytdOpRate = ytdRev > 0 ? ytdOp / ytdRev * 100 : 0;
 
       // 売上行
-      let rowRev = '<tr class="co-first"><td class="col-co" rowspan="3">' + co.displayName + '</td><td class="col-metric">売上高</td>';
+      let rowRev = '<tr class="co-first"><td class="col-co" rowspan="3" style="cursor:pointer" onclick="goToCo(' + co.id + ')" title="' + co.displayName + ' の詳細タブへ">' + co.displayName + ' →</td><td class="col-metric">売上高</td>';
       months.forEach(m => {
         const r = map[m];
         const yoy = getPrevYearMonth(co, m);
@@ -993,6 +1016,42 @@ function buildOverview(data) {
     '<div class="kpi-card"><div class="kpi-label">連結EBITDA</div><div class="kpi-value">' + fmtOku(grandEBITDA) + '</div><div class="kpi-sub">子会社 ' + companies.length + '社</div></div>';
 
   document.getElementById('ov-company-count').textContent = companies.length + ' subsidiaries';
+  const scc = document.getElementById('gp-scorecard-count'); if (scc) scc.textContent = companies.length + ' subsidiaries';
+
+  // Signal Health Summary
+  const sigCounts = { green: 0, yellow: 0, red: 0 };
+  const coSigList = [];
+  companies.forEach(co => {
+    const latestM = getLatestClosedMonth(co);
+    const perfS = computePerformanceScore(co, latestM);
+    const integS = computeIntegrityScore(co);
+    const sig = computeSignal(co, perfS.total, integS.total);
+    sigCounts[sig.color]++;
+    coSigList.push({ co, sig, score: perfS.total + integS.total });
+  });
+  const sigSummaryEl = document.getElementById('signal-health-summary');
+  if (sigSummaryEl) {
+    sigSummaryEl.innerHTML =
+      '<div style="flex:1;display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(34,197,94,0.1);border-radius:8px;border-left:3px solid var(--green)"><span style="width:14px;height:14px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)"></span><span style="font-size:13px;color:var(--text-muted)">緑 (好調)</span><span style="font-size:24px;font-weight:800;margin-left:auto">' + sigCounts.green + ' 社</span></div>' +
+      '<div style="flex:1;display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(245,158,11,0.1);border-radius:8px;border-left:3px solid #f59e0b"><span style="width:14px;height:14px;border-radius:50%;background:#f59e0b;box-shadow:0 0 10px #f59e0b"></span><span style="font-size:13px;color:var(--text-muted)">黄 (要注意)</span><span style="font-size:24px;font-weight:800;margin-left:auto">' + sigCounts.yellow + ' 社</span></div>' +
+      '<div style="flex:1;display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(239,68,68,0.1);border-radius:8px;border-left:3px solid var(--red)"><span style="width:14px;height:14px;border-radius:50%;background:var(--red);box-shadow:0 0 10px var(--red)"></span><span style="font-size:13px;color:var(--text-muted)">赤 (要対処)</span><span style="font-size:24px;font-weight:800;margin-left:auto">' + sigCounts.red + ' 社</span></div>';
+  }
+  const sigCoEl = document.getElementById('signal-health-companies');
+  if (sigCoEl) {
+    coSigList.sort((a, b) => {
+      const order = { red: 0, yellow: 1, green: 2 };
+      return order[a.sig.color] - order[b.sig.color] || b.score - a.score;
+    });
+    const colorBg = { red: 'rgba(239,68,68,0.15)', yellow: 'rgba(245,158,11,0.15)', green: 'rgba(34,197,94,0.15)' };
+    const colorBorder = { red: 'var(--red)', yellow: '#f59e0b', green: 'var(--green)' };
+    sigCoEl.innerHTML = coSigList.map(item =>
+      '<div style="cursor:pointer;display:flex;align-items:center;gap:8px;padding:8px 14px;background:' + colorBg[item.sig.color] + ';border-radius:20px;border:1px solid ' + colorBorder[item.sig.color] + ';font-size:12px;font-weight:600;transition:transform 0.15s" onclick="goToCo(' + item.co.id + ')" onmouseover="this.style.transform=\'scale(1.05)\'" onmouseout="this.style.transform=\'scale(1)\'">' +
+      '<span style="width:10px;height:10px;border-radius:50%;background:' + colorBorder[item.sig.color] + '"></span>' +
+      '<span>' + item.co.displayName + '</span>' +
+      '<span style="color:var(--text-muted);font-weight:500;font-size:11px">' + item.score + '点</span>' +
+      '</div>'
+    ).join('');
+  }
 
   const chartOpts = (axis) => ({ indexAxis: axis, responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: axis === 'y' ? { x: { ticks: { callback: v => fmtOku(v) }, grid: { color: 'rgba(255,255,255,0.04)' } }, y: { grid: { display: false } } } : {} });
 
