@@ -130,6 +130,12 @@ tr:hover td { background: rgba(255,255,255,0.03); }
 .heat-red { background: rgba(239,68,68,0.55); color: #fff; font-weight: 700; }
 .heat-deep-red { background: rgba(220,38,38,0.75); color: #fff; font-weight: 800; }
 .heat-empty { color: var(--text-dim); }
+/* Combined heatmap: stacked top/bottom in one cell */
+.heatmap-combined td.cell { padding: 4px 6px; line-height: 1.2; min-width: 70px; }
+.heatmap-combined td.cell .ach { font-size: 13px; font-weight: 700; display: block; }
+.heatmap-combined td.cell .op { font-size: 10px; opacity: 0.95; display: block; margin-top: 1px; }
+.heatmap-combined td.cell .op.pos::before { content: '+'; }
+.heatmap-combined td.cell .op.neg { color: rgba(255,255,255,0.95); }
 
 /* Detail matrix per company */
 .detail-matrix { width: 100%; border-collapse: collapse; }
@@ -280,19 +286,11 @@ if (sessionStorage.getItem('beyond-auth') === '1') {
 <div id="group-performance" class="section">
   <div class="page-header"><h2>Group Performance</h2><div class="subtitle">グループ全体の業績ヒートマップ＋詳細マトリクス（<span id="gp-fy-label"></span>）</div></div>
   <div class="content">
-    <!-- 売上達成率ヒートマップ -->
+    <!-- 統合ヒートマップ -->
     <div class="card" style="margin-bottom:16px">
-      <div class="card-header"><h3>売上達成率 ヒートマップ</h3><div class="badge">予算比 / 緑=好調・黄=未達・赤=要対処</div></div>
+      <div class="card-header"><h3>業績ヒートマップ（売上達成率 × 営業利益）</h3><div class="badge">上段=達成率% ｜ 下段=営業利益 ｜ 背景色=総合健全度</div></div>
       <div class="card-body" style="overflow-x:auto;padding:0">
-        <table id="table-gp-heatmap-rev" class="heatmap-table"><thead></thead><tbody></tbody></table>
-      </div>
-    </div>
-
-    <!-- 営業利益ヒートマップ -->
-    <div class="card" style="margin-bottom:16px">
-      <div class="card-header"><h3>営業利益 ヒートマップ</h3><div class="badge">黒字＝緑、赤字＝赤、強度=金額</div></div>
-      <div class="card-body" style="overflow-x:auto;padding:0">
-        <table id="table-gp-heatmap-op" class="heatmap-table"><thead></thead><tbody></tbody></table>
+        <table id="table-gp-heatmap-combined" class="heatmap-table heatmap-combined"><thead></thead><tbody></tbody></table>
       </div>
     </div>
 
@@ -474,7 +472,7 @@ function buildAll(data) {
       document.getElementById('subsidiary-sections').innerHTML = '';
       document.getElementById('nav-tabs').innerHTML = '';
       ['kpi-overview', 'gp-signal-summary'].forEach(id => { const e = document.getElementById(id); if (e) e.innerHTML = ''; });
-      ['table-scorecard', 'table-group-int', 'table-scorecard-board', 'table-perf-detail', 'table-int-detail', 'table-monthly-matrix', 'table-gp-heatmap-rev', 'table-gp-heatmap-op', 'table-gp-detail'].forEach(id => {
+      ['table-scorecard', 'table-group-int', 'table-scorecard-board', 'table-perf-detail', 'table-int-detail', 'table-monthly-matrix', 'table-gp-heatmap-combined', 'table-gp-detail'].forEach(id => {
         const tbody = document.querySelector('#' + id + ' tbody'); if (tbody) tbody.innerHTML = '';
         const thead = document.querySelector('#' + id + ' thead'); if (thead) thead.innerHTML = '';
       });
@@ -698,49 +696,74 @@ function buildGroupPerformance(data) {
     return 'heat-mid';
   };
 
-  // ① 売上達成率ヒートマップ
-  const tableRev = document.getElementById('table-gp-heatmap-rev');
-  if (tableRev) {
-    tableRev.querySelector('thead').innerHTML = buildHead('会社', '累計達成率');
-    let body = '';
-    companies.forEach(co => {
-      let row = '<tr><td>' + co.displayName + '</td>';
-      months.forEach(m => {
-        const a = getRevenueAchievement(co, m);
-        const cls = achievToClass(a);
-        const txt = a === null ? '−' : Math.round(a) + '%';
-        row += '<td class="' + cls + '" title="' + co.displayName + ' ' + m + ': ' + txt + '">' + txt + '</td>';
-      });
-      // 累計達成率
-      const ytdAch = getBudgetAchievement(co);
-      const ytdCls = achievToClass(ytdAch);
-      row += '<td class="' + ytdCls + '">' + (ytdAch === null ? '−' : Math.round(ytdAch) + '%') + '</td></tr>';
-      body += row;
-    });
-    tableRev.querySelector('tbody').innerHTML = body;
-  }
+  // 総合健全度スコア (0-100)
+  // 売上達成率 (50点) + 営業利益率 (50点)
+  const computeCellScore = (achievement, opRate) => {
+    let achScore = 0;
+    if (achievement === null) achScore = 25; // 予算なしの場合は中立
+    else if (achievement >= 110) achScore = 50;
+    else if (achievement >= 100) achScore = 42;
+    else if (achievement >= 95) achScore = 35;
+    else if (achievement >= 90) achScore = 28;
+    else if (achievement >= 80) achScore = 18;
+    else if (achievement >= 70) achScore = 8;
+    else achScore = 0;
+    let opScore = 0;
+    if (opRate === null) opScore = 25;
+    else if (opRate >= 10) opScore = 50;
+    else if (opRate >= 5) opScore = 42;
+    else if (opRate >= 0) opScore = 30;
+    else if (opRate >= -5) opScore = 15;
+    else if (opRate >= -10) opScore = 5;
+    else opScore = 0;
+    return achScore + opScore;
+  };
+  const scoreToClass = (score) => {
+    if (score === null) return 'heat-empty';
+    if (score >= 85) return 'heat-deep-green';
+    if (score >= 70) return 'heat-green';
+    if (score >= 55) return 'heat-mid';
+    if (score >= 40) return 'heat-yellow';
+    if (score >= 25) return 'heat-orange';
+    if (score >= 10) return 'heat-red';
+    return 'heat-deep-red';
+  };
 
-  // ② 営業利益ヒートマップ（基準: 各社の月平均売上）
-  const tableOp = document.getElementById('table-gp-heatmap-op');
-  if (tableOp) {
-    tableOp.querySelector('thead').innerHTML = buildHead('会社', '累計');
+  // 統合ヒートマップ (達成率 + 営業利益 + 総合健全度色)
+  const tableCombined = document.getElementById('table-gp-heatmap-combined');
+  if (tableCombined) {
+    tableCombined.querySelector('thead').innerHTML = buildHead('会社', '累計/通年');
     let body = '';
     companies.forEach(co => {
-      const avgRev = co.monthlyPL.length ? sumField(co.monthlyPL, 'revenue') / co.monthlyPL.length : 0;
       let row = '<tr><td>' + co.displayName + '</td>';
       months.forEach(m => {
         const r = co.monthlyPL.find(x => x.month === m);
+        const ach = getRevenueAchievement(co, m);
         const op = r ? r.operatingProfit : null;
-        const cls = opToClass(op, avgRev);
-        const txt = op === null ? '−' : (op === 0 ? '0' : (op < 0 ? '▲' : '') + fmtOku(Math.abs(op)));
-        row += '<td class="' + cls + '" title="' + co.displayName + ' ' + m + ': ' + txt + '">' + txt + '</td>';
+        const opRate = (r && r.revenue > 0) ? (r.operatingProfit / r.revenue * 100) : null;
+        if (!r) { row += '<td class="cell heat-empty">−</td>'; return; }
+        const score = computeCellScore(ach, opRate);
+        const cls = scoreToClass(score);
+        const achTxt = ach === null ? '−' : Math.round(ach) + '%';
+        const opSign = op === null ? '' : (op < 0 ? '▲' : '+');
+        const opTxt = op === null ? '' : opSign + fmtOku(Math.abs(op));
+        const tooltip = co.displayName + ' ' + m + ': 達成率=' + achTxt + ', 営業利益=' + opTxt + ', スコア=' + score;
+        row += '<td class="cell ' + cls + '" title="' + tooltip + '"><span class="ach">' + achTxt + '</span><span class="op">' + opTxt + '</span></td>';
       });
+      // 累計
+      const ytdAch = getBudgetAchievement(co);
+      const ytdRev = sumField(co.monthlyPL, 'revenue');
       const ytdOp = sumField(co.monthlyPL, 'operatingProfit');
-      const ytdCls = opToClass(ytdOp, avgRev);
-      row += '<td class="' + ytdCls + '">' + (ytdOp < 0 ? '▲' : '') + fmtOku(Math.abs(ytdOp)) + '</td></tr>';
+      const ytdOpRate = ytdRev > 0 ? ytdOp / ytdRev * 100 : null;
+      const ytdScore = computeCellScore(ytdAch, ytdOpRate);
+      const ytdCls = scoreToClass(ytdScore);
+      const ytdAchTxt = ytdAch === null ? '−' : Math.round(ytdAch) + '%';
+      const ytdOpSign = ytdOp < 0 ? '▲' : '+';
+      const ytdOpTxt = ytdOpSign + fmtOku(Math.abs(ytdOp));
+      row += '<td class="cell ' + ytdCls + '"><span class="ach">' + ytdAchTxt + '</span><span class="op">' + ytdOpTxt + '</span></td></tr>';
       body += row;
     });
-    tableOp.querySelector('tbody').innerHTML = body;
+    tableCombined.querySelector('tbody').innerHTML = body;
   }
 
   // ③ 詳細マトリクス
