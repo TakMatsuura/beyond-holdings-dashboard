@@ -266,6 +266,23 @@ if (sessionStorage.getItem('beyond-auth') === '1') {
         <th style="text-align:center">Signal</th>
       </tr></thead><tbody></tbody></table></div>
     </div>
+
+    <!-- 月次マトリクス: 売上 -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-header"><h3>各社月次 売上高</h3><div class="badge" id="gp-rev-fy-label"></div></div>
+      <div class="card-body" style="overflow-x:auto;padding:0">
+        <table id="table-gp-rev-matrix" style="font-size:11px"><thead></thead><tbody></tbody></table>
+      </div>
+    </div>
+
+    <!-- 月次マトリクス: 営業利益 -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-header"><h3>各社月次 営業利益</h3><div class="badge" id="gp-op-fy-label"></div></div>
+      <div class="card-body" style="overflow-x:auto;padding:0">
+        <table id="table-gp-op-matrix" style="font-size:11px"><thead></thead><tbody></tbody></table>
+      </div>
+    </div>
+
     <div class="card"><div class="card-body" style="font-size:11px;color:var(--text-muted);line-height:1.7">
       ※Signal基準: 緑=スコア70点以上 ｜ 黄=50-69点 ｜ 赤=49点以下 or 3ヶ月連続赤字
     </div></div>
@@ -439,9 +456,9 @@ function buildAll(data) {
       document.getElementById('subsidiary-sections').innerHTML = '';
       document.getElementById('nav-tabs').innerHTML = '';
       ['kpi-overview', 'gp-signal-summary'].forEach(id => { const e = document.getElementById(id); if (e) e.innerHTML = ''; });
-      ['table-scorecard', 'table-group-perf', 'table-group-int', 'table-scorecard-board', 'table-perf-detail', 'table-int-detail', 'table-monthly-matrix'].forEach(id => {
+      ['table-scorecard', 'table-group-perf', 'table-group-int', 'table-scorecard-board', 'table-perf-detail', 'table-int-detail', 'table-monthly-matrix', 'table-gp-rev-matrix', 'table-gp-op-matrix'].forEach(id => {
         const tbody = document.querySelector('#' + id + ' tbody'); if (tbody) tbody.innerHTML = '';
-        const thead = document.querySelector('#' + id + ' thead'); if (thead && id === 'table-monthly-matrix') thead.innerHTML = '';
+        const thead = document.querySelector('#' + id + ' thead'); if (thead && (id === 'table-monthly-matrix' || id === 'table-gp-rev-matrix' || id === 'table-gp-op-matrix')) thead.innerHTML = '';
       });
       // Destroy all Chart.js instances
       Object.values(Chart.instances || {}).forEach(c => { try { c.destroy(); } catch(e){} });
@@ -664,6 +681,55 @@ function buildGroupPerformance(data) {
 
   document.getElementById('gp-latest-month').textContent = latestMonthGlobal || '-';
   document.getElementById('gp-signal-summary').innerHTML = '緑 ' + signalCounts.green + ' / 黄 ' + signalCounts.yellow + ' / 赤 ' + signalCounts.red;
+
+  // 月次マトリクス: 売上 + 営業利益
+  // FYの12ヶ月分のラベルを生成 (5月〜翌4月、184は11月開始)
+  const buildMatrix = (tableId, metric, colorize) => {
+    const thead = document.querySelector('#' + tableId + ' thead');
+    const tbody = document.querySelector('#' + tableId + ' tbody');
+    if (!thead || !tbody) return;
+    // 全社のmonthsを集約
+    const allMonths = new Set();
+    companies.forEach(co => co.monthlyPL.forEach(r => allMonths.add(r.month)));
+    const months = [...allMonths].sort();
+    let head = '<tr><th>会社</th>';
+    months.forEach(m => head += '<th class="text-right">' + m + '</th>');
+    head += '<th class="text-right">累計</th></tr>';
+    thead.innerHTML = head;
+    const rowSums = new Array(months.length).fill(0);
+    let totalSum = 0;
+    let body = '';
+    companies.forEach(co => {
+      const map = {}; co.monthlyPL.forEach(r => map[r.month] = r);
+      let coTotal = 0;
+      let row = '<tr><td style="font-weight:600;color:var(--accent)">' + co.displayName + '</td>';
+      months.forEach((m, mi) => {
+        const v = map[m] ? map[m][metric] : null;
+        if (v !== null && v !== undefined) { rowSums[mi] += v; coTotal += v; }
+        const cls = !colorize ? '' : (v > 0 ? 'text-green' : v < 0 ? 'text-red' : '');
+        row += '<td class="text-right ' + cls + '">' + (v === null || v === undefined ? '<span style="color:var(--text-dim)">−</span>' : fmtOku(v)) + '</td>';
+      });
+      totalSum += coTotal;
+      const tCls = !colorize ? '' : (coTotal > 0 ? 'text-green' : coTotal < 0 ? 'text-red' : '');
+      row += '<td class="text-right ' + tCls + '">' + fmtOku(coTotal) + '</td></tr>';
+      body += row;
+    });
+    let totalRow = '<tr class="total-row"><td>合計</td>';
+    months.forEach((m, mi) => {
+      const v = rowSums[mi];
+      const cls = !colorize ? '' : (v > 0 ? 'text-green' : v < 0 ? 'text-red' : '');
+      totalRow += '<td class="text-right ' + cls + '">' + fmtOku(v) + '</td>';
+    });
+    const totalCls = !colorize ? '' : (totalSum > 0 ? 'text-green' : totalSum < 0 ? 'text-red' : '');
+    totalRow += '<td class="text-right ' + totalCls + '">' + fmtOku(totalSum) + '</td></tr>';
+    tbody.innerHTML = body + totalRow;
+  };
+  buildMatrix('table-gp-rev-matrix', 'revenue', false);
+  buildMatrix('table-gp-op-matrix', 'operatingProfit', true);
+  // FY label badges
+  const fyLabel = data.fiscalYearLabel || ('FY' + (data.fiscalYear || ''));
+  const lblRev = document.getElementById('gp-rev-fy-label'); if (lblRev) lblRev.textContent = fyLabel;
+  const lblOp = document.getElementById('gp-op-fy-label'); if (lblOp) lblOp.textContent = fyLabel;
 }
 
 function buildGroupIntegrity(data) {
