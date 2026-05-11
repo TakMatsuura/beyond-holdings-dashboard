@@ -1566,6 +1566,32 @@ function buildSubsidiary(co) {
         '<div class="card"><div class="card-header"><h3>営業利益達成率</h3></div><div class="card-body"><div class="gauge-wrap"><canvas id="' + prefix + '-gauge-op"></canvas><div class="gauge-center" id="' + prefix + '-gauge-op-center"></div><div class="gauge-footer" id="' + prefix + '-gauge-op-footer"></div></div></div></div>' +
         '<div class="card"><div class="card-header"><h3>営業利益率</h3></div><div class="card-body"><div class="gauge-wrap"><canvas id="' + prefix + '-gauge-margin"></canvas><div class="gauge-center" id="' + prefix + '-gauge-margin-center"></div><div class="gauge-footer" id="' + prefix + '-gauge-margin-footer"></div></div></div></div>' +
       '</div>' +
+      // 事業部別パフォーマンス (sectionGroups存在時のみ表示)
+      (co.sectionGroups && co.sectionGroups.length ? (
+        '<div class="card" style="margin-bottom:16px;border-left:3px solid var(--accent)">' +
+          '<div class="card-header"><h3>事業部別 業績ヒートマップ</h3><div class="badge">上段=売上 ｜ 下段=営業利益(按分後) ｜ 共通/本社費は売上比で按分</div></div>' +
+          '<div class="card-body" style="overflow-x:auto;padding:0">' +
+            '<table id="' + prefix + '-section-heatmap" class="heatmap-table heatmap-combined"><thead></thead><tbody></tbody></table>' +
+          '</div>' +
+        '</div>' +
+        '<div class="grid-2">' +
+          '<div class="card"><div class="card-header"><h3>事業部別 売上構成比</h3></div><div class="card-body" style="height:300px;display:flex;align-items:center;gap:16px"><div style="flex:0 0 180px;max-height:240px"><canvas id="' + prefix + '-chart-section-pie"></canvas></div><div id="' + prefix + '-legend-section" class="legend-grid"></div></div></div>' +
+          '<div class="card"><div class="card-header"><h3>事業部別 営業利益 (按分後)</h3></div><div class="card-body" style="height:300px"><canvas id="' + prefix + '-chart-section-op"></canvas></div></div>' +
+        '</div>' +
+        '<div class="card" style="margin-bottom:16px">' +
+          '<div class="card-header">' +
+            '<h3>事業部別 月次マトリクス</h3>' +
+            '<div style="display:flex;gap:4px">' +
+              '<button class="metric-btn active" onclick="showSectionMatrix(\'' + prefix + '\',\'revenue\',this)">売上</button>' +
+              '<button class="metric-btn" onclick="showSectionMatrix(\'' + prefix + '\',\'operatingProfit\',this)">営業利益(按分前)</button>' +
+              '<button class="metric-btn" onclick="showSectionMatrix(\'' + prefix + '\',\'operatingProfitAllocated\',this)">営業利益(按分後)</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="card-body" style="overflow-x:auto;padding:0">' +
+            '<table id="' + prefix + '-section-matrix" style="font-size:11px"><thead></thead><tbody></tbody></table>' +
+          '</div>' +
+        '</div>'
+      ) : '') +
       '<div class="card full" style="margin-bottom:16px"><div class="card-header"><h3>月次 PL 推移</h3></div><div class="card-body" style="height:300px"><canvas id="' + prefix + '-chart-pl"></canvas></div></div>' +
       '<div class="grid-2">' +
         '<div class="card"><div class="card-header"><h3>得意先 Top 10</h3></div><div class="card-body" style="height:320px"><canvas id="' + prefix + '-chart-cust"></canvas></div></div>' +
@@ -1677,6 +1703,187 @@ function buildSubsidiary(co) {
     '<td class="text-right ' + (totalOP >= 0 ? 'text-green' : 'text-red') + '">' + fmt(totalOP) + '</td>' +
     '<td class="text-right">' + opRate + '%</td>';
   plTbody.appendChild(totalRow);
+
+  // 事業部別パフォーマンス描画
+  if (co.sectionGroups && co.sectionGroups.length) {
+    buildSectionPerformance(co, prefix, months);
+  }
+}
+
+// 事業部別 業績ヒートマップ + 構成円 + 営業利益バー + 月次マトリクス
+function buildSectionPerformance(co, prefix, months) {
+  const groups = co.sectionGroups;
+  const monthKeys = months;
+
+  // 各事業部のmonthlyPLに operatingProfitAllocated を含む
+  // ① 業績ヒートマップ
+  const ht = document.getElementById(prefix + '-section-heatmap');
+  if (ht) {
+    let head = '<tr><th>事業部</th>';
+    monthKeys.forEach(m => head += '<th class="text-right">' + m + '</th>');
+    head += '<th class="text-right">累計</th></tr>';
+    ht.querySelector('thead').innerHTML = head;
+
+    let body = '';
+    let totalRevByMonth = new Array(monthKeys.length).fill(0);
+    let totalOpByMonth = new Array(monthKeys.length).fill(0);
+    let totalRev = 0, totalOp = 0;
+
+    groups.forEach(g => {
+      let row = '<tr><td><b style="color:' + (g.color || 'var(--accent)') + '">' + g.name + '</b></td>';
+      let coTotalRev = 0, coTotalOp = 0;
+      monthKeys.forEach((mk, mi) => {
+        const r = g.monthlyPL.find(x => x.month === mk);
+        const rev = r ? r.revenue : 0;
+        // 按分後営業利益優先、なければ素のoperatingProfit
+        const op = r ? (r.operatingProfitAllocated !== undefined ? r.operatingProfitAllocated : r.operatingProfit) : 0;
+        coTotalRev += rev; coTotalOp += op;
+        totalRevByMonth[mi] += rev; totalOpByMonth[mi] += op;
+        const opRate = rev > 0 ? (op / rev * 100) : null;
+        // Score
+        let achScore = 0; // 達成率なし→neutral
+        const opScore = (() => {
+          if (opRate === null) return 25;
+          if (opRate >= 10) return 50;
+          if (opRate >= 5) return 42;
+          if (opRate >= 0) return 30;
+          if (opRate >= -5) return 15;
+          if (opRate >= -10) return 5;
+          return 0;
+        })();
+        const score = 25 + opScore; // achScoreは中立25
+        const cls = score >= 70 ? 'heat-deep-green' : score >= 60 ? 'heat-green' : score >= 50 ? 'heat-mid' : score >= 40 ? 'heat-yellow' : score >= 25 ? 'heat-orange' : 'heat-red';
+        const revTxt = rev === 0 ? '<span style="opacity:0.4">−</span>' : fmtOku(rev);
+        const opSign = op < 0 ? '▲' : op > 0 ? '+' : '';
+        const opTxt = op === 0 ? '' : opSign + fmtOku(Math.abs(op));
+        row += '<td class="cell ' + (rev === 0 && op === 0 ? 'heat-empty' : cls) + '"><span class="ach">' + revTxt + '</span><span class="op">' + opTxt + '</span></td>';
+      });
+      totalRev += coTotalRev; totalOp += coTotalOp;
+      const totOpRate = coTotalRev > 0 ? coTotalOp / coTotalRev * 100 : null;
+      const totOpScore = (() => {
+        if (totOpRate === null) return 25;
+        if (totOpRate >= 10) return 50;
+        if (totOpRate >= 5) return 42;
+        if (totOpRate >= 0) return 30;
+        if (totOpRate >= -5) return 15;
+        if (totOpRate >= -10) return 5;
+        return 0;
+      })();
+      const totScore = 25 + totOpScore;
+      const totCls = totScore >= 70 ? 'heat-deep-green' : totScore >= 60 ? 'heat-green' : totScore >= 50 ? 'heat-mid' : totScore >= 40 ? 'heat-yellow' : totScore >= 25 ? 'heat-orange' : 'heat-red';
+      const tOpSign = coTotalOp < 0 ? '▲' : coTotalOp > 0 ? '+' : '';
+      const tOpTxt = coTotalOp === 0 ? '0' : tOpSign + fmtOku(Math.abs(coTotalOp));
+      row += '<td class="cell ' + (coTotalRev === 0 && coTotalOp === 0 ? 'heat-empty' : totCls) + '"><span class="ach">' + (coTotalRev === 0 ? '−' : fmtOku(coTotalRev)) + '</span><span class="op">' + tOpTxt + '</span></td></tr>';
+      body += row;
+    });
+    // 合計行
+    let totalRow = '<tr class="total-row"><td><b>合計</b></td>';
+    monthKeys.forEach((mk, mi) => {
+      const rev = totalRevByMonth[mi];
+      const op = totalOpByMonth[mi];
+      const opSign = op < 0 ? '▲' : op > 0 ? '+' : '';
+      const opTxt = op === 0 ? '0' : opSign + fmtOku(Math.abs(op));
+      totalRow += '<td class="cell"><span class="ach">' + (rev === 0 ? '−' : fmtOku(rev)) + '</span><span class="op">' + opTxt + '</span></td>';
+    });
+    const tOpSign = totalOp < 0 ? '▲' : totalOp > 0 ? '+' : '';
+    const tOpTxt = tOpSign + fmtOku(Math.abs(totalOp));
+    totalRow += '<td class="cell"><span class="ach">' + fmtOku(totalRev) + '</span><span class="op">' + tOpTxt + '</span></td></tr>';
+    ht.querySelector('tbody').innerHTML = body + totalRow;
+  }
+
+  // ② 売上構成比 (Donut)
+  const pieCanvas = document.getElementById(prefix + '-chart-section-pie');
+  if (pieCanvas) {
+    const labels = groups.map(g => g.name);
+    const data = groups.map(g => g.monthlyPL.reduce((s,r)=>s+r.revenue, 0));
+    const colors = groups.map(g => g.color || '#3b82f6');
+    new Chart(pieCanvas, {
+      type: 'doughnut',
+      data: { labels, datasets: [{ data, backgroundColor: colors, borderColor: 'var(--bg-card)', borderWidth: 2 }] },
+      options: { responsive: true, maintainAspectRatio: true, cutout: '55%', plugins: { legend: { display: false }, datalabels: { display: false } } }
+    });
+    const legendEl = document.getElementById(prefix + '-legend-section');
+    const tot = data.reduce((s,v)=>s+v, 0);
+    if (legendEl) legendEl.innerHTML = labels.map((l, i) =>
+      '<div class="legend-item"><span class="legend-dot" style="background:' + colors[i] + '"></span>' + l + ': ' + fmtOku(data[i]) + (tot ? ' (' + (data[i]/tot*100).toFixed(1) + '%)' : '') + '</div>'
+    ).join('');
+  }
+
+  // ③ 営業利益(按分後)バー
+  const opCanvas = document.getElementById(prefix + '-chart-section-op');
+  if (opCanvas) {
+    const labels = groups.map(g => g.name);
+    const data = groups.map(g => g.monthlyPL.reduce((s,r)=>s + (r.operatingProfitAllocated !== undefined ? r.operatingProfitAllocated : r.operatingProfit), 0));
+    new Chart(opCanvas, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          data,
+          backgroundColor: data.map(v => v < 0 ? 'rgba(239,68,68,0.7)' : 'rgba(34,197,94,0.7)'),
+          borderRadius: 4
+        }]
+      },
+      options: {
+        indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, datalabels: { display: false } },
+        scales: { x: { ticks: { callback: v => fmtOku(v) }, grid: { color: 'rgba(255,255,255,0.04)' } }, y: { grid: { display: false } } }
+      }
+    });
+  }
+
+  // ④ 月次マトリクス (初期表示: 売上)
+  window['_secMatrix_' + prefix] = { groups, months: monthKeys };
+  showSectionMatrix(prefix, 'revenue');
+}
+
+function showSectionMatrix(prefix, metric, btn) {
+  if (btn) {
+    btn.parentElement.querySelectorAll('.metric-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  const ctx = window['_secMatrix_' + prefix];
+  if (!ctx) return;
+  const { groups, months } = ctx;
+  const colorize = metric !== 'revenue';
+  const table = document.getElementById(prefix + '-section-matrix');
+  if (!table) return;
+  let head = '<tr><th>事業部</th>';
+  months.forEach(m => head += '<th class="text-right">' + m + '</th>');
+  head += '<th class="text-right">累計</th></tr>';
+  table.querySelector('thead').innerHTML = head;
+  const rowSums = new Array(months.length).fill(0);
+  let totalSum = 0;
+  let body = '';
+  groups.forEach(g => {
+    let row = '<tr><td style="font-weight:600;color:' + (g.color || 'var(--accent)') + '">' + g.name + '</td>';
+    let coTotal = 0;
+    months.forEach((m, mi) => {
+      const r = g.monthlyPL.find(x => x.month === m);
+      let v = null;
+      if (r) {
+        if (metric === 'revenue') v = r.revenue;
+        else if (metric === 'operatingProfit') v = r.operatingProfit;
+        else if (metric === 'operatingProfitAllocated') v = r.operatingProfitAllocated !== undefined ? r.operatingProfitAllocated : r.operatingProfit;
+      }
+      if (v !== null) { rowSums[mi] += v; coTotal += v; }
+      const cls = !colorize ? '' : (v > 0 ? 'text-green' : v < 0 ? 'text-red' : '');
+      row += '<td class="text-right ' + cls + '">' + (v === null ? '<span style="color:var(--text-dim)">−</span>' : fmtOku(v)) + '</td>';
+    });
+    totalSum += coTotal;
+    const tCls = !colorize ? '' : (coTotal > 0 ? 'text-green' : coTotal < 0 ? 'text-red' : '');
+    row += '<td class="text-right ' + tCls + '">' + fmtOku(coTotal) + '</td></tr>';
+    body += row;
+  });
+  let totalRow = '<tr class="total-row"><td>合計</td>';
+  months.forEach((m, mi) => {
+    const v = rowSums[mi];
+    const cls = !colorize ? '' : (v > 0 ? 'text-green' : v < 0 ? 'text-red' : '');
+    totalRow += '<td class="text-right ' + cls + '">' + fmtOku(v) + '</td>';
+  });
+  const totCls = !colorize ? '' : (totalSum > 0 ? 'text-green' : totalSum < 0 ? 'text-red' : '');
+  totalRow += '<td class="text-right ' + totCls + '">' + fmtOku(totalSum) + '</td></tr>';
+  table.querySelector('tbody').innerHTML = body + totalRow;
 }
 
 document.addEventListener('DOMContentLoaded', function() {

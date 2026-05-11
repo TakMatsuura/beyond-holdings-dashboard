@@ -1,0 +1,22 @@
+{
+  "_comment": "各社のFreee部門→集約事業部マッピング。コストセンターは売上比で按分。",
+  "3115888": {
+    "displayName": "デンコー",
+    "groups": [
+      { "name": "電力機器事業部", "sectionIds": [1387313], "color": "#3b82f6" },
+      { "name": "FC購買事業部", "sectionIds": [1861638], "color": "#f59e0b" },
+      { "name": "FC展開事業部", "sectionIds": [2239550], "color": "#a855f7", "note": "2026/06〜NiceNailロイヤリティー収入" },
+      { "name": "サロン事業部", "sectionIds": [1387322], "color": "#ec4899" },
+      { "name": "不動産賃貸事業部", "sectionIds": [1448650], "color": "#22c55e" },
+      { "name": "その他", "sectionIds": [1387314, 1387315], "color": "#94a3b8", "note": "メディア機器+ポンプ機器" }
+    ],
+    "exclude": [
+      { "sectionId": 1387323, "name": "エステグループ", "reason": "撤退済み" }
+    ],
+    "costCenters": [
+      { "sectionId": 1450599, "name": "共通部門" },
+      { "sectionId": 1900360, "name": "本社" }
+    ],
+    "allocationMethod": "revenue"
+  }
+}
