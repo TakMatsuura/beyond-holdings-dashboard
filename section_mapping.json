@@ -18,5 +18,51 @@
       { "sectionId": 1900360, "name": "本社" }
     ],
     "allocationMethod": "revenue"
+  },
+  "2619462": {
+    "displayName": "HANABI",
+    "groups": [
+      { "name": "ELLE宮古島店【アイネイル】", "sectionIds": [3600439], "color": "#ec4899" },
+      { "name": "ELLE宮古島店【ヘア】", "sectionIds": [3600437], "color": "#a855f7" },
+      { "name": "ELLE宮古島店【共通】", "sectionIds": [3600530], "color": "#8b5cf6" },
+      { "name": "HANABI綱島店【ヘア】", "sectionIds": [3600434], "color": "#3b82f6" },
+      { "name": "サロン事業部", "sectionIds": [1846158], "color": "#f59e0b" }
+    ],
+    "exclude": [],
+    "costCenters": [
+      { "sectionId": 1684824, "name": "全社" }
+    ],
+    "allocationMethod": "revenue"
+  },
+  "10713894": {
+    "displayName": "M7Logi",
+    "groups": [
+      { "name": "アパレル事業部", "sectionIds": [3017074], "color": "#3b82f6" },
+      { "name": "イベント事業部", "sectionIds": [3491565], "color": "#f59e0b" },
+      { "name": "クリエーター事業部", "sectionIds": [3017071], "color": "#ec4899" }
+    ],
+    "exclude": [
+      { "sectionId": 2480277, "name": "コーヒー事業部", "reason": "撤退済み" },
+      { "sectionId": 2490901, "name": "ロジ事業部", "reason": "撤退済み" }
+    ],
+    "costCenters": [
+      { "sectionId": 3613173, "name": "共通" }
+    ],
+    "allocationMethod": "revenue"
+  },
+  "1980825": {
+    "displayName": "SAFARI",
+    "groups": [
+      { "name": "Amazon", "sectionIds": [1180843], "color": "#f59e0b" },
+      { "name": "EC事業部", "sectionIds": [1819431], "color": "#3b82f6" },
+      { "name": "システム販売事業部", "sectionIds": [3239050], "color": "#a855f7" },
+      { "name": "メディア事業部", "sectionIds": [878591], "color": "#22c55e" },
+      { "name": "店舗", "sectionIds": [895832], "color": "#ec4899" }
+    ],
+    "exclude": [],
+    "costCenters": [
+      { "sectionId": 878611, "name": "全社" }
+    ],
+    "allocationMethod": "revenue"
   }
 }
